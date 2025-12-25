@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Now">
+  <article>
+    <h1>What I'm Doing Now</h1>
+    <p class="date">Updated December 2025</p>
+
+    <section>
+      <h2>Work</h2>
+      <p>
+        Currently working on building tools and exploring new technologies.
+      </p>
+    </section>
+
+    <section>
+      <h2>Learning</h2>
+      <p>
+        Diving deep into web development, systems programming, and design.
+      </p>
+    </section>
+
+    <section>
+      <h2>Reading</h2>
+      <ul>
+        <li>Add your current books here</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Life</h2>
+      <p>
+        Enjoying the journey and staying curious.
+      </p>
+    </section>
+
+    <footer>
+      <p class="muted">
+        This is a <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer">now page</a>.
+        It's a snapshot of what I'm focused on at this point in my life.
+      </p>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  article {
+    max-width: 680px;
+  }
+
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  article > .date {
+    display: block;
+    margin-bottom: 3rem;
+  }
+
+  section {
+    margin-bottom: 2.5rem;
+  }
+
+  section h2 {
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    margin-left: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .muted {
+    color: var(--color-muted);
+  }
+</style>

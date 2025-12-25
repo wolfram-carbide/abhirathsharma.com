@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// You can add your projects here or fetch them from a content collection
+const projects = [
+  {
+    title: 'Project Name',
+    description: 'A brief description of what this project does and why it exists.',
+    link: 'https://github.com/yourusername/project',
+    tags: ['TypeScript', 'React'],
+  },
+  // Add more projects as needed
+];
+---
+
+<BaseLayout title="Projects">
+  <h1>Projects</h1>
+  <p class="subtitle">Tools and applications I've built.</p>
+
+  {projects.length === 0 ? (
+    <p class="muted">No projects yet.</p>
+  ) : (
+    <div class="projects-grid">
+      {projects.map((project) => (
+        <article class="project-card">
+          <h2>
+            {project.link ? (
+              <a href={project.link} target="_blank" rel="noopener noreferrer">
+                {project.title} ↗
+              </a>
+            ) : (
+              project.title
+            )}
+          </h2>
+          <p>{project.description}</p>
+          {project.tags && project.tags.length > 0 && (
+            <div class="tags">
+              {project.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--color-muted);
+    margin-bottom: 3rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .project-card {
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    transition: border-color 0.2s ease;
+  }
+
+  .project-card:hover {
+    border-color: var(--color-accent);
+  }
+
+  .project-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-card h2 a {
+    color: var(--color-text);
+  }
+
+  .project-card h2 a:hover {
+    color: var(--color-accent);
+  }
+
+  .project-card p {
+    color: var(--color-muted);
+    margin-bottom: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    padding: 0.25rem 0.75rem;
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  .muted {
+    color: var(--color-muted);
+  }
+</style>

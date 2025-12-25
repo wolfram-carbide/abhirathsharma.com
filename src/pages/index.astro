@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('posts')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const recentPosts = allPosts.slice(0, 3);
+---
+
+<BaseLayout title="Home">
+  <section class="intro">
+    <h1>Abhirath Sharma</h1>
+    <p>
+      Welcome to my corner of the internet. I write about technology, build
+      tools, and document what I'm learning.
+    </p>
+  </section>
+
+  <section class="recent-posts">
+    <h2>Recent Writing</h2>
+    {recentPosts.length === 0 ? (
+      <p class="muted">No posts yet.</p>
+    ) : (
+      <ul>
+        {recentPosts.map((post) => (
+          <li>
+            <a href={`/writing/${post.slug}`}>
+              <h3>{post.data.title}</h3>
+              <time class="date">{post.data.date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}</time>
+              {post.data.description && <p>{post.data.description}</p>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+    {recentPosts.length > 0 && (
+      <a href="/writing" class="view-all">View all posts →</a>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    margin-bottom: 4rem;
+  }
+
+  .intro h1 {
+    margin-bottom: 1.5rem;
+  }
+
+  .recent-posts h2 {
+    margin-bottom: 2rem;
+  }
+
+  .recent-posts ul {
+    list-style: none;
+  }
+
+  .recent-posts li {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .recent-posts li:last-child {
+    border-bottom: none;
+  }
+
+  .recent-posts h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-accent);
+  }
+
+  .recent-posts time {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .recent-posts a {
+    color: inherit;
+  }
+
+  .recent-posts a:hover h3 {
+    opacity: 0.7;
+  }
+
+  .view-all {
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 500;
+  }
+
+  .muted {
+    color: var(--color-muted);
+  }
+</style>
