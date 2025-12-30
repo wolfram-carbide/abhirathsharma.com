@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About">
+  <article>
+    <h1>About me</h1>
+
+    <section class="bio">
+      <p>
+        I am Abhirath, and I like to keep my curiosity alive. Professionally, I have been a product manager and a consultant. Outside my core work, I love to dive deeper into topics of interest, cultivate hobbies and keep myself fit.
+      </p>
+      <p>
+        This site is an attempt to bring my weird explorations and projects out in the world.
+      </p>
+      <p class="socials">
+        Find me on <a href="https://x.com/trendingchariot" target="_blank" rel="noopener noreferrer">X</a> and <a href="https://www.linkedin.com/in/abhirathsharma/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>What I'm up to now</h2>
+      <p class="date">Updated December 2025</p>
+      <p>
+        Exploring my interests in economics, biology, product management and AI. Some of these will be published here.
+      </p>
+    </section>
+
+    <section>
+      <h2>Books I liked recently</h2>
+      <ul>
+        <li>Narrative Economics</li>
+        <li>Empire of Pain</li>
+        <li>What Went Wrong with Capitalism</li>
+        <li>Steve Jobs biography</li>
+        <li>The Intelligence Trap</li>
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  article {
+    max-width: 680px;
+  }
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  section {
+    margin-bottom: 3rem;
+  }
+
+  section h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .bio p {
+    margin-bottom: 1rem;
+  }
+
+  .socials {
+    margin-top: 1.5rem;
+  }
+
+  .date {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    opacity: 0.7;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    margin-left: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  a {
+    color: var(--color-accent);
+  }
+
+  a:hover {
+    opacity: 0.7;
+  }
+</style>
