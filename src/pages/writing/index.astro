@@ -9,7 +9,6 @@ const allPosts = (await getCollection('posts')).sort(
 
 <BaseLayout title="Writing">
   <h1>Writing</h1>
-  <p class="subtitle">Thoughts on technology, tools, and learning.</p>
 
   {allPosts.length === 0 ? (
     <p class="muted">No posts yet.</p>
@@ -40,11 +39,6 @@ const allPosts = (await getCollection('posts')).sort(
 
 <style>
   h1 {
-    margin-bottom: 0.5rem;
-  }
-
-  .subtitle {
-    color: var(--color-muted);
     margin-bottom: 3rem;
   }
 

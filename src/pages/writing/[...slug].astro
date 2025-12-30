@@ -211,8 +211,15 @@ const { Content } = await post.render();
 
     // Update display based on count
     function updateDisplay(count: number) {
-      heartCount.textContent = count.toString();
-      heartText.textContent = count === 1 ? 'person liked this' : 'people liked this';
+      if (count === 0) {
+        heartCount.style.display = 'none';
+        heartText.style.display = 'none';
+      } else {
+        heartCount.style.display = 'inline';
+        heartText.style.display = 'inline';
+        heartCount.textContent = count.toString();
+        heartText.textContent = count === 1 ? 'person liked this' : 'people liked this';
+      }
     }
 
     // Load current like count and user's like status
