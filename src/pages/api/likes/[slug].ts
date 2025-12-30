@@ -1,12 +1,8 @@
 import type { APIRoute } from 'astro';
 
-// In-memory storage (resets on deploy, but works in Cloudflare Workers)
-// For persistent storage, upgrade to Cloudflare KV later
-const likesStore = new Map<string, number>();
-
 export const prerender = false;
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, locals }) => {
   const { slug } = params;
 
   if (!slug) {
@@ -16,15 +12,36 @@ export const GET: APIRoute = async ({ params }) => {
     });
   }
 
-  const count = likesStore.get(slug) || 0;
+  try {
+    // Access Cloudflare KV namespace
+    const runtime = locals.runtime as any;
+    const LIKES_KV = runtime?.env?.LIKES_KV;
 
-  return new Response(JSON.stringify({ count }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' }
-  });
+    if (!LIKES_KV) {
+      // Fallback for local development
+      return new Response(JSON.stringify({ count: 0 }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const countStr = await LIKES_KV.get(`likes:${slug}`);
+    const count = countStr ? parseInt(countStr, 10) : 0;
+
+    return new Response(JSON.stringify({ count }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    console.error('KV read error:', error);
+    return new Response(JSON.stringify({ count: 0 }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 };
 
-export const POST: APIRoute = async ({ params, request }) => {
+export const POST: APIRoute = async ({ params, request, locals }) => {
   const { slug } = params;
 
   if (!slug) {
@@ -38,7 +55,20 @@ export const POST: APIRoute = async ({ params, request }) => {
     const body = await request.json();
     const { action } = body;
 
-    let count = likesStore.get(slug) || 0;
+    // Access Cloudflare KV namespace
+    const runtime = locals.runtime as any;
+    const LIKES_KV = runtime?.env?.LIKES_KV;
+
+    if (!LIKES_KV) {
+      // Fallback for local development
+      return new Response(JSON.stringify({ count: 0 }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const countStr = await LIKES_KV.get(`likes:${slug}`);
+    let count = countStr ? parseInt(countStr, 10) : 0;
 
     if (action === 'like') {
       count += 1;
@@ -46,15 +76,16 @@ export const POST: APIRoute = async ({ params, request }) => {
       count -= 1;
     }
 
-    likesStore.set(slug, count);
+    await LIKES_KV.put(`likes:${slug}`, count.toString());
 
     return new Response(JSON.stringify({ count }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Invalid request' }), {
-      status: 400,
+    console.error('KV write error:', error);
+    return new Response(JSON.stringify({ error: 'Failed to update likes' }), {
+      status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
   }

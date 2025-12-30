@@ -21,11 +21,10 @@ const currentPath = Astro.url.pathname;
   <body>
     <header>
       <nav>
-        <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>
         <a href="/writing" class={currentPath.startsWith('/writing') ? 'active' : ''}>Writing</a>
         <a href="/projects" class={currentPath === '/projects' ? 'active' : ''}>Side projects</a>
         <a href="/photos" class={currentPath === '/photos' ? 'active' : ''}>Photos</a>
-        <a href="/now" class={currentPath === '/now' ? 'active' : ''}>Now</a>
+        <a href="/about" class={currentPath === '/about' ? 'active' : ''}>About me</a>
       </nav>
     </header>
 
