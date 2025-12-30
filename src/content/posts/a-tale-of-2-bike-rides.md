@@ -1,7 +1,7 @@
 ---
 title: "A Tale of 2 Bike Rides"
 description: "How I learned about mitochondria, energy systems, and the art of knowing when to quit"
-date: 2024-12-30
+date: 2025-12-30
 tags: ["cycling", "fitness", "science"]
 ---
 
