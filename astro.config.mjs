@@ -11,4 +11,7 @@ export default defineConfig({
       theme: 'github-light',
     },
   },
+  redirects: {
+    '/': '/writing/',
+  },
 });
