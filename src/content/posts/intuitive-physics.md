@@ -1,8 +1,11 @@
 --- 
 title: "The Intuitive Understanding of Physics" 
-description: "[one-line summary]" 
+description: "What Claire Dunphy claims to know" 
 date: 2025-12-31 
-
+tags: 
+    - physics
+    - movies
+    - behaviour 
 ---
 
 
