@@ -1,7 +1,7 @@
 --- 
 title: "The Intuitive Understanding of Physics" 
 description: "[one-line summary]" 
-pubDate: 2025-12-31 
+Date: 2025-12-31 
 
 ---
 
