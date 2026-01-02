@@ -1,7 +1,7 @@
 ---
 title: "A Tale of 2 Bike Rides"
 description: "How I learned about mitochondria, energy systems, and the art of knowing when to quit"
-date: 2024-12-30
+date: 2025-12-30
 tags: ["cycling", "fitness", "science"]
 ---
 
@@ -26,7 +26,7 @@ To answer that, I had to understand what was actually happening inside my cells 
 
 One of the bike rides had me feeling like a star. It was a solid 67 km (It's the new 69 after all). Though initially, it was a bit of a drag, and I was wondering why did I even step out that day. But than after 20km into the ride, with proper fuelling, things clicked despite the multiple inclines. In fact, I was deliberately training through a lot of ascents because London Brighton route is not a flat one - it has a killer ascent right at the end. I felt strong coming back and overtook several Lime bikes around Hyde Park while silently judging them. But what struck me was how the hell did I go from "Why did I even step out today" to "I've got this, and can stretch till 100km easily". I was buzzing with questions. One main question was "How exactly does this all of this work?". 
 
-I took mental notes and discussed it extensively with my best friends - Claude, ChatGPT and Gemini. Let's dig deeper. 
+While I had an idea of energy systems from the podcasts I usually listen to, I wanted to dig deeper. I used the notes I took after the workout and discussed those extensively with my best friends - Claude, ChatGPT and Gemini to understand this better.
 
 
 ![Mood and fuel journey during a 67km ride](/images/posts/a-tale-of-2-bike-rides/mood-fuel-journey.png)
@@ -184,3 +184,5 @@ I used to get bothered by the "unproductive" training status alerts on my Garmin
 **Sources and disclaimers:**
 - I have heavily borrowed this from Dr. Andrew Huberman's podcast featuring [Dr. Andy Galpin](https://www.youtube.com/watch?v=oNkDA2F7CjM)
 - I have used Gemini and Claude to sharpen my understanding and create infographics. Some infographics were created in Canva in the artisanal way. I have tested my understanding with these AI tools by sharing my data and experiences. I have tried to be accurate about the science but as we all know, this is evolving. If you have any corrections, reach out to me on Twitter (or X) at [@trendingchariot](https://twitter.com/trendingchariot)
+- My love and admiration for mitochondria stems from the book "Power, Sex and Suicide" by Nick Lane. It's an excellent book which tells you how these organelles have shaped eukaryotic life (which includes us).
+- Annie Duke's book, "Quit" really changed my perspective and is a great antitode to the common narratives of "grit" and "grinding it through". Sometimes, the best thing to do is to quit. Quitting should be a valuable tool in one's judgement toolkit. 
