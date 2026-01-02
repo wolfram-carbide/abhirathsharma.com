@@ -3,16 +3,16 @@ title: "The Intuitive Understanding of Physics"
 description: "What Claire Dunphy claims to know" 
 date: 2025-12-31 
 tags: 
-    - physics
-    - movies
-    - behaviour 
+    - science
+    - movies & series
+    - behaviour
 ---
 
 
 ![alt text](/images/posts/intuitive-physics/image-1.png)
 *Source: https://modernfamily.fandom.com/*
 
-In the Pumpkin Chunkin episode of Modern Family, when the pumpkin fails to land as far as the non-Pritchett gang wants, Claire Dunphy, who was described as a “marketing major from a clown college” by Phil Dunphy, says “knock knock, who’s there? Physics!”. Seems odd that she'd know enough about physics. 
+In the "Punkin Chunkin" episode of Modern Family, when the pumpkin fails to land as far as the non-Pritchett gang wants, Claire Dunphy, who was described as a “marketing major from a clown college” by Phil Dunphy, says “knock knock, who’s there? Physics!”. Seems odd that she'd know enough about physics. 
 
 It also seems odd when people look at Rohit Shetty’s films and say that the scenes defy the laws of physics. Do all the people who comment on the absurdity of these scenes know Newton’s equations well? I highly doubt it.
 
