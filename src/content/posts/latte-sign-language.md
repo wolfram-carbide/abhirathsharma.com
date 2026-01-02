@@ -1,7 +1,7 @@
 ---
 title: "Ordering a latte in sign language"
 date: 2026-01-01
-description: "Thanks to the folks at "I Love Coffee"
+description: "Thanks to the folks at "I Love Coffee""
 tags: ["design", "behaviour"]
 ---
 
