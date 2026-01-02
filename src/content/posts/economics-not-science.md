@@ -1,7 +1,7 @@
 ---
 title: "Economics is not a science, but it is much more than that"
 date: 2026-01-02
-description: 'There's a lot more to it'
+description: "There's a lot more to it"
 tags: ["business", "economics", "books"]
 ---
 
