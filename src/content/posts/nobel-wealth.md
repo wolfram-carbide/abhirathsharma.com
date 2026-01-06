@@ -1,7 +1,7 @@
 --- 
 title: "Alfred Nobel's wealth seems paltry. It's not" 
 description: "Veritasium's video got me thinking" 
-date: 2025-01-06 
+date: 2026-01-06 
 tags: 
     - economics
     - science
