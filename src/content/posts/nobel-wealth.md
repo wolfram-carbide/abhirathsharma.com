@@ -14,6 +14,8 @@ I absolutely love Veritasium. On some weekends, I start my day with one of their
 
 The video ended with a striking claim: Nobel's wealth, in today's value, was around $340M.
 
+![Nobel veritasium screenshot](/images/posts/Nobel-veritasium.png)
+
 That's it? $340 million? That's a paltry sum compared to the wealth of today's tech billionaires (and trillionaires). Startups today have _revenues_ exceeding $340M. Nobel invented technology that defined his era. It wasn't just dynamite, it was also the smokeless gunpowder that shaped modern warfare, and the bullets that still use a very similar design today. He had factories in 90 countries. His company was the Nvidia or Anthropic of its time. It puzzled me and I wanted to go down yet another rabbit hole. 
 
 The Nobel Institute quotes SEK 2.2 billion, roughly $240M. Sweden's official inflation data gives a similar figure (Yes, I calculated with 2 of my faithful AI bots). Wikipedia suggests $186M was 94% of his estate, implying around $200M total. An NIH paper cites $300M.
