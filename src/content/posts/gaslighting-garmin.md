@@ -8,7 +8,7 @@ tags:
     - behaviour
 ---
 
-I was having a house party. It was 11PM. You know the weird state when most people have left but some people are staying back just to have a more cosy chat. Suddenly, we all hear a beep. My friend looks at her watch and says "You know I have set up alerts for when my heart rate goes too high, it's a sign that I am stressed out". I had a look at mine - my garmin said that my stress level (based on heart rate variability, not absolute heart rate) had been very high in the last 4-5 hours. Makes sense, I thought. It was only at 4PM I had realised that I had to cook an extra dish for a party that started at 6PM. And once people came in, I was switched on for most of the time. Yes, I was stressed perhaps. But I felt alive. 
+I was having a house party. It was 11PM. You know the stage when most people have left but some people are staying back just to have a more cosy chat. Suddenly, we all hear a beep. My friend looks at her watch and says "You know I have set up alerts for when my heart rate goes too high, it's a sign that I am stressed out". I had a look at mine - my garmin said that my stress level (based on heart rate variability, not absolute heart rate) had been very high in the last 4-5 hours. Makes sense, I thought. It was only at 4PM I had realised that I had to cook an extra dish for a party that started at 6PM. And once people came in, I was switched on for most of the time. Yes, I was stressed perhaps. But I felt alive. 
 
 ![Garmin stress data](/images/posts/garmin-stress-party.png)
 
@@ -20,7 +20,7 @@ High activation could be excitement if the valence is positive and nervousnes if
 
 So these devices might not just be nagging us. Instead, they might be doing something more sinister. They might be gaslighting us into believing that we stressed instead of excited. Unintentionally, of course. 
 
-I cam across a start up that wants to take this further. They want your watch to prompt you to calm down when it detects stress or a high heart rate. 2 problems with this: Firstly, the words "calm down" have never actually calmed anyone down in the history of humanity. I frequently ask my partner to calm down when I actually want to irritate her. Secondly, the watch has no idea whether I am nervous or excited. Whether I am overwhelmed or in flow. Whether I am anxious or feeling alive.
+I came across a start up that wants to take this further. They want your watch to prompt you to calm down when it detects stress or a high heart rate. 2 problems with this: Firstly, the words "calm down" have never actually calmed anyone down in the history of humanity. I frequently ask my partner to calm down when I actually want to irritate her (she does the same). Secondly, the watch has no idea whether I am nervous or excited. Whether I am overwhelmed or in flow. Whether I am anxious or feeling alive. So, no thanks!
 
 ----
 Sources: https://www.amazon.co.uk/How-Emotions-Are-Made-Secret/dp/1509837493, https://www.sciencedirect.com/science/article/abs/pii/S1469029201000280
