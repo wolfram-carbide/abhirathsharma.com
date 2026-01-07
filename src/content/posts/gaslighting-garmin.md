@@ -12,11 +12,11 @@ I was having a house party. It was 11PM. You know the stage when most people hav
 
 ![Garmin stress data](/images/posts/garmin-stress-party.png)
 
-At this point, I remembered a chart from Dr. Lisa Feldmen Barret's book that went something like this (the exact one is a bit pixelated so I am borrowing this from https://www.sciencedirect.com/science/article/abs/pii/S1469029201000280)
+At this point, I remembered a chart from Dr. Lisa Feldmen Barret's book. She explains that a high activation (or arousal) state could be positive or negative depending on the context. Here's a similar graphic (the exact one is a bit pixelated so I am borrowing this from https://www.sciencedirect.com/science/article/abs/pii/S1469029201000280)
 
 ![Affect graph](/images/posts/affect-graph.png)
 
-High activation could be excitement if the valence is positive and nervousnes if the valence is low. These devices only know whether we are in the high or low activation state. They can't differentiate between nervousness and excitement. 
+High activation could be excitement if the valence is positive and nervousnes if the valence is low. These devices only know whether we are in the high or low activation state. They can't differentiate between nervousness and excitement.
 
 So these devices might not just be nagging us. Instead, they might be doing something more sinister. They might be gaslighting us into believing that we stressed instead of excited. Unintentionally, of course. 
 
