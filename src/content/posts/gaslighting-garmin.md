@@ -20,7 +20,7 @@ High activation could be excitement if the valence is positive and nervousnes if
 
 So these devices might not just be nagging us. Instead, they might be doing something more sinister. They might be gaslighting us into believing that we stressed instead of excited. Unintentionally, of course. 
 
-I came across a start up that wants to take this further. They want your watch to prompt you to calm down when it detects stress or a high heart rate. 2 problems with this: Firstly, the words "calm down" have never actually calmed anyone down in the history of humanity. I frequently ask my partner to calm down when I actually want to irritate her (she does the same). Secondly, the watch has no idea whether I am nervous or excited. Whether I am overwhelmed or in flow. Whether I am anxious or feeling alive. So, no thanks!
+I came across a start up that wants to take this further. They want your watch to prompt you to calm down when it detects stress or a high heart rate. 2 problems with this: Firstly, the words "calm down" have never actually calmed anyone down in the history of humanity. I frequently ask my partner to calm down when I actually want to irritate her (she does the same). Secondly, the watch has no idea whether I am nervous or excited. Whether I am overwhelmed or in flow. Whether I am anxious or feeling alive. 
 
 ----
 Sources: https://www.amazon.co.uk/How-Emotions-Are-Made-Secret/dp/1509837493, https://www.sciencedirect.com/science/article/abs/pii/S1469029201000280
