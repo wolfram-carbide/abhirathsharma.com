@@ -16,6 +16,8 @@ Ferrari does something similar. And so does Hermès. Enzo Ferrari famously said 
 
 Hermès plays the same game. You cannot walk into a store and buy a Birkin. You place an order, join a queue, and wait. Sometimes for years. The bag is not being sold to you. A Birkin starts at around €10,000 in Paris but commands double or triple that on the resale market. By maintaining scarcity, Hermes commands a stunning price to earnings ratio compared to LVMH, the luxury conglomerate that has not maintained enough scarcity and once tried to to buy out Hermès.
 
+Here's a comparison of their profitability and P/E ratios. A high P/E suggests that investors expect strong future growth, or value the stock more.
+
 ![LVMH vs Hermès P/E Ratio](/images/posts/lvmh-hermes-pe-ratio.png)
 
 ![LVMH vs Hermès EBITDA Margin](/images/posts/lvmh-hermes-ebitda-margin.png)
@@ -26,14 +28,12 @@ Hermès plays the same game. You cannot walk into a store and buy a Birkin. You 
 
 *Source: Company filings, financial databases · Data as of fiscal year-end*
 
-If you look at what Chris Voss said about negotiations and what they teach at business schools, you will realise that rational thinking can sometimes be lazy, and counterproductive. Some sales techniques argue about getting the person to get to a yes.
+The idea of not being sold to is useful in FBI negotiations too. The legendary FBI negotiator, Chriss Voss explains how traditional sales techniques don't work. For instance, you might have heard about "Geting the customer to a yes".
 
-According to Voss, the reverse gets him better results. The first thing he did at every hostage negotiation was to get the criminal to say no. Not a yes. A no. Because that is what helps them feel in charge, and in control. And then he gets them to open up by labelling their emotions. "You want the government to accept your demands because you were wronged?" "That's right." Not "You are right." "That's right."
+But the moment you get the user to say yes (sometimes, deceptively), you are taking away their control. If someone stops you on the street and asks "Do you care about hungry children?" You know they are trying to get a donation out of you. You know you are being sold to. 
 
-I unintentionally tested this while changing the onboarding funnel for a mental wellness app. This is how I imagined things would go. Do you want mindful healthy habits —> User clicks yes —> Do you want to achieve calmness —> User clicks yes —> Then sign up to get calmness. Boom the user signs up and my numbers would go up. But the sign up numbers tanked. I had to stop the experiment ASAP.
+According to Voss, the first thing he did at every hostage negotiation was to get the criminal to say no. Not a yes. A no. Because that is what helps them feel in charge, and in control. Instead of saying “Do you want to come out safely?”, he might say, “Are you against finding a way for this to end without anyone getting hurt?". Criminal says “No.” You have probably used "Is this a bad time to talk?" instead of "Good time to talk?", which uses the same principle. 
 
-Many months later, while listening to Chris Voss explain his "getting them to say no" method, my stupid brain finally made the connection. The moment you get the user to say yes deceptively, you are taking away their control. The user is fully aware that they are being sold to. It is like when someone stops you on the street and asks "Do you care about hungry children?" You know they are trying to get a donation out of you for their charity even before you say anything. So even if you say "yes", you might not end up donating at all.
+I unintentionally tested the power of no while changing the onboarding funnel for a mental wellness app. I was setting up an experiment to boost my sign up rates. This is how I imagined things would go. Do you want mindful healthy habits —> User clicks yes —> Do you want to achieve calmness —> User clicks yes —> Then sign up to get calmness. Boom the user signs up and my numbers would go up. But the sign up numbers tanked. I had to stop the experiment ASAP. When we eventually gave users more control over their onboarding, showing them how their data was being used and letting them choose between signing up with their company account or their individual account, the numbers went up.
 
-When we eventually gave users more control over their onboarding, showing them how their data was being used and letting them choose between signing up with their company account or their individual account, the numbers went up.
-
-Turns out Princess Carolyn, Chris Voss, Ferrari, and Hermès all understood something that many people and curricula miss: People don't want to be sold to. They also love to choose.
+Turns out Princess Carolyn, Chris Voss, Ferrari, and Hermès all understood something that many people and curricula miss: People don't want to be sold to. They love to feel in control.
