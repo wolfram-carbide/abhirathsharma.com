@@ -13,13 +13,13 @@ const allPosts = (await getCollection('posts')).sort(
   <div class="size-legend">
     <span class="legend-label">Article sizes:</span>
     <span class="size-badge size-s">S</span>
-    <span class="legend-text">Short read (5-10 min)</span>
+    <span class="legend-text">Short read (<3 min)</span>
     <span class="size-badge size-m">M</span>
-    <span class="legend-text">Medium read (10-20 min)</span>
+    <span class="legend-text">Medium read (3-7 min)</span>
     <span class="size-badge size-l">L</span>
-    <span class="legend-text">Long read (20-30 min)</span>
+    <span class="legend-text">Long read (7-15 min)</span>
     <span class="size-badge size-xl">XL</span>
-    <span class="legend-text">Deep dive (30+ min)</span>
+    <span class="legend-text">Deep dive (15+ min)</span>
   </div>
 
   {allPosts.length === 0 ? (
