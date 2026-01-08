@@ -12,14 +12,10 @@ const allPosts = (await getCollection('posts')).sort(
 
   <div class="size-legend">
     <span class="legend-label">Length:</span>
-    <span class="size-badge size-s">S</span>
-    <span class="legend-text">Short (<3 min)</span>
-    <span class="size-badge size-m">M</span>
-    <span class="legend-text">Medium (3-7 min)</span>
-    <span class="size-badge size-l">L</span>
-    <span class="legend-text">Long read (7-15 min)</span>
-    <span class="size-badge size-xl">XL</span>
-    <span class="legend-text">Deep dive (15+ min)</span>
+    <span class="size-item"><span class="size-badge size-s">S</span><3m</span>
+    <span class="size-item"><span class="size-badge size-m">M</span>3-7m</span>
+    <span class="size-item"><span class="size-badge size-l">L</span>7-15m</span>
+    <span class="size-item"><span class="size-badge size-xl">XL</span>15+m</span>
   </div>
 
   {allPosts.length === 0 ? (
@@ -62,25 +58,45 @@ const allPosts = (await getCollection('posts')).sort(
   .size-legend {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    padding: 1rem 1.25rem;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    padding: 0.75rem 1rem;
     background: var(--color-bg-secondary, #f8f9fa);
     border-radius: 6px;
     margin-bottom: 3rem;
     font-size: 0.85rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .legend-label {
     font-weight: 600;
     color: var(--color-text);
     margin-right: 0.25rem;
+    white-space: nowrap;
   }
 
-  .legend-text {
+  .size-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
     color: var(--color-muted);
     font-size: 0.8rem;
-    margin-right: 0.5rem;
+    font-family: var(--font-mono);
+  }
+
+  @media (max-width: 640px) {
+    .size-legend {
+      font-size: 0.75rem;
+      gap: 0.4rem;
+      padding: 0.6rem 0.8rem;
+    }
+
+    .size-item {
+      font-size: 0.7rem;
+      gap: 0.2rem;
+    }
   }
 
   .post-list {
@@ -111,13 +127,20 @@ const allPosts = (await getCollection('posts')).sort(
 
   .size-badge {
     display: inline-block;
-    padding: 0.25rem 0.6rem;
+    padding: 0.2rem 0.5rem;
     font-family: var(--font-mono);
     font-size: 0.7rem;
     font-weight: 600;
     border-radius: 4px;
     letter-spacing: 0.5px;
     flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .size-badge {
+      padding: 0.15rem 0.4rem;
+      font-size: 0.65rem;
+    }
   }
 
   .size-badge.size-s {
