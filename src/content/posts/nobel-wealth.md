@@ -1,11 +1,12 @@
---- 
-title: "Alfred Nobel's wealth seems paltry. It's not." 
-description: "Veritasium's video got me thinking" 
-date: 2026-01-06 
-tags: 
+---
+title: "Alfred Nobel's wealth seems paltry. It's not."
+description: "Veritasium's video got me thinking"
+date: 2026-01-06
+tags:
     - economics
     - science
     - society
+size: L
 ---
 
 

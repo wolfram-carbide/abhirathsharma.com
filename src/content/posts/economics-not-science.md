@@ -3,6 +3,7 @@ title: "Economics is not a science, but it is much more than that"
 date: 2026-01-02
 description: "There's a lot more to it"
 tags: ["business", "economics", "books"]
+size: M
 ---
 
 I hate the way Economics is presented as an exact science. And unsuspecting engineering students who just love numbers assume that this is an exact science. A batch mate of mine from IIT-B was furious when Delhi capped Uber's surge pricing. In a statement laden with expletives, he said that "These people are idiots (he used a different word, but let's keep this civil). They don't understand that it's just supply and demand, laws of economics." As if this were one of Euclid's axioms. And, at that time, I agreed with him. Just because it was being quantified with equations, we both conflated it being an exact science.

@@ -3,6 +3,7 @@ title: "Indian Independence Quiz"
 date: 2025-12-25
 description: "A quiz about Indian independence that I conducted at home, borrowing heavily from The Empire Podcast."
 tags: ["quiz", "history", "india"]
+size: S
 ---
 
 I put together a quiz about Indian independence that I conducted at my house. The content borrows heavily from [The Empire Podcast](https://www.empirepoduk.com/), which does an excellent job of exploring the history of the British Empire and its legacies.

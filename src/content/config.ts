@@ -8,6 +8,7 @@ const posts = defineCollection({
     lastModified: z.date().optional(),
     description: z.string().optional(),
     tags: z.array(z.string()).optional(),
+    size: z.enum(['S', 'M', 'L', 'XL']).optional(),
   }),
 });
 

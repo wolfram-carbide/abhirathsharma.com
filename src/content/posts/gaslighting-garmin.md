@@ -1,11 +1,12 @@
---- 
-title: "The Gaslighting Garmin" 
-description: "Your watch doesn't know if you are excited or nervous" 
-date: 2026-01-07 
-tags: 
+---
+title: "The Gaslighting Garmin"
+description: "Your watch doesn't know if you are excited or nervous"
+date: 2026-01-07
+tags:
     - health
     - science
     - behaviour
+size: M
 ---
 
 I was having a house party. It was 11PM. You know the stage when most people have left but some people are staying back just to have a more cosy chat. Suddenly, we all hear a beep. My friend looks at her watch and says "You know I have set up alerts for when my heart rate goes too high, it's a sign that I am stressed out". I had a look at mine - my garmin said that my stress level (based on heart rate variability, not absolute heart rate) had been very high in the last 4-5 hours. Makes sense, I thought. It was only at 4PM I had realised that I had to cook an extra dish for a party that started at 6PM. And once people came in, I was switched on for most of the time. Yes, I was stressed perhaps. But I felt alive. 

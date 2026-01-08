@@ -3,6 +3,7 @@ title: "Comparing 2 racing movies"
 date: 2025-12-26
 description: "A comparison of the F1 movie and Ford v Ferrari, exploring what makes racing movies memorable."
 tags: ["movies", "storytelling"]
+size: M
 ---
 
 I was excited about the F1 movie. I bought Apple TV subscription specifically for this movie. Thought it would be fun. It was, but the movie didn't stay with me.

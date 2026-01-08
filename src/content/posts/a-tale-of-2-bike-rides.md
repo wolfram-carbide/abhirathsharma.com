@@ -3,6 +3,7 @@ title: "A Tale of 2 Bike Rides"
 description: "How I learned about mitochondria, energy systems, and the art of knowing when to quit"
 date: 2025-12-30
 tags: ["cycling", "fitness", "science"]
+size: XL
 ---
 
 This started when I registered for the London to Brighton charity bike ride. 90 kilometres, scheduled for June 15th. I trained through spring, building up my mileage from April onwards.

@@ -3,6 +3,7 @@ title: "Ordering a latte in sign language"
 date: 2026-01-01
 description: 'Thanks to the folks at "I Love Coffee"'
 tags: ["design", "behaviour"]
+size: S
 ---
 
 The folks at "I Love Coffee", a South Africa based social enterprise that also operates in London, could have done the simple thing. They employ baristas who use sign language, and instead of making it easy for customers, they made it meaningful. And I love them for that.
