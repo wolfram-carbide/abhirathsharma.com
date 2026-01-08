@@ -32,7 +32,9 @@ The idea of not being sold to is useful in FBI negotiations too. The legendary F
 
 But the moment you get the user to say yes (sometimes, deceptively), you are taking away their control. If someone stops you on the street and asks "Do you care about hungry children?" You know they are trying to get a donation out of you. You know you are being sold to. 
 
-According to Voss, the first thing he did at every hostage negotiation was to get the criminal to say no. Not a yes. A no. Because that is what helps them feel in charge, and in control. Instead of saying “Do you want to come out safely?”, he might say, “Are you against finding a way for this to end without anyone getting hurt?". Criminal says “No.” You have probably used "Is this a bad time to talk?" instead of "Good time to talk?", which uses the same principle. 
+According to Voss, the first thing he did at every hostage negotiation was to get the criminal to say no. Not a yes. A no. Because that is what helps them feel in charge, and in control. Instead of saying “Do you want to come out safely?”, he might say, “Are you against finding a way for this to end without anyone getting hurt?". Criminal says “No.” 
+
+Many of us have probably used "Is this a bad time to talk?" instead of "Good time to talk?". You can guess which one Voss would prefer!
 
 I unintentionally tested the power of no while changing the onboarding funnel for a mental wellness app. I was setting up an experiment to boost my sign up rates. This is how I imagined things would go. Do you want mindful healthy habits —> User clicks yes —> Do you want to achieve calmness —> User clicks yes —> Then sign up to get calmness. Boom the user signs up and my numbers would go up. But the sign up numbers tanked. I had to stop the experiment ASAP. When we eventually gave users more control over their onboarding, showing them how their data was being used and letting them choose between signing up with their company account or their individual account, the numbers went up.
 
