@@ -20,14 +20,16 @@ The revered (and often criticised) Adam Smith didn't write the rules or axioms o
 
 Economics has been a subject of deep interest for the mathematically curious, a philosophical laboratory for sharp observers, and a tool to shape a nation's destiny for the politically ambitious. It has been so much more than a pure art or an exact science. 
 
-Students like my batchmate and I should not miss a century of argument about what a "fair price" even means. So when students are taught this wonderful subject, it should be presented in all its forms, in all its contradictions, and in all its beauty. It might not make for a neat 60-minute lecture with perfect supply and demand curves, but it will surely be more enlightening. 
+Students like my batchmate and I should not miss a century of argument about what a "fair price" even means. So when students are taught this wonderful subject, it should be presented in all its forms, in all its contradictions, and in all its beauty. It might not make for a neat 60-minute lecture with perfect supply and demand curves, but it will surely be more enlightening.
 
 ---
+
+:::aside
 
 ^ This is not a new phenomenon btw. A report by The Economist mentioned how the reading-ease scores of doctoral theses abstracts have fallen the most in humanities and social sciences. Translation: these students and professors are intentionally using complicated language. Why? Perhaps because they want to appear as smart as academicians from other fields. Perception matters.
 
 ^^ Case in point: India's GDP methodology. The 2015 revision shifted from volume-based indicators (like steel and cement production) to corporate financial data from the MCA21 database. Critics argue that the deflators used to adjust for inflation have distorted the numbers, sometimes painting a rosier picture than other economic indicators suggest.
 
-Disclaimer - I have had no formal education in economics. So reach out to me at @trendingchariot on X (Twitter) if something here is grossly incorrect. 
+Disclaimer - I have had no formal education in economics. So reach out to me at @trendingchariot on X (Twitter) if something here is grossly incorrect.
 
----
+:::

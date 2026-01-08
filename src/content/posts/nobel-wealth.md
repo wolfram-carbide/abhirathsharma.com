@@ -37,13 +37,16 @@ The Nobel Foundation itself demonstrates this disparity. They started with SEK 3
 
 So was Nobel a billionaire? By consumer price inflation, no. By asset price inflation (the measure that actually matters for wealth), almost certainly yes.
 
-When we estimate historical wealth, we reach for consumer price inflation by default. But wealth is usually concentrated in assets such as bonds, stocks and real estate. Until we recognise that distinction, we'll keep underestimating fortunes of the past and ignoring the glaring problem of easy money in the 21st century. 
+When we estimate historical wealth, we reach for consumer price inflation by default. But wealth is usually concentrated in assets such as bonds, stocks and real estate. Until we recognise that distinction, we'll keep underestimating fortunes of the past and ignoring the glaring problem of easy money in the 21st century.
 
---------
+---
+
+:::aside
 
 ^ P/E ratio or price to earnings ratio is a valuation multiple indicating how much the market is willing to pay for a company's earnings
 
-Additional info: Interest rates have been low for far too long. This has distorted capitalism, depressed productivity, and increased wealth inequality. In _The Price of Time_, Chancellor wonderfully explains how low interest rates have always led to financial engineering instead of investment in R&D, irrespective of the era. Easy money during the railroad boom led JP Morgan to focus on extracting a "promoter's profit" instead of investing in the right tech. In economics, productivity is output per hour worked. It grows when technology allows workers to produce more value in less time. The argument is that when firms invest in technology rather than financial engineering (buybacks, leverage), productivity rises. Germany's high automation means its workers earn more per hour than Indian workers doing equivalent tasks - that's higher productivity. Also note that this definition of productivity also gets abused and misunderstood quite often. There is a huge difference between what we think of productivity vs. how Economists define it. 
-
+Additional info: Interest rates have been low for far too long. This has distorted capitalism, depressed productivity, and increased wealth inequality. In _The Price of Time_, Chancellor wonderfully explains how low interest rates have always led to financial engineering instead of investment in R&D, irrespective of the era. Easy money during the railroad boom led JP Morgan to focus on extracting a "promoter's profit" instead of investing in the right tech. In economics, productivity is output per hour worked. It grows when technology allows workers to produce more value in less time. The argument is that when firms invest in technology rather than financial engineering (buybacks, leverage), productivity rises. Germany's high automation means its workers earn more per hour than Indian workers doing equivalent tasks - that's higher productivity. Also note that this definition of productivity also gets abused and misunderstood quite often. There is a huge difference between what we think of productivity vs. how Economists define it.
 
 Sources: https://pmc.ncbi.nlm.nih.gov/articles/PMC5548114/, https://www.nobelprize.org/press-release/the-nobel-foundations-2024-asset-management-and-earnings/, https://en.wikipedia.org/wiki/Nobel_Prize, https://www.youtube.com/watch?v=onr80iOoEXs&pp=ygUQdmVyaXRhc2l1bSBub2JlbNgGjRQ%3D
+
+:::
