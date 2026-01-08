@@ -17,7 +17,12 @@ const allPosts = (await getCollection('posts')).sort(
       {allPosts.map((post) => (
         <li>
           <a href={`/writing/${post.slug}`}>
-            <h2>{post.data.title}</h2>
+            <div class="title-row">
+              <h2>{post.data.title}</h2>
+              {post.data.size && (
+                <span class={`size-badge size-${post.data.size.toLowerCase()}`}>{post.data.size}</span>
+              )}
+            </div>
             {post.data.tags && post.data.tags.length > 0 && (
               <div class="tags">
                 {post.data.tags.map((tag) => (
@@ -56,10 +61,47 @@ const allPosts = (await getCollection('posts')).sort(
     border-bottom: none;
   }
 
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
   .post-list h2 {
     font-size: 1.5rem;
     color: var(--color-accent);
     margin-bottom: 0.5rem;
+  }
+
+  .size-badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  .size-badge.size-s {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+
+  .size-badge.size-m {
+    background: #fff3e0;
+    color: #e65100;
+  }
+
+  .size-badge.size-l {
+    background: #fce4ec;
+    color: #c2185b;
+  }
+
+  .size-badge.size-xl {
+    background: #f3e5f5;
+    color: #7b1fa2;
   }
 
   .tags {

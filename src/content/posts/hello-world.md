@@ -3,6 +3,7 @@ title: "Hello World"
 date: 2025-12-01
 description: "The beginning of something new."
 tags: ["meta", "intro"]
+size: S
 ---
 
 Welcome to my new website. This is where I'll be sharing thoughts, projects, and things I'm learning.

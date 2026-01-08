@@ -3,6 +3,7 @@ title: "Just sell the idea that they are not being sold to"
 date: 2025-12-30
 description: "How Princess Carolyn, Ferrari, Hermès, and Chris Voss all understand the same truth: people don't want to be sold to."
 tags: ["psychology", "business", "storytelling"]
+size: M
 ---
 
 ![BoJack Horseman flea market scene](/images/posts/bojack-flea-market.png)
