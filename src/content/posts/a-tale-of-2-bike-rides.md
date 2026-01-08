@@ -180,10 +180,14 @@ If I had quit earlier on that second ride, I wouldn't have had back issues for t
 
 I used to get bothered by the "unproductive" training status alerts on my Garmin. A few months after the back pain from my second ride, I turned them off. It felt good to shut it up. The first ride taught me the science of energy systems in the body while the second ride taught me the art of resting, lowering intensity and shutting up Garmin alerts.
 
-----
+---
+
+:::aside
 
 **Sources and disclaimers:**
 - I have heavily borrowed this from Dr. Andrew Huberman's podcast featuring [Dr. Andy Galpin](https://www.youtube.com/watch?v=oNkDA2F7CjM)
 - I have used Gemini and Claude to sharpen my understanding and create infographics. Some infographics were created in Canva in the artisanal way. I have tested my understanding with these AI tools by sharing my data and experiences. I have tried to be accurate about the science but as we all know, this is evolving. If you have any corrections, reach out to me on Twitter (or X) at [@trendingchariot](https://twitter.com/trendingchariot)
 - My love and admiration for mitochondria stems from the book "Power, Sex and Suicide" by Nick Lane. It's an excellent book which tells you how these organelles have shaped eukaryotic life (which includes us).
-- Annie Duke's book, "Quit" really changed my perspective and is a great antitode to the common narratives of "grit" and "grinding it through". Sometimes, the best thing to do is to quit. Quitting should be a valuable tool in one's judgement toolkit. 
+- Annie Duke's book, "Quit" really changed my perspective and is a great antitode to the common narratives of "grit" and "grinding it through". Sometimes, the best thing to do is to quit. Quitting should be a valuable tool in one's judgement toolkit.
+
+::: 

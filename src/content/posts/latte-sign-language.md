@@ -18,5 +18,10 @@ They also have instructions for you - things like: shouting or raising your volu
 
 This is good, deliberate design and I thank the folks at "I Love Coffee" for thinking through this.
 
-----
+---
+
+:::aside
+
 Reference: https://www.wework.com/newsroom/wework-and-i-love-coffee-expand-partnership-to-london
+
+:::
