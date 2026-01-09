@@ -24,13 +24,8 @@ Browse images, see their style classifications, collect the ones that match what
 Below are some images I generated using prompts from this tool. They won't slow down time or stop you mid-walk. But they might help you translate the frame in your head into something you can actually ask for.
 
 
-![Delivery](public/images/posts/delivery.png)
+![abc](/images/posts/delivery.png)
 *Prompt: A Delivery person on a 2 wheeler in Bangalore, India Contrast & Tonal Range - High Contrast: high contrast, crushed blacks, dramatic tonal separation\n\nMotion & Sharpness - Motion Blur: slight motion blur, panning blur, dynamic streaks\n\nLighting Architecture - Hard Directional Light: hard directional light, sharp shadows, high contrast*
-
-
-
-![Bristol](public/images/posts/bristol.png)
-*Prompt: Photo of a person in Bristol, UK, Composition & Framing - Rule of Thirds: rule of thirds composition, subject on intersection point\n\nColor Grading / Post - Faded Matte Film: faded film look, matte finish, lifted blacks\n\nWeather & Environment - Fog / Haze: shot in thick fog, atmospheric haze*
 
 
 ![Annecy](public/images/posts/annecy.png)
