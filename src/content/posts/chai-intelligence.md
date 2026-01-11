@@ -41,7 +41,8 @@ Medium confidence:
 
 L-theanine is an amino acid found in tea. It produces a relaxed but alert state, and has been recommended by folks like Andrew Huberman. However, the amount in my cup would have been 20-40mg, way lower than the recommended 200mg. Noticeable effect but not major.
 
-So could I have prevented that interview headache with a few cups of chai? Probably not. The chai helped months later because I'd finally stopped creating the conditions for a headache in the first place. The sweater, the blanket, the sofa - that was the real medicine. The chai just made it taste better.
+So could I have prevented that interview headache with a few cups of chai? Probably not. The chai helped months later because I'd finally stopped creating the conditions for a headache in the first place. 
+
 ---
 
 :::aside
