@@ -1,7 +1,7 @@
 ---
 title: "Ginger chai, intelligence and headaches"
 description: "Caffeine, AI and pain"
-date: 2026-01-07
+date: 2026-01-11
 tags:
     - health
     - science
@@ -22,7 +22,7 @@ So I turn to Claude, my preferred LLM, to get an expert opinion. And thankfully,
 
 ![Slide3](/images/posts/Slide3.png)
 
-This clearly shows what we somehow already know - these models are fully capable of behaving like idiots. Even folks like Andrej Karpathy and Shane Legg acknowledge these gaps. While LLMs can solve math olympiad problems and score well on benchmarks, they lack the true intelligence we need from them. They're like a student who scores really high on IQ tests but fails to succeed in the real world. In fact, the quest for a high benchmark score makes models hallucinate more.
+This clearly shows what we somehow already know - these models are fully capable of behaving like idiots. Even folks like Andrej Karpathy and Shane Legg acknowledge these gaps. While LLMs can solve math olympiad problems and score well on benchmarks, they lack the true intelligence we need from them. They're like a student who scores really high on IQ tests but fails to succeed in the real world. In fact, the quest for a high benchmark score makes models hallucinate more*.
 
 ![Benchmarks](/images/posts/benchmarks.png)
 
@@ -42,7 +42,9 @@ Medium confidence:
 L-theanine is an amino acid found in tea. It produces a relaxed but alert state, and has been recommended by folks like Andrew Huberman. However, the amount in my cup would have been 20-40mg, way lower than the recommended 200mg. Noticeable effect but not major.
 
 So could I have prevented that interview headache with a few cups of chai? Probably not. The chai helped months later because I'd finally stopped creating the conditions for a headache in the first place. The sweater, the blanket, the sofa - that was the real medicine. The chai just made it taste better.
-----
+---
 
-* By now, we know that after a certain baseline, the IQ test isn't a reliable predictor of excellence. As David Robinson notes in *The Intelligence Trap*, we need things such as wisdom and curiosity to have a successful and fulfilling life. He explains how Feynman didn't have an exceptionally high IQ score. He had a childlike curiosity, deep wonder and a playful approach to solving complex problems. We need more Feynmans in the world for sure, and it would be great if frontier models behaved a bit like Feynman and the likes. 
+:::aside
+
+* By now, we know that after a certain baseline, the IQ test isn't a reliable predictor of excellence. As David Robinson notes in *The Intelligence Trap*, we need things such as wisdom and curiosity to have a successful and fulfilling life. He explains how Feynman didn't have an exceptionally high IQ score. He had a childlike curiosity, deep wonder and a playful approach to solving complex problems. We need more Feynmans in the world for sure, and it would be great if frontier models behaved a bit like Feynman and the likes.
 
