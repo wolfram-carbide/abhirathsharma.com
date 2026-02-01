@@ -24,5 +24,3 @@ Next week, I do what I did as a child - I pretend I am sick and skip the lesson.
 I was reminded of Mitchell from Modern Family. In an episode, he thinks he's a great golf teacher. He tries to teach Gloria, but he truly sucks. He is so obsessed with getting the technique right that he forgets about the bigger picture. A bystander notices his failed efforts and steps in. He asks Gloria to forget everything Mitchell has taught her. He tells her that golf is a bit like a dance - she just needs to move her hips in one smooth motion. Gloria hits the ball, and loves the rush. She immediately fires Mitchell. Mitchell also gets fired by his daughter as she stumbles on the same truth - Mitchell is a terrible teacher, be it golf or flute. Meanwhile, Mitchell is left thinking that he is too smart to be a teacher - they just weren't ready for his ultra smart instructions.
 
 Well, I sort of did what Gloria did. I quietly enrolled myself off the class citing scheduling conflicts. I just hope my instructor never reads this post. If he does, it truly means I have increased my reach, which would not be a bad thing to celebrate.
-
----
