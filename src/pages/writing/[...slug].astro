@@ -36,12 +36,10 @@ const { Content } = await post.render();
     </div>
 
     <div class="engagement">
-      <button class="heart-button" data-slug={post.slug}>
+      <button class="heart-button" data-slug={post.slug} aria-label="Like this post">
         <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
         </svg>
-        <span class="heart-count">0</span>
-        <span class="heart-text">people liked this</span>
       </button>
     </div>
 
@@ -184,20 +182,6 @@ const { Content } = await post.render();
     animation: heartbeat 0.3s ease;
   }
 
-  .heart-count {
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: var(--color-text);
-    font-weight: 500;
-    min-width: 1ch;
-  }
-
-  .heart-text {
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: var(--color-muted);
-  }
-
   @keyframes heartbeat {
     0%, 100% { transform: scale(1); }
     25% { transform: scale(1.2); }
@@ -213,72 +197,48 @@ const { Content } = await post.render();
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const heartButton = document.querySelector('.heart-button') as HTMLButtonElement;
-    const heartCount = document.querySelector('.heart-count') as HTMLElement;
-    const heartText = document.querySelector('.heart-text') as HTMLElement;
 
     if (!heartButton) return;
 
     const slug = heartButton.dataset.slug;
     const storageKey = `liked_${slug}`;
 
-    // Update display based on count
-    function updateDisplay(count: number) {
-      if (count === 0) {
-        heartCount.style.display = 'none';
-        heartText.style.display = 'none';
-      } else {
-        heartCount.style.display = 'inline';
-        heartText.style.display = 'inline';
-        heartCount.textContent = count.toString();
-        heartText.textContent = count === 1 ? 'person liked this' : 'people liked this';
-      }
-    }
-
-    // Load current like count and user's like status
-    async function loadLikes() {
-      try {
-        const response = await fetch(`/api/likes/${slug}`);
-        const data = await response.json();
-
-        updateDisplay(data.count);
-
-        // Check if user has already liked
-        const hasLiked = localStorage.getItem(storageKey) === 'true';
-        if (hasLiked) {
-          heartButton.classList.add('liked');
-        }
-      } catch (error) {
-        console.error('Failed to load likes:', error);
-      }
+    // Restore liked state from localStorage
+    const hasLiked = localStorage.getItem(storageKey) === 'true';
+    if (hasLiked) {
+      heartButton.classList.add('liked');
     }
 
     // Handle like button click
     heartButton.addEventListener('click', async () => {
-      const hasLiked = heartButton.classList.contains('liked');
+      const isLiked = heartButton.classList.contains('liked');
 
+      // Optimistic UI update
+      if (isLiked) {
+        heartButton.classList.remove('liked');
+        localStorage.removeItem(storageKey);
+      } else {
+        heartButton.classList.add('liked');
+        localStorage.setItem(storageKey, 'true');
+      }
+
+      // Track in backend (fire and forget)
       try {
-        const response = await fetch(`/api/likes/${slug}`, {
+        await fetch(`/api/likes/${slug}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: hasLiked ? 'unlike' : 'like' })
+          body: JSON.stringify({ action: isLiked ? 'unlike' : 'like' })
         });
-
-        const data = await response.json();
-
-        if (hasLiked) {
-          heartButton.classList.remove('liked');
-          localStorage.removeItem(storageKey);
-        } else {
+      } catch (error) {
+        // Revert on failure
+        if (isLiked) {
           heartButton.classList.add('liked');
           localStorage.setItem(storageKey, 'true');
+        } else {
+          heartButton.classList.remove('liked');
+          localStorage.removeItem(storageKey);
         }
-
-        updateDisplay(data.count);
-      } catch (error) {
-        console.error('Failed to update like:', error);
       }
     });
-
-    loadLikes();
   });
 </script>
