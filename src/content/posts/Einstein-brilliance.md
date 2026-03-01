@@ -2,22 +2,36 @@
 title: "Einstein was brilliant, but not because of his brain mass"
 date: 2026-03-01
 description: "His gift was asking the simplest of questions"
-tags: ["science", "histpru"]
+tags: ["science", "historu"]
 size: M
 ---
 When I was a kid, my father bought me a couple of "Dead Famous" books. I loved them. I can still read them all over again. One of them was about Albert Einstein. The book was interspersed with comics and silly jokes as it attempted to explain Einstein's equations and his life. As a teenager who wanted to appear smart in front of his friends, I memorised some of those equations and understood what time dilation meant under the influence of gravity.
+
 The extent of my understanding was tested when I appeared for a panel interview for a scholarship. The panelists, many of whom were senior scientists, were surprised when I said I wanted to discuss relativity as my preferred topic. One minute later, I realised how shallow my understanding was. Recognising that it wasn't fair on me, they said I was free to discuss another topic of interest. Thankfully, I switched to chemistry, and avoided discussing relativity entirely.
+
 All of this made me appreciate Einstein more. "Wow he was so brilliant because he made such complicated theories that no one could really think of, and something that a brilliant teenager like me can't explain". The pop science lore didn't help. There were all sorts of reports that said Einstein's brain was x% bigger than usual and that was the secret. I sort of believed it. "Yeah makes sense, because you need that big a brain to do those complex calculations and come up with brilliant theories".
+
 Fast forward a decade and a half later, I read a few biographies and some physics books only to appreciate Einstein more. Not because he presumably had a bigger brain. I appreciate him now for the same reason I appreciate Steve Jobs and Richard Feynman. For their ability to cut through the BS, see things clearly, and ask very very basic questions that poke through the defensive armour of pretentious complexity that people love.
+
 You might think it's easy for Einstein to ask simple questions when his brain could do the follow-up maths. But he didn't start with the maths. He started with a teenager's imagination. "What would I see if I rode a beam of light?" The maths came after. The question came first.
+
 In 1935, Einstein published a paper with two colleagues, Boris Podolsky and Nathan Rosen. It became known as the EPR paper. The maths was formal, but at its core was a simple question that poked a hole in quantum mechanics.
+
 The premise was simple (as simple as things can be in the world of theoretical physics).
 Einstein had established that nothing can move faster than the speed of light. Say the sun suddenly vanishes, it would take 8 minutes for us on the Earth to register this. If the Earth suddenly stopped spinning around the sun and we saw it vanish immediately, that would mean gravity and the information that the sun has vanished travelled faster than light. And that just defies reality.
+
 Here's how physicist David Bohm later illustrated the problem with quantum mechanics. When an electron-positron pair is created, their spins are linked. If one is "up," the other is "down." But according to quantum mechanics, neither particle actually has a definite spin until you measure it. The act of measurement collapses the possibilities into a single outcome. This did not sit well with Einstein, even though Niels Bohr and his Copenhagen mates were fully aligned with this view.
+
 So Einstein asked a fundamental question. When you measure the electron's spin, does it somehow communicate with the positron and ask it to give the opposite spin? And if this happens, how fast do they communicate with each other? If it's instant, then it must be faster than the speed of light, which would defy reality, in Einstein's view.
+
 Niels Bohr, apart from being a brilliant physicist, was also a good politician. Adam Grant writes about how we sometimes think like scientists and sometimes think like politicians. Scientists ask "What if I'm wrong?" Politicians ask "How do I defend my position?" Einstein was thinking like a scientist. Bohr was thinking like a politician.
+
 Bohr used his heavy clout and wrote an obscure paper as a rebuttal to Einstein's question. People didn't really understand it, but they all thought well, Bohr is sort of right. The maths of quantum mechanics predicts how particles behave. Why bother with what it means for reality? No one took it as an opportunity to probe what was really happening.
+
 For thirty years, the question sat there.
+
 Then in 1964, physicist John Bell devised a way to actually test it. In 1982, Alain Aspect and his team ran the experiments. These particles do indeed behave spookily. The correlations are real and appear to be instant, across any distance. But here's the thing: you can't actually use this to send information faster than light. The particles coordinate perfectly, but the results are random. Einstein's question was bang on right even though his proposed mechanism was wrong.
+
 If only Bohr had not behaved like a politician, he probably would have led us to discover this way earlier.
+
 Einstein didn't predict quantum entanglement. Yet, by asking a simple question, he set physics on the right path. Thirty years later, someone finally figured out how to test it. I wish I could tell my teenage self that behind this veneer of complexity lies simplicity.
