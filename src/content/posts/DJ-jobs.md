@@ -18,6 +18,7 @@ The DJ^ - the enigma, the disk jockey (discs - who uses them?!) whose only purpo
 Yet, DJs exist. People flock around the DJ, dance with her, treat her like God. In fact, even if people murmur about the track, they never pass on this feedback to the DJ. I would bet that if a software were doing this, the club would be 10 times less fun. If I let an app control every part of the musical experience, and let the DJ just hand wave and pretend like she was responsible for it, people would still have fun and flock around her. 
 
 But remove the DJ, and the fun, the experience collapses. The human in the loop makes all the difference, and that perhaps should give you some hope.
+
 ---
 
 :::aside
