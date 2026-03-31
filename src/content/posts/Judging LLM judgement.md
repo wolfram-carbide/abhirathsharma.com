@@ -1,7 +1,7 @@
 ---
 title: "Judging LLM judgement"
 description: "Gemini is naive, Claude isn't"
-date: 2026-01-07
+date: 2026-03-31
 tags:
     - AI
     - LLM
