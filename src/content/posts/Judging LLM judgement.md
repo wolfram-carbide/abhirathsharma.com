@@ -35,6 +35,3 @@ From both examples, it is clear that Anthropic does a better job at judging info
 In "The Intelligence Trap", the author argues that wisdom is a better predictor of success than raw IQ. I think something similar is true here.
 
 In the standard LLM benchmarks (Humanity's last exam, GDPval, SWE-bench verified etc.), all models come close. In fact, for real world scenarios (GDPVal), ChatGPT performs better. But still, it's not uncommon to hear people usually say "Claude's answers are generally better" or "I wish I had starting using Claude sooner". Judgement and wisdom have played an outsized role in Claude's success (besides Department of War). It's hard to benchmark, but it matters.
-
-
-----
