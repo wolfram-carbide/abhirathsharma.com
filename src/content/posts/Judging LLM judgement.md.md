@@ -9,9 +9,9 @@ tags:
 size: L
 ---
 
-In my early days of consulting, I had quoted the annual report to answer some questions of the case leadership. The annual report dutifully painted a rosy picture of the company's future earnings, and tried to hide its shortcomings. The associate partner then pulled me aside and asked me to use an analyst report instead of the annual report. "The analysts would do their research and paint a more skeptical, a more real picture" - he said. What he really wanted to say was "Use their judgement, till you develop yours". This was 2017. Almost a decade later, as LLMs have become better at ingesting large reports, judgment becomes more important.
+In my early days of consulting, I had quoted the annual report to answer my case team's questions. The annual report painted a rosy picture of the company's future earnings, and tried to hide its shortcomings. The associate partner pulled me aside. He asked me to use an analyst report instead of the annual report. "The analysts would do their research and paint a more skeptical, a more real picture" - he said. What he really wanted to say was "Use their judgement, till you develop yours". This was 2017. Almost a decade later, as LLMs have become better at ingesting large reports, judgment has become more important.
 
-I had gotten a taste of judgement across LLMs using my chai experiment. Gemini convinced me that my ginger chai was the elixir of life, while Claude told me clearly that this was all pop science BS. Some screenshots below: 
+I got a taste of judgement across LLMs when I was investigating the effects of chai on headaches. Gemini convinced me that my ginger chai was the elixir of life, while Claude told me clearly that this was all pop science BS. Some screenshots below: 
 
 ![LLM-judge-1](/images/posts/LLM-judge-1.png)
 *Gemini decided I was Walter White.* 
@@ -19,7 +19,7 @@ I had gotten a taste of judgement across LLMs using my chai experiment. Gemini c
 ![LLM-judge-2](/images/posts/LLM-judge-2.png)
 *I then asked Claude the same question. Different experience.*
 
-In order to pretend for a Sunday evening that I am a top tier frontier research lab, I performed a small test. I asked Claude, Perplexity, Gemini and ChatGPT (Free version, because I stopped paying for it^) the same question, and then rated them on on 1) Research (how good was the research), 2) judgement (How did it judge the info it researched) and 3) Presentation (How crisply did it present the info?) on a scale of 1 to 10. 
+I wanted to do assess this further. So, I pretended for a Sunday evening that I am part of a frontier research lab and performed a small test. I asked Claude, Perplexity, Gemini and ChatGPT (Free version, because I stopped paying for it^) the same question, and then rated them on on 1) Research (how good was the research), 2) judgement (How did it judge the info it researched) and 3) Presentation (How crisply did it present the info?) on a scale of 1 to 10. 
 
 The question was: *Has Grammarly been able to weather the AI storm, and come out well positioned? Or has it been affected in a material way?*
 
@@ -34,3 +34,7 @@ From both examples, it is pretty clear that Anthropic does a better job at judgi
 
 In "The Intelligence Trap", David Robson argues that wisdom is a better predictor of success than raw IQ. I think something similar is true here. Notwithstanding the rate limits, Claude seems like a wiser bot to deal with despite underperming ChatGPT in some benchmarks (GDPVal). Standard LLM benchmarks (Humanity's last exam, GDPval, SWE-bench verified etc.) all filter for the seemingly smart student. Not the wise one. Maybe they should.
 
+
+:::aside
+
+^ This has become such a strong anti-signal - "Oh, I don't use ChatGPT anymore". I have annoyed more than a few people with this. 
