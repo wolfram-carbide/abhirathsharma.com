@@ -24,6 +24,11 @@ Headaches are sometimes caused when blood vessels dilate after a long bout of co
 
 In addition, L-theanine, an amino acid found in tea also helps. It produces a relaxed but alert state, and has been recommended by folks like Andrew Huberman. However, the amount in my cup would have been 20-40mg, way lower than the recommended 200mg. Noticeable effect but not major.
 
-If you intersperse your day with cups of chai and coffee, like I do, you end up constricting your vessels quite often. The body returns with a vasodilation vengeance. Caffeine is both the cause and the cure. Do I wish I had known this before the interview? No. Some answers just give you new ways to feel bad.
+If you intersperse your day with cups of chai and coffee, like I do, you end up constricting your vessels quite often. This works because caffeine blocks adenosine — a molecule that builds up the longer you're awake and signals your brain's blood vessels to dilate. The more adenosine accumulates, the harder caffeine has to work to keep it at bay. In addition, if you are like me, and intensely focus for hours with squinted eyes and an angry face, chances are that your body also releases adrenaline and cortisol which are believed to constrict blood vessels further. Once you go through these cycles and the body tries to return to normalcy, it does so with a vasodilation vengeance. This causes the headache as the blood vesels dilate and press against certain nerves which causes the pain. At this point, if you take caffeine again, it could constrict the blood vessels again and help relieve the pain. So, caffeine is both the cause and the cure. 
+
+![Benchmarks](/images/posts/Chai-dilation-journey.png)
+
+
+Do I wish I had known this before the interview? No. Some answers just give you new ways to feel bad.
 
 ----
