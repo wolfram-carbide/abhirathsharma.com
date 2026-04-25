@@ -1,6 +1,6 @@
 ---
 title: "It's easier to rate 5-on-5 than 10-on-10"
-date: 2026-03-01
+date: 2026-04-25
 description: "Obsessing over ratings and scales in Greece"
 tags: ["travel", "behaviour"]
 size: L
