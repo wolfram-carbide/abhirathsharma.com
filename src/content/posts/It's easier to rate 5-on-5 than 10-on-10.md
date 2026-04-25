@@ -1,3 +1,11 @@
+---
+title: "It's easier to rate 5-on-5 than 10-on-10"
+date: 2026-03-01
+description: "Obsessing over ratings and scales in Greece"
+tags: ["travel", "behaviour"]
+size: L
+---
+
 ### Obsessing about ratings in Greece
 
 Mykonos, the party island, was deserted. Most of the shops were closed, the sea too cold for a swim and its roads empty. But I had a great time - traffic wasn't a problem, the wind was calming and the solace, much needed. The hotel was great too - we had a view of the famous windmills from the room, the hotel managers were very friendly. No complaints. A few days later, it was time to rate the property. I was wondering how to rate it - 8 felt like a downgrade, 10 felt excessive so I settled on 9.
