@@ -56,6 +56,4 @@ The last point got me thinking about the IMDb ratings. They behave in a very sim
 
 ![Perceived-rating-IMDb](/images/posts/Perceived-rating-IMDb.png)
 
-Another post on the IMDb ratings coming hopefully soon!
-
----
+Another post on the IMDb ratings coming hopefully soon. Stay tuned!
