@@ -10,12 +10,12 @@ size: L
 
 Mykonos, the party island, was deserted. Most of the shops were closed, the sea too cold for a swim and its roads empty. But I had a great time - traffic wasn't a problem, the wind was calming and the solace, much needed. The hotel was great too - we had a view of the famous windmills from the room, the hotel managers were very friendly. No complaints. A few days later, it was time to rate the property. I was wondering how to rate it - 8 felt like a downgrade, 10 felt excessive so I settled on 9.
 
-![[Mykonos-hotel-wide.png]]
+![Mykonos-hotel](/images/posts/Mykonos-hotel-wide.png)
 *This isn't a great photo, I know. There are 2 reasons for that: 1. I didn't take too many photos - which is something I am happy about. 2. Mykonos is less pretty than other Greek islands. If you have to choose, go to Naxos - my favourite by a margin.**
 
 A few days later, it was time to rate our Airbnb in Athens. The host was super nice, the neighbourhood was excellent, and the apartment had a direct view of the Parthenon. It also made me feel like I was visiting a version of Udaipur. It was an obvious 5 stars.
 
-![[Athens-airbnb-view.png]]
+![Athens-hotel](/images/posts/Athens-airbnb-view.png)
 *Athens looks like Udaipur without its lakes
 
 Now had the Mykonos property been an Airbnb, I would have rated it 5 stars. And had the Athens property been on Booking.com, I would have hesitated giving it 10-on-10. It felt too perfect a score. I would have settled on a 9.5.
@@ -24,24 +24,24 @@ When you are rating an Airbnb, you are rating the host as much as you are the pr
 
 Look at these reviews. Do you think they enjoyed their stay at an Airbnb rated 4.68 (if scaled linearly, this would be ~9.4/10 on Booking.com)?
 
-![[Airbnb-review-Athens.png]]
+![Airbnb-review-Athens](/images/posts/Airbnb-review-Athens.png)
 
 And we have all seen this and experienced it: you would be hesitant to book an Airbnb in Athens that is rated 4.2, but you would not hesitate to book a room on Booking.com if it were 8.4, which is 4.2 x 2 (the Airbnb rating linearly scaled). It's not uncommon to find hundreds of Airbnbs rated 4.8 and above, which would be an equivalent of 9.6 on Booking - something that would be truly exceptional on that platform.
 
 Here's an apartment in Athens that is 4.79, but has been classified as being in the bottom 10% of eligible listings based on ratings, reviews and reliability. Three out of the 4 recent reviewers gave it 5 stars. It's not obvious that the apartment is poorly located, which is probably the major factor behind Airbnb's warning.
 
-![[Airbnb-review-callout.png]]
+![Airbnb-review-callout](/images/posts/Airbnb-review-callout.png)
 
 And here is what the overall distribution looks like across all Athens listings. Nearly everything is north of 4.5, and a median of 4.87. The scale is a 0.5-point range dressed up as a 5-point one. Airbnb's 2025 report said guest favourites on average are at 4.92. The same report mentions that 4.75 is the average listing rating. So the average becomes a guest favourite in a gap of 0.17 points on the scale. Let that sink in!
 
-![[athens_rating_distribution_histogram.svg]]
+![Athens-histogram](/images/posts/athens_rating_distribution_histogram.svg)
 *Source: https://insideairbnb.com/get-the-data/ 
 
 There's another related problem here. When you tell someone that one apartment scored 5% higher than another, you are reporting something technically true and very very misleading. It's a bit like when scientists said we needed to keep global warming to 1.5 degrees Celsius - a number so small it sounds like a rounding error, but it's actually a civilisational threshold. The percentage gap on a compressed scale tells you nothing about the magnitude underneath it.
 
 I would love for Airbnb to do a more interesting experiment. What if they send someone to all Airbnbs and ask them to compare 2 of them at a time with the question: how many times better was one than the other? Not 4.79 versus 4.99. Just - was this one twice as good? Or 5 times as good? Or 20%? The actual quality delta in mathematical vs. perceived ratings might look like this -->
 
-![[Perceived-rating-Airbnb.png]]
+![Perceived-rating-Airbnb](/images/posts/Perceived-rating-Airbnb.png)
 *The magic here is - as we get close to the 4.7s, the % difference in ratings reduces but the perceived rating multiplier goes up. Perceived rating multiplier is illustrative
 
 ### To sum up
@@ -54,8 +54,8 @@ I would love for Airbnb to do a more interesting experiment. What if they send s
 
 The last point got me thinking about the IMDb ratings. They behave in a very similar fashion. A movie rated 9 or so is exponentially better than a movie rated 7 or so. So I conducted an experiment, and rated 114 movie pairs to find out my perceived rating multipliers. You can try it out here too: https://true-imdb-scale.lovable.app/. Here are my results: 
 
-![[Perceived-rating-IMDb.png]]
+![Perceived-rating-IMDb](/images/posts/Perceived-rating-IMDb.png)
 
-Thanks for reading it so far. I don't think this will be my last post on this topic :)
+Another post on the IMDb ratings coming hopefully soon!
 
 ---
