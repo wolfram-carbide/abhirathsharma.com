@@ -33,7 +33,14 @@ Let's assume he transferred all his wealth to the US right before his death. As 
 
 The Nobel Foundation itself demonstrates this disparity. They started with SEK 31.5 million in 1900. After 125 years of paying out prizes (billions in total), their assets at the end of 2024 stood at SEK 6.8 billion ($600-734M depending on exchange rates).
 
-![Nobel wealth estimates](/images/posts/Nobel-wealth.png)
+<iframe
+  src="/charts/nobel-wealth.html"
+  width="100%"
+  height="540"
+  style="border: none; border-radius: 6px; display: block;"
+  title="How Wealthy Was Alfred Nobel? — interactive chart"
+  loading="lazy"
+></iframe>
 
 So was Nobel a billionaire? By consumer price inflation, no. By asset price inflation (the measure that actually matters for wealth), almost certainly yes.
 
