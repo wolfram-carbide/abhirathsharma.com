@@ -56,7 +56,7 @@ If Airbnb did an experiment in which they sent someone to all Airbnbs and askd t
 
 ### To sum up
 
-Summarising my holiday in Greece here: 
+Summarising my Greek holiday here: 
 
 1. A rating out of 5 doesn't scale linearly to a rating out of 10. 4/5 is not the same as 8/10 - it is probably 5-6/10.
 2. Rating hosts instead of properties causes rating inflation on Airbnb. In some cases, Airbnb has to intervene to make sure people don't get deceived by the rating number.
