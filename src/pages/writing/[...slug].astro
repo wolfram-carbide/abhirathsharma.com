@@ -49,6 +49,12 @@ const { Content } = await post.render();
   </article>
 </BaseLayout>
 
+<div id="lightbox" class="lightbox-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="lightbox-backdrop"></div>
+  <button class="lightbox-close" aria-label="Close image">&times;</button>
+  <img class="lightbox-img" src="" alt="" />
+</div>
+
 <style>
   article {
     max-width: 680px;
@@ -106,6 +112,67 @@ const { Content } = await post.render();
     max-width: 100%;
     height: auto;
     border-radius: 6px;
+    cursor: zoom-in;
+    transition: opacity 0.15s ease;
+  }
+
+  .content :global(img:hover) {
+    opacity: 0.9;
+  }
+
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .lightbox-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+  }
+
+  .lightbox-img {
+    position: relative;
+    z-index: 1;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    z-index: 2;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+    padding: 0.25rem;
+  }
+
+  .lightbox-close:hover {
+    opacity: 1;
   }
 
   .content :global(ul),
@@ -196,6 +263,39 @@ const { Content } = await post.render();
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Lightbox
+    const lightbox = document.getElementById('lightbox') as HTMLElement;
+    const lightboxImg = lightbox.querySelector('.lightbox-img') as HTMLImageElement;
+    const lightboxBackdrop = lightbox.querySelector('.lightbox-backdrop') as HTMLElement;
+    const lightboxClose = lightbox.querySelector('.lightbox-close') as HTMLButtonElement;
+
+    function openLightbox(src: string, alt: string) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt;
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.content img').forEach((img) => {
+      (img as HTMLImageElement).addEventListener('click', () => {
+        openLightbox((img as HTMLImageElement).src, img.alt);
+      });
+    });
+
+    lightboxBackdrop.addEventListener('click', closeLightbox);
+    lightboxClose.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Heart button
     const heartButton = document.querySelector('.heart-button') as HTMLButtonElement;
 
     if (!heartButton) return;
