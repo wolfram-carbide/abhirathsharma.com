@@ -8,7 +8,7 @@ size: L
 
 ### The ratings game
 
-As I descend down the stairs with my luggage, I am greeted by the manager of cute little hotel overlooking the windmills in Mykonos. She asks us - "So how was your stay? We realise it was off-season but hope you had a good one". She was right. Mykonos, the party island, felt deserted. Many shops were closed, the sea too cold for a swim and the roads empty. But I had a great time. Traffic wasn't a problem, the 70km/ hour winds were oddly relaxing and the solace - much needed. So I reply, "It was great, no complaints."
+As I descend down the stairs with my luggage, I am greeted by the manager of the cute little hotel. From her desk, she can see the ocean, the historic windmills, and the moving clouds. She asks us - "So how was your stay? We realise it was off-season but hope you had a good one". She was right. Mykonos, the party island, felt deserted. Many shops were closed, the sea too cold for a swim and the roads empty. But I had a great time. Traffic wasn't a problem, the 70km/ hour winds were oddly relaxing and the solace - much needed. So I reply, "It was great, no complaints."
 
  An hour later, as I board my ferry to Athens, I get a notification to rate the hotel on booking.com. 8 feels like a downgrade, 10 feels excessive so I settle on a 9.
 
