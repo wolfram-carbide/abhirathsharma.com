@@ -1,12 +1,12 @@
 ---
-title: "It's easier to rate 5-on-5 than 10-on-10"
+title: "It's easier to rate 5/5 than 10/10"
 date: 2026-04-25
 description: "Obsessing over ratings and scales in Greece"
 tags: ["travel", "behaviour", "product"]
 size: L
 ---
 
-### Obsessing about ratings in Greece
+### The ratings game
 
 As I descend down the stairs with my luggage, I am greeted by the manager of cute little hotel overlooking the windmills in Mykonos. She asks us - "So how was your stay? We realise it was off-season but hope you had a good one". She was right. Mykonos, the party island, felt deserted. Many shops were closed, the sea too cold for a swim and the roads empty. But I had a great time. Traffic wasn't a problem, the 70km/ hour winds were oddly relaxing and the solace - much needed. So I reply, "It was great, no complaints."
 
