@@ -22,7 +22,7 @@ A few days later, it is time to rate our Airbnb in Athens. The host was super ni
 
 Now had the Mykonos property been an Airbnb, I would have rated it 5 stars. And had the Athens property been on Booking.com, I would have hesitated giving it 10-on-10. It felt too perfect a score. I would have settled on a 9.5.
 
-This is when I realised - **it is easy to rate 5/5 than 10/10. **
+This is when I realised - **it is easy to rate 5/5 than 10/10.**
 
 ### Politeness tax leads to high median ratings
 
