@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import NarwhalCursor from '../components/NarwhalCursor.astro';
 
 interface Props {
   title: string;
@@ -19,6 +20,7 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
   </head>
   <body>
+    <NarwhalCursor />
     <header>
       <nav>
         <a href="/writing" class={currentPath.startsWith('/writing') ? 'active' : ''}>Writing</a>
