@@ -2,7 +2,7 @@
 title: "Einstein was brilliant, but not because of his brain mass"
 date: 2026-03-01
 description: "His gift was asking the simplest of questions"
-tags: ["science", "historu"]
+tags: ["science", "history"]
 size: M
 ---
 When I was a kid, my father bought me a couple of "Dead Famous" books. I loved them. I can still read them all over again. One of them was about Albert Einstein. The book was interspersed with comics and silly jokes as it attempted to explain Einstein's equations and his life. As a teenager who wanted to appear smart in front of his friends, I memorised some of those equations and understood what time dilation meant under the influence of gravity.
