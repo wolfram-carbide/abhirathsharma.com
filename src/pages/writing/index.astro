@@ -21,11 +21,15 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].s
   </div>
 
   <div class="filter-bar">
-    <div class="filter-tags" role="group" aria-label="Filter by tag">
-      <button class="filter-tag active" data-tag="all">All</button>
-      {allTags.map((tag) => (
-        <button class="filter-tag" data-tag={tag}>{tag}</button>
-      ))}
+    <button class="filter-tag filter-tag--all active" data-tag="all">All</button>
+    <div class="marquee-viewport">
+      <div class="marquee-track" id="marquee-track">
+        <div class="marquee-set" id="marquee-set-primary" role="group" aria-label="Filter by tag">
+          {allTags.map((tag) => (
+            <button class="filter-tag" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+      </div>
     </div>
     <button class="sort-btn" id="sort-btn" data-order="desc" aria-label="Toggle sort order">
       Latest first
@@ -120,18 +124,52 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].s
   .filter-bar {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-bottom: 2.5rem;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 2px;
   }
 
-  .filter-tags {
+  .filter-tag--all {
+    flex-shrink: 0;
+  }
+
+  .marquee-viewport {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  .marquee-viewport--static {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .marquee-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: marquee-scroll var(--marquee-duration, 22s) linear infinite;
+  }
+
+  .marquee-viewport:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-set {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    flex-shrink: 0;
+    padding: 0 0.5rem;
+  }
+
+  @keyframes marquee-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none !important; }
   }
 
   .filter-tag {
@@ -180,13 +218,18 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].s
 
   @media (max-width: 640px) {
     .filter-bar {
-      gap: 0.6rem;
+      gap: 0.5rem;
     }
 
     .filter-tag,
     .sort-btn {
       font-size: 0.7rem;
       padding: 0.25rem 0.6rem;
+    }
+
+    .marquee-viewport {
+      mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
     }
   }
 
@@ -307,10 +350,38 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].s
   const list = document.getElementById('post-list');
   const noResults = document.getElementById('no-results');
   const sortBtn = document.getElementById('sort-btn') as HTMLButtonElement;
-  const tagBtns = document.querySelectorAll<HTMLButtonElement>('.filter-tag');
+  const marqueeTrack = document.getElementById('marquee-track') as HTMLDivElement | null;
+  const primarySet = document.getElementById('marquee-set-primary') as HTMLDivElement | null;
+  const marqueeViewport = marqueeTrack?.closest<HTMLDivElement>('.marquee-viewport') ?? null;
 
   let selectedTags = new Set<string>();
   let sortOrder: 'desc' | 'asc' = 'desc';
+
+  // ---- Marquee setup ----
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (marqueeTrack && primarySet) {
+    const tagCount = primarySet.querySelectorAll('.filter-tag').length;
+
+    if (tagCount < 4 || reducedMotion) {
+      marqueeTrack.style.animation = 'none';
+      marqueeViewport?.classList.add('marquee-viewport--static');
+    } else {
+      const duration = Math.min(60, Math.max(14, tagCount * 1.8));
+      marqueeTrack.style.setProperty('--marquee-duration', `${duration}s`);
+
+      const clone = primarySet.cloneNode(true) as HTMLDivElement;
+      clone.removeAttribute('id');
+      clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('button').forEach((btn) => btn.setAttribute('tabindex', '-1'));
+      marqueeTrack.appendChild(clone);
+    }
+  }
+
+  // ---- Filter helpers ----
+  function getAllTagBtns(): NodeListOf<HTMLButtonElement> {
+    return document.querySelectorAll<HTMLButtonElement>('.filter-tag');
+  }
 
   function getItems() {
     return Array.from(list?.querySelectorAll<HTMLLIElement>('li') ?? []);
@@ -319,15 +390,12 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].s
   function applyFilters() {
     const items = getItems();
     let visible = 0;
-
     for (const item of items) {
       const tags = item.dataset.tags ? item.dataset.tags.split(',').filter(Boolean) : [];
-      const matches =
-        selectedTags.size === 0 || tags.some((t) => selectedTags.has(t));
+      const matches = selectedTags.size === 0 || tags.some((t) => selectedTags.has(t));
       item.hidden = !matches;
       if (matches) visible++;
     }
-
     if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
   }
 
@@ -342,31 +410,35 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].s
     for (const item of items) list.appendChild(item);
   }
 
-  tagBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const tag = btn.dataset.tag!;
-
-      if (tag === 'all') {
-        selectedTags.clear();
+  function updateActiveStates() {
+    getAllTagBtns().forEach((b) => {
+      if (b.dataset.tag === 'all') {
+        b.classList.toggle('active', selectedTags.size === 0);
       } else {
-        if (selectedTags.has(tag)) {
-          selectedTags.delete(tag);
-        } else {
-          selectedTags.add(tag);
-        }
+        b.classList.toggle('active', selectedTags.has(b.dataset.tag!));
       }
-
-      // Update active states
-      tagBtns.forEach((b) => {
-        if (b.dataset.tag === 'all') {
-          b.classList.toggle('active', selectedTags.size === 0);
-        } else {
-          b.classList.toggle('active', selectedTags.has(b.dataset.tag!));
-        }
-      });
-
-      applyFilters();
     });
+  }
+
+  // ---- Event delegation: catches "All" + primary + clone buttons ----
+  const filterBar = document.querySelector('.filter-bar');
+  filterBar?.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest<HTMLButtonElement>('.filter-tag');
+    if (!btn) return;
+
+    const tag = btn.dataset.tag!;
+    if (tag === 'all') {
+      selectedTags.clear();
+    } else {
+      if (selectedTags.has(tag)) {
+        selectedTags.delete(tag);
+      } else {
+        selectedTags.add(tag);
+      }
+    }
+
+    updateActiveStates();
+    applyFilters();
   });
 
   sortBtn?.addEventListener('click', () => {
