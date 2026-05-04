@@ -5,6 +5,8 @@ import { getCollection } from 'astro:content';
 const allPosts = (await getCollection('posts')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].sort();
 ---
 
 <BaseLayout title="Writing">
@@ -18,35 +20,50 @@ const allPosts = (await getCollection('posts')).sort(
     <span class="size-item"><span class="size-badge size-xl">XL</span>15+m</span>
   </div>
 
+  <div class="filter-bar">
+    <div class="filter-tags" role="group" aria-label="Filter by tag">
+      <button class="filter-tag active" data-tag="all">All</button>
+      {allTags.map((tag) => (
+        <button class="filter-tag" data-tag={tag}>{tag}</button>
+      ))}
+    </div>
+    <button class="sort-btn" id="sort-btn" data-order="desc" aria-label="Toggle sort order">
+      Latest first
+    </button>
+  </div>
+
   {allPosts.length === 0 ? (
     <p class="muted">No posts yet.</p>
   ) : (
-    <ul class="post-list">
-      {allPosts.map((post) => (
-        <li>
-          <a href={`/writing/${post.slug}`}>
-            <div class="title-row">
-              <h2>{post.data.title}</h2>
-              {post.data.size && (
-                <span class={`size-badge size-${post.data.size.toLowerCase()}`}>{post.data.size}</span>
-              )}
-            </div>
-            {post.data.tags && post.data.tags.length > 0 && (
-              <div class="tags">
-                {post.data.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
+    <>
+      <ul class="post-list" id="post-list">
+        {allPosts.map((post) => (
+          <li data-tags={post.data.tags?.join(',') ?? ''} data-date={post.data.date.valueOf()}>
+            <a href={`/writing/${post.slug}`}>
+              <div class="title-row">
+                <h2>{post.data.title}</h2>
+                {post.data.size && (
+                  <span class={`size-badge size-${post.data.size.toLowerCase()}`}>{post.data.size}</span>
+                )}
               </div>
-            )}
-            {post.data.description && <p>{post.data.description}</p>}
-            <time class="date">{post.data.date.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short'
-            })}</time>
-          </a>
-        </li>
-      ))}
-    </ul>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="tags">
+                  {post.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+              {post.data.description && <p>{post.data.description}</p>}
+              <time class="date">{post.data.date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short'
+              })}</time>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="no-results muted" id="no-results">No posts match the selected filter.</p>
+    </>
   )}
 </BaseLayout>
 
@@ -63,7 +80,7 @@ const allPosts = (await getCollection('posts')).sort(
     padding: 0.75rem 1rem;
     background: var(--color-bg-secondary, #f8f9fa);
     border-radius: 6px;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
     font-size: 0.85rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -99,6 +116,81 @@ const allPosts = (await getCollection('posts')).sort(
     }
   }
 
+  /* Filter bar */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+
+  .filter-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .filter-tag {
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  .filter-tag:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .filter-tag.active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .sort-btn {
+    margin-left: auto;
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .sort-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .filter-bar {
+      gap: 0.6rem;
+    }
+
+    .filter-tag,
+    .sort-btn {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+    }
+  }
+
+  /* Post list */
   .post-list {
     list-style: none;
   }
@@ -111,6 +203,10 @@ const allPosts = (await getCollection('posts')).sort(
 
   .post-list li:last-child {
     border-bottom: none;
+  }
+
+  .post-list li[hidden] {
+    display: none;
   }
 
   .title-row {
@@ -201,4 +297,81 @@ const allPosts = (await getCollection('posts')).sort(
   .muted {
     color: var(--color-muted);
   }
+
+  .no-results {
+    display: none;
+  }
 </style>
+
+<script>
+  const list = document.getElementById('post-list');
+  const noResults = document.getElementById('no-results');
+  const sortBtn = document.getElementById('sort-btn') as HTMLButtonElement;
+  const tagBtns = document.querySelectorAll<HTMLButtonElement>('.filter-tag');
+
+  let selectedTags = new Set<string>();
+  let sortOrder: 'desc' | 'asc' = 'desc';
+
+  function getItems() {
+    return Array.from(list?.querySelectorAll<HTMLLIElement>('li') ?? []);
+  }
+
+  function applyFilters() {
+    const items = getItems();
+    let visible = 0;
+
+    for (const item of items) {
+      const tags = item.dataset.tags ? item.dataset.tags.split(',').filter(Boolean) : [];
+      const matches =
+        selectedTags.size === 0 || tags.some((t) => selectedTags.has(t));
+      item.hidden = !matches;
+      if (matches) visible++;
+    }
+
+    if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  function applySort() {
+    if (!list) return;
+    const items = getItems();
+    items.sort((a, b) => {
+      const da = Number(a.dataset.date ?? 0);
+      const db = Number(b.dataset.date ?? 0);
+      return sortOrder === 'desc' ? db - da : da - db;
+    });
+    for (const item of items) list.appendChild(item);
+  }
+
+  tagBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag!;
+
+      if (tag === 'all') {
+        selectedTags.clear();
+      } else {
+        if (selectedTags.has(tag)) {
+          selectedTags.delete(tag);
+        } else {
+          selectedTags.add(tag);
+        }
+      }
+
+      // Update active states
+      tagBtns.forEach((b) => {
+        if (b.dataset.tag === 'all') {
+          b.classList.toggle('active', selectedTags.size === 0);
+        } else {
+          b.classList.toggle('active', selectedTags.has(b.dataset.tag!));
+        }
+      });
+
+      applyFilters();
+    });
+  });
+
+  sortBtn?.addEventListener('click', () => {
+    sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+    sortBtn.textContent = sortOrder === 'desc' ? 'Latest first' : 'Earliest first';
+    applySort();
+  });
+</script>
