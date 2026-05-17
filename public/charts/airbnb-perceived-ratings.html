@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airbnb: Mathematical vs. Perceived Rating Difference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --page-bg: #FAF9F7;
+      --text-primary: #1A1410;
+      --text-secondary: #6B5E54;
+      --text-tertiary: #9E918A;
+      --copper: #C17F59;
+      --navy: #2c5282;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page-bg: #1C1714;
+        --text-primary: #F0EAE4;
+        --text-secondary: #B5A89E;
+        --text-tertiary: #7A6E68;
+        --copper: #D4956F;
+        --navy: #5A7FBE;
+      }
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      background: var(--page-bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-primary);
+    }
+
+    body { padding: 20px 16px 16px; }
+
+    .chart-title {
+      font-size: clamp(14px, 2.5vw, 18px);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .chart-subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(10px, 1.6vw, 12px);
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      margin-bottom: 14px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(10px, 1.6vw, 12px);
+      color: var(--text-secondary);
+    }
+
+    .legend-line {
+      width: 20px;
+      height: 2px;
+      flex-shrink: 0;
+    }
+
+    .legend-line.dashed {
+      background: repeating-linear-gradient(
+        to right,
+        currentColor 0px,
+        currentColor 4px,
+        transparent 4px,
+        transparent 8px
+      );
+    }
+
+    .chart-canvas-wrapper {
+      position: relative;
+      width: 100%;
+      height: 320px;
+    }
+
+    @media (max-width: 400px) {
+      .chart-canvas-wrapper { height: 260px; }
+    }
+
+    .chart-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(9px, 1.5vw, 11px);
+      color: var(--text-tertiary);
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 class="chart-title">Mathematical vs. perceived rating difference</h2>
+  <p class="chart-subtitle">How much better is a listing 0.1 points higher?</p>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-line dashed" style="color: var(--navy);"></div>
+      <span>Mathematical % difference (~2% per step)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-line" style="background: var(--copper); height: 3px;"></div>
+      <span>Perceived quality multiplier (illustrative)</span>
+    </div>
+  </div>
+
+  <div class="chart-canvas-wrapper">
+    <canvas id="perceivedChart"></canvas>
+  </div>
+
+  <p class="chart-note">
+    As ratings approach 5.0, the mathematical gap stays flat (~2%) but the perceived quality gap widens.
+    A 4.99 listing feels far more than 2% better than a 4.89. Perceived multiplier is illustrative.
+  </p>
+
+  <script>
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    let chart = null;
+
+    // From 4.0 to 5.0: how much better is X+0.1 than X?
+    const points = [
+      { rating: '4.0→4.1', mathPct: 2.5, perceived: 1.2 },
+      { rating: '4.1→4.2', mathPct: 2.4, perceived: 1.3 },
+      { rating: '4.2→4.3', mathPct: 2.4, perceived: 1.4 },
+      { rating: '4.3→4.4', mathPct: 2.3, perceived: 1.5 },
+      { rating: '4.4→4.5', mathPct: 2.3, perceived: 1.7 },
+      { rating: '4.5→4.6', mathPct: 2.2, perceived: 2.0 },
+      { rating: '4.6→4.7', mathPct: 2.2, perceived: 2.6 },
+      { rating: '4.7→4.8', mathPct: 2.2, perceived: 3.5 },
+      { rating: '4.8→4.9', mathPct: 2.1, perceived: 4.5 },
+      { rating: '4.9→5.0', mathPct: 2.1, perceived: 2.0 },
+    ];
+
+    const tooltipNotes = [
+      '4.1 is about 20% better in real quality than 4.0',
+      'Early gains: each 0.1 point is modest',
+      'Still a tangible but small quality improvement',
+      'Getting above 4.3 starts to matter to guests',
+      'Approaching the "safe to book" threshold',
+      'Below 4.6 starts to feel risky on Airbnb',
+      'The 4.7s: where the true competition begins',
+      '4.8 unlocks Superhost — a huge perceived leap',
+      '4.9 is Guest Favourite tier — aspirational',
+      '5.0 is a perfect score — rare, and guests know it',
+    ];
+
+    function getColors() {
+      const dark = mq.matches;
+      return {
+        copper:       dark ? '#D4956F' : '#C17F59',
+        navy:         dark ? '#5A7FBE' : '#2c5282',
+        grid:         dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+        tick:         dark ? '#7A6E68' : '#9E918A',
+        tooltipBg:    dark ? '#2E2520' : '#FFFFFF',
+        tooltipTitle: dark ? '#F0EAE4' : '#1A1410',
+        tooltipBody:  dark ? '#B5A89E' : '#6B5E54',
+        tooltipBorder:dark ? '#D4956F' : '#C17F59',
+      };
+    }
+
+    function buildChart() {
+      const c = getColors();
+      const ctx = document.getElementById('perceivedChart').getContext('2d');
+      if (chart) { chart.destroy(); chart = null; }
+
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: points.map(p => p.rating),
+          datasets: [
+            {
+              label: 'Perceived multiplier',
+              data: points.map(p => p.perceived),
+              borderColor: c.copper,
+              backgroundColor: c.copper + '18',
+              borderWidth: 2.5,
+              fill: true,
+              tension: 0.4,
+              pointBackgroundColor: c.copper,
+              pointBorderColor: c.copper,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              yAxisID: 'yLeft',
+              order: 1,
+            },
+            {
+              label: 'Math % difference',
+              data: points.map(p => p.mathPct),
+              borderColor: c.navy,
+              borderWidth: 1.5,
+              borderDash: [5, 4],
+              fill: false,
+              tension: 0.1,
+              pointBackgroundColor: c.navy,
+              pointBorderColor: c.navy,
+              pointRadius: 3,
+              pointHoverRadius: 5,
+              yAxisID: 'yRight',
+              order: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 8, right: 16 } },
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: c.tooltipBg,
+              titleColor: c.tooltipTitle,
+              bodyColor: c.tooltipBody,
+              borderColor: c.tooltipBorder,
+              borderWidth: 1,
+              cornerRadius: 6,
+              padding: { x: 12, y: 10 },
+              displayColors: false,
+              titleFont: { family: "'DM Sans', sans-serif", size: 13, weight: '600' },
+              bodyFont: { family: "'IBM Plex Mono', monospace", size: 11 },
+              callbacks: {
+                title: items => items[0].label,
+                label: item => {
+                  if (item.datasetIndex === 0)
+                    return ' Perceived: ' + item.raw.toFixed(1) + '× better';
+                  return ' Math diff: ~' + item.raw.toFixed(1) + '%';
+                },
+                afterBody: items => [' ', ' ' + tooltipNotes[items[0].dataIndex]],
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              border: { display: false },
+              ticks: {
+                font: { family: "'IBM Plex Mono', monospace", size: window.innerWidth < 480 ? 8 : 10 },
+                color: c.tick,
+                maxRotation: 30,
+              },
+            },
+            yLeft: {
+              type: 'linear',
+              position: 'left',
+              min: 0,
+              max: 6,
+              grid: { color: c.grid },
+              border: { display: false },
+              ticks: {
+                font: { family: "'IBM Plex Mono', monospace", size: window.innerWidth < 480 ? 9 : 11 },
+                color: c.tick,
+                callback: v => v + '×',
+              },
+              title: {
+                display: true,
+                text: 'Perceived multiplier',
+                font: { family: "'IBM Plex Mono', monospace", size: 10 },
+                color: c.tick,
+              },
+            },
+            yRight: {
+              type: 'linear',
+              position: 'right',
+              min: 0,
+              max: 6,
+              grid: { display: false },
+              border: { display: false },
+              ticks: {
+                font: { family: "'IBM Plex Mono', monospace", size: window.innerWidth < 480 ? 9 : 11 },
+                color: c.tick,
+                callback: v => v + '%',
+              },
+              title: {
+                display: true,
+                text: 'Math % difference',
+                font: { family: "'IBM Plex Mono', monospace", size: 10 },
+                color: c.tick,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    buildChart();
+    mq.addEventListener('change', buildChart);
+    window.addEventListener('resize', buildChart);
+  </script>
+</body>
+</html>
