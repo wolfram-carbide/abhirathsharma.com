@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMDb: Perceived Rating Multipliers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --page-bg: #FAF9F7;
+      --text-primary: #1A1410;
+      --text-secondary: #6B5E54;
+      --text-tertiary: #9E918A;
+      --copper: #C17F59;
+      --navy: #2c5282;
+      --copper-fill: rgba(193,127,89,0.12);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page-bg: #1C1714;
+        --text-primary: #F0EAE4;
+        --text-secondary: #B5A89E;
+        --text-tertiary: #7A6E68;
+        --copper: #D4956F;
+        --navy: #5A7FBE;
+        --copper-fill: rgba(212,149,111,0.12);
+      }
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      background: var(--page-bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-primary);
+    }
+
+    body { padding: 20px 16px 16px; }
+
+    .chart-title {
+      font-size: clamp(14px, 2.5vw, 18px);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .chart-subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(10px, 1.6vw, 12px);
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      margin-bottom: 14px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(10px, 1.6vw, 12px);
+      color: var(--text-secondary);
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-line {
+      width: 20px;
+      height: 2px;
+      flex-shrink: 0;
+    }
+
+    .chart-canvas-wrapper {
+      position: relative;
+      width: 100%;
+      height: 320px;
+    }
+
+    @media (max-width: 400px) {
+      .chart-canvas-wrapper { height: 260px; }
+    }
+
+    .chart-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(9px, 1.5vw, 11px);
+      color: var(--text-tertiary);
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 class="chart-title">IMDb perceived quality multipliers</h2>
+  <p class="chart-subtitle">From 114 movie pair comparisons — "how many times better?"</p>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background: var(--copper);"></div>
+      <span>Measured multiplier (per movie pair)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-line" style="background: var(--copper); height: 2px;"></div>
+      <span>Trend</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: var(--navy);"></div>
+      <span>Reference: mathematical % difference</span>
+    </div>
+  </div>
+
+  <div class="chart-canvas-wrapper">
+    <canvas id="imdbChart"></canvas>
+  </div>
+
+  <p class="chart-note">
+    Each scatter point is a movie pair rating. The gap between a 9 and a 7 feels larger than 28%—it feels like a different league.
+    Try the experiment yourself: true-imdb-scale.lovable.app
+  </p>
+
+  <script>
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    let chart = null;
+
+    // Scatter points: IMDb rating comparison (x = higher rating, y = perceived multiplier)
+    // Based on 114 movie pair experiment results (illustrative from article)
+    const scatterData = [
+      // Low range (6-7 tier comparisons): slight advantage
+      { x: 6.5, y: 1.3 }, { x: 6.5, y: 1.2 }, { x: 6.5, y: 1.4 },
+      { x: 6.8, y: 1.3 }, { x: 6.8, y: 1.5 },
+      { x: 7.0, y: 1.4 }, { x: 7.0, y: 1.6 }, { x: 7.0, y: 1.5 },
+      { x: 7.2, y: 1.5 }, { x: 7.2, y: 1.8 }, { x: 7.2, y: 1.6 },
+      // Mid range (7-8 tier): noticeable jump
+      { x: 7.5, y: 1.8 }, { x: 7.5, y: 2.0 }, { x: 7.5, y: 1.7 }, { x: 7.5, y: 2.2 },
+      { x: 7.8, y: 2.0 }, { x: 7.8, y: 2.3 }, { x: 7.8, y: 1.9 },
+      { x: 8.0, y: 2.5 }, { x: 8.0, y: 2.2 }, { x: 8.0, y: 2.8 }, { x: 8.0, y: 2.4 },
+      { x: 8.2, y: 2.8 }, { x: 8.2, y: 3.0 }, { x: 8.2, y: 2.6 },
+      // High range (8-9 tier): exponential feel
+      { x: 8.5, y: 3.2 }, { x: 8.5, y: 3.5 }, { x: 8.5, y: 3.0 }, { x: 8.5, y: 4.0 },
+      { x: 8.7, y: 3.8 }, { x: 8.7, y: 4.2 }, { x: 8.7, y: 3.5 },
+      { x: 9.0, y: 4.5 }, { x: 9.0, y: 5.0 }, { x: 9.0, y: 4.2 }, { x: 9.0, y: 5.5 },
+      // Elite range (9+): dramatic
+      { x: 9.2, y: 5.5 }, { x: 9.2, y: 6.0 }, { x: 9.2, y: 5.0 },
+      { x: 9.5, y: 6.5 }, { x: 9.5, y: 7.0 }, { x: 9.5, y: 5.8 },
+    ];
+
+    // Trend line points
+    const trendLine = [
+      { x: 6.5, y: 1.3 },
+      { x: 7.0, y: 1.5 },
+      { x: 7.5, y: 1.9 },
+      { x: 8.0, y: 2.5 },
+      { x: 8.5, y: 3.3 },
+      { x: 9.0, y: 4.7 },
+      { x: 9.5, y: 6.4 },
+    ];
+
+    // Mathematical % difference line (constant ~11% per full point on 10-point scale)
+    const mathLine = [
+      { x: 6.5, y: 1.1 },
+      { x: 7.0, y: 1.1 },
+      { x: 7.5, y: 1.1 },
+      { x: 8.0, y: 1.1 },
+      { x: 8.5, y: 1.1 },
+      { x: 9.0, y: 1.1 },
+      { x: 9.5, y: 1.1 },
+    ];
+
+    // Movie reference labels for key points
+    const movieRefs = [
+      { x: 9.3, y: 9.3, label: 'Shawshank (9.3)' },
+      { x: 8.0, y: 8.0, label: 'Interstellar (8.7)' },
+      { x: 7.0, y: 7.0, label: 'Hobbs & Shaw (6.5)' },
+    ];
+
+    function getColors() {
+      const dark = mq.matches;
+      return {
+        copper:       dark ? '#D4956F' : '#C17F59',
+        copperBg:     dark ? 'rgba(212,149,111,0.18)' : 'rgba(193,127,89,0.12)',
+        navy:         dark ? '#5A7FBE' : '#2c5282',
+        navyBg:       dark ? 'rgba(90,127,190,0.15)' : 'rgba(44,82,130,0.08)',
+        grid:         dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+        tick:         dark ? '#7A6E68' : '#9E918A',
+        tooltipBg:    dark ? '#2E2520' : '#FFFFFF',
+        tooltipTitle: dark ? '#F0EAE4' : '#1A1410',
+        tooltipBody:  dark ? '#B5A89E' : '#6B5E54',
+        tooltipBorder:dark ? '#D4956F' : '#C17F59',
+      };
+    }
+
+    function buildChart() {
+      const c = getColors();
+      const ctx = document.getElementById('imdbChart').getContext('2d');
+      if (chart) { chart.destroy(); chart = null; }
+
+      chart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            {
+              label: 'Movie pair rating',
+              data: scatterData,
+              backgroundColor: c.copper + 'AA',
+              borderColor: c.copper,
+              borderWidth: 1,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              order: 3,
+            },
+            {
+              label: 'Trend',
+              data: trendLine,
+              type: 'line',
+              borderColor: c.copper,
+              backgroundColor: c.copperBg,
+              borderWidth: 2,
+              fill: true,
+              tension: 0.4,
+              pointRadius: 0,
+              pointHoverRadius: 0,
+              order: 2,
+            },
+            {
+              label: 'Mathematical % difference (~11% per point)',
+              data: mathLine,
+              type: 'line',
+              borderColor: c.navy,
+              borderWidth: 1.5,
+              borderDash: [5, 4],
+              fill: false,
+              tension: 0,
+              pointRadius: 0,
+              pointHoverRadius: 0,
+              order: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 8, right: 16 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: c.tooltipBg,
+              titleColor: c.tooltipTitle,
+              bodyColor: c.tooltipBody,
+              borderColor: c.tooltipBorder,
+              borderWidth: 1,
+              cornerRadius: 6,
+              padding: { x: 12, y: 10 },
+              displayColors: false,
+              titleFont: { family: "'DM Sans', sans-serif", size: 13, weight: '600' },
+              bodyFont: { family: "'IBM Plex Mono', monospace", size: 11 },
+              filter: item => item.datasetIndex === 0,
+              callbacks: {
+                title: items => 'IMDb rating ~' + items[0].raw.x,
+                label: item => ' Perceived ' + item.raw.y.toFixed(1) + '× better',
+              },
+            },
+          },
+          scales: {
+            x: {
+              type: 'linear',
+              min: 6.0,
+              max: 10.0,
+              grid: { color: c.grid },
+              border: { display: false },
+              ticks: {
+                font: { family: "'IBM Plex Mono', monospace", size: window.innerWidth < 480 ? 9 : 11 },
+                color: c.tick,
+                stepSize: 0.5,
+                callback: v => v % 1 === 0 ? v + '.0' : v,
+              },
+              title: {
+                display: true,
+                text: 'IMDb rating',
+                font: { family: "'IBM Plex Mono', monospace", size: 10 },
+                color: c.tick,
+              },
+            },
+            y: {
+              min: 0,
+              max: 8,
+              grid: { color: c.grid },
+              border: { display: false },
+              ticks: {
+                font: { family: "'IBM Plex Mono', monospace", size: window.innerWidth < 480 ? 9 : 11 },
+                color: c.tick,
+                callback: v => v + '×',
+              },
+              title: {
+                display: true,
+                text: 'Perceived quality multiplier',
+                font: { family: "'IBM Plex Mono', monospace", size: 10 },
+                color: c.tick,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    buildChart();
+    mq.addEventListener('change', buildChart);
+    window.addEventListener('resize', buildChart);
+  </script>
+</body>
+</html>

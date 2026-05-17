@@ -38,8 +38,15 @@ Here's an apartment in Athens that is 4.79, but has been classified as being in 
 
 Here is what the overall distribution looks like across all Athens listings. Nearly everything is north of 4.5, and a median of 4.87. The scale is a 0.5-point range dressed up as a 5-point one. 
 
-![Athens-histogram](/images/posts/athens_rating_distribution_histogram.svg)
-*Source: https://insideairbnb.com/get-the-data/* 
+<iframe
+  src="/charts/athens-rating-distribution.html"
+  width="100%"
+  height="440"
+  style="border: none; border-radius: 6px; display: block;"
+  title="Athens Airbnb rating distribution histogram"
+  loading="lazy"
+></iframe>
+*Source: https://insideairbnb.com/get-the-data/*
 
 Airbnb's 2025 report said guest favourites on average are at 4.92. The same report mentions that 4.75 is the average listing rating. **So the average becomes a guest favourite in a gap of 0.17 points on the scale. Let that sink in!**
 
@@ -51,8 +58,15 @@ For Airbnb, each 0.1 point difference is harder to achieve as you get closer to 
 
 If Airbnb did an experiment in which they sent someone to all Airbnbs and askd them to compare 2 of them at a time with the question: how many times better was one than the other? Not 4.79 versus 4.99. Just - was this one twice as good? Or 5 times as good? Or 20%? The actual quality delta in mathematical vs. perceived ratings might look like this -->
 
-![Perceived-rating-Airbnb](/images/posts/Perceived-rating-Airbnb.png)
-*The magic here is - as we get close to the 4.7s, the % difference in ratings reduces but the perceived rating multiplier goes up. Perceived rating multiplier is illustrative*
+<iframe
+  src="/charts/airbnb-perceived-ratings.html"
+  width="100%"
+  height="420"
+  style="border: none; border-radius: 6px; display: block;"
+  title="Airbnb mathematical vs perceived rating difference"
+  loading="lazy"
+></iframe>
+*The magic here is - as we get close to the 4.7s, the % difference in ratings reduces but the perceived rating multiplier goes up. Perceived rating multiplier is illustrative.*
 
 ### To sum up
 
@@ -66,6 +80,13 @@ Summarising my Greek holiday here:
 
 The last point got me thinking about the IMDb ratings. They behave in a very similar fashion. A movie rated 9 or so is exponentially better than a movie rated 7 or so. So I conducted an experiment, and rated 114 movie pairs to find out my perceived rating multipliers. You can try it out here too: https://true-imdb-scale.lovable.app/. Here are my results: 
 
-![Perceived-rating-IMDb](/images/posts/Perceived-rating-IMDb.png)
+<iframe
+  src="/charts/imdb-perceived-ratings.html"
+  width="100%"
+  height="420"
+  style="border: none; border-radius: 6px; display: block;"
+  title="IMDb perceived rating multipliers from movie pair experiment"
+  loading="lazy"
+></iframe>
 
 Another post on the IMDb ratings coming hopefully soon. Stay tuned!
