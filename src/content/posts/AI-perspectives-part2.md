@@ -28,7 +28,8 @@ So, the memo becomes yours the moment it starts feeling like something you can r
 
 Human Narratives drive collective behaviour. Robert Shiller got a Nobel Prize for explaining this phenomenon. During the great depression in the 1920s, people postponed their purchases even if they had money. They did so to prepare for worse times or sometimes out of solidarity - "What will the suffering neighbours think? We are in this together". Companies shed workforce in the name of "depression" even when they didnt have to - rendering more poeple jobless. Such loops kept the great depression alive for long. 
 
-Currently, the narrative of "Let's change the way we work or we will get left behind" is one of several AI related narratives driving change. Exploring a 2nd order effect below:
+Currently, the narrative of "Let's change the way we work or we will get left behind" is one of several AI related narratives driving change. What's likely to happen from here on?
+
 	1. Following the narrative, some people working in the new way, because it is better. People justify it by saying that it saves time or produces better output. It does for the most part, but the driving force of collective behaviour change is the narrative.  
 	2. Then a new change comes up, and the changes stack on top of each other. 2 years later, companies that did not change their way of working might actually struggle if the learning curve of each stack is very steep. It's not necessarily because workflows will be 10x efficient, rather they will be 10x different. 
 
