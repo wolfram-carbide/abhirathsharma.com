@@ -30,8 +30,8 @@ Human Narratives drive collective behaviour. Robert Shiller got a Nobel Prize fo
 
 Currently, the narrative of "Let's change the way we work or we will get left behind" is one of several AI related narratives driving change. What's likely to happen from here on?
 
-	1. Following the narrative, some people working in the new way, because it is better. People justify it by saying that it saves time or produces better output. It does for the most part, but the driving force of collective behaviour change is the narrative.  
-	2. Then a new change comes up, and the changes stack on top of each other. 2 years later, companies that did not change their way of working might actually struggle if the learning curve of each stack is very steep. It's not necessarily because workflows will be 10x efficient, rather they will be 10x different. 
+1. Following the narrative, some people working in the new way, because it is better. People justify it by saying that it saves time or produces better output. It does for the most part, but the driving force of collective behaviour change is the narrative.
+2. Then a new change comes up, and the changes stack on top of each other. 2 years later, companies that did not change their way of working might actually struggle if the learning curve of each stack is very steep. It's not necessarily because workflows will be 10x efficient, rather they will be 10x different. 
 
 ## B2B customers are driving workflow change in different ways
 
