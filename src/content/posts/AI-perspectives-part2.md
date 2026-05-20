@@ -15,21 +15,21 @@ Here are some quick thoughts on AI adoption and productivity - part 2
 
 *The Ship of Theseus is an ancient philosophical thought experiment about identity. It questions whether a ship remains the same object if all of its components are gradually replaced over time.*
 
-I have some pride in the memos I wrote and slides I created without any AI assistance. They were artisanal, organic and handcrafted memos priced at a premium. 
+I have some pride in the memos I wrote and slides I created without any AI assistance. They were artisanal, organic and handcrafted artefacts priced at a premium. 
 
-If Claude replaces all the components of a memo, bit by bit, what would it take to call it yours and take pride in it?
+If Claude replaces all the components of your memo, bit by bit, what would it take to call it yours and take pride in it?
 
-If you are the "let's get by" kind, you would use AI to impress and move on. But if you are the kind who wants to get better, you would end up spending a bit more time to make the output yours. If Claude creates an artefact, you would get mad about sections that are sub-par. You would try to absorb some details so that you can defend it to your manager, and correct sections if they are bizarre. In short, you would not rubber stamp passively. You would quality check actively. 
+If you are the "let's get by" kind, you would use AI to impress and move on. But if you are the kind who wants to get better, you would end up spending a bit more time to make the output yours. If Claude creates an artefact, you would get mad about sections that are sub-par. You would try to absorb some details so that you can defend it to your manager, and correct sections if they are bizarre. You would not rubber stamp passively. Instead, you would quality check actively. 
 
-In short, the memo becomes yours the moment it starts feeling like something you can rubber stamp it  under your name, even if all of its components have been replaced.  
+So, the memo becomes yours the moment it starts feeling like something you can rubber stamp under your name, even if all of its components have been replaced. 
 
 
-## Narrative driving the shift
+## Narratives driving the shift
 
-Human Narratives drive collective behaviour. Robert Schiller got a nobel prize for proving this. During the great depression in the 1920s, people postponed their purchases even if they had money to prepare for worse times or sometimes out of solidarity - "What will the suffering neighbours think? We are in this together". This positive feedback loop kept the great depression alive.
+Human Narratives drive collective behaviour. Robert Shiller got a Nobel Prize for explaining this phenomenon. During the great depression in the 1920s, people postponed their purchases even if they had money. They did so to prepare for worse times or sometimes out of solidarity - "What will the suffering neighbours think? We are in this together". Companies shed workforce in the name of "depression" even when they didnt have to - rendering more poeple jobless. Such loops kept the great depression alive for long. 
 
-Currently, the narrative of "Let's change the way we work or we will get left behind" is driving change.
-	1. And then everyone else starts working in the new way, because it is better. People justify it by saying that it saves time or produces better output. It does for the most part, but the driving narrative of collective behaviour is "This is the new way of working. Adapt or get left behind"
+Currently, the narrative of "Let's change the way we work or we will get left behind" is one of several AI related narratives driving change. Exploring a 2nd order effect below:
+	1. Following the narrative, some people working in the new way, because it is better. People justify it by saying that it saves time or produces better output. It does for the most part, but the driving force of collective behaviour change is the narrative.  
 	2. Then a new change comes up, and the changes stack on top of each other. 2 years later, companies that did not change their way of working might actually struggle if the learning curve of each stack is very steep. It's not necessarily because workflows will be 10x efficient, rather they will be 10x different. 
 
 ## B2B customers are driving workflow change in different ways
