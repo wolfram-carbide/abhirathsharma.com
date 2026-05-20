@@ -32,7 +32,7 @@ Currently, the narrative of "Let's change the way we work or we will get left be
 	1. And then everyone else starts working in the new way, because it is better. People justify it by saying that it saves time or produces better output. It does for the most part, but the driving narrative of collective behaviour is "This is the new way of working. Adapt or get left behind"
 	2. Then a new change comes up, and the changes stack on top of each other. 2 years later, companies that did not change their way of working might actually struggle if the learning curve of each stack is very steep. It's not necessarily because workflows will be 10x efficient, rather they will be 10x different. 
 
-## B2B customers are driving workflow change in different ways**
+## B2B customers are driving workflow change in different ways
 
 It is no longer clear who will drive change for B2B firms. The slowest moving customers will add to maintenance overhead while others push for change. Like doctors in the US, who have to deal with software overhead, B2B firms might have to keep multiple operating models, and software systems alive (https://www.economist.com/united-states/2025/12/11/american-doctors-are-rich-and-miserable)
 	1. In the past, for B2B companies, slowest steps in the reaction dictated pace of change, and add to maintenance overhead.
