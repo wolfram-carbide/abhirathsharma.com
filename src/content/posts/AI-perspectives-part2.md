@@ -1,7 +1,7 @@
 ---
 title: "AI narratives and frenzy"
 description: "Some quick thoughts - part 2"
-date: 2026-05-04
+date: 2026-05-20
 tags:
     - AI
     - behaviour
