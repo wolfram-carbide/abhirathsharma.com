@@ -16,8 +16,8 @@ const totalListings = 15584;
 const maxCount = Math.max(...ratings.map((d) => d.count));
 const maxShare = Math.max(...ratings.map((d) => (d.count / totalRated) * 100));
 const width = 820;
-const height = 430;
-const plot = { left: 64, right: 52, top: 62, bottom: 306 };
+const height = 460;
+const plot = { left: 64, right: 64, top: 94, bottom: 326 };
 const plotWidth = width - plot.left - plot.right;
 const plotHeight = plot.bottom - plot.top;
 const barGap = 3;
@@ -27,7 +27,7 @@ const ticks = [0, 1, 2, 3, 4].map((i) => Math.round((maxCount * i) / 4));
 const yForCount = (count: number) => plot.bottom - (count / maxCount) * plotHeight;
 const xForIndex = (index: number) => plot.left + index * (barWidth + barGap);
 const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
-const labelRatings = new Set(['4.8', '4.9', '5.0']);
+const labelRatings = new Set(['5.0']);
 ---
 
 <figure class="rating-chart" data-athens-rating-chart data-total-rated={totalRated} data-max-count={maxCount} data-max-share={maxShare.toFixed(4)} aria-label="Athens Airbnb ratings distribution">
@@ -79,7 +79,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
               tabindex="0"
             />
             {labelRatings.has(d.rating) && (
-              <text class="bar-label" data-bar-label data-rating={d.rating} data-count={d.count} data-share={share.toFixed(1)} x={x + barWidth / 2} y={y - 10} text-anchor="middle">
+              <text class="bar-label" data-bar-label data-rating={d.rating} data-count={d.count} data-share={share.toFixed(1)} x={x + barWidth / 2} y={y - 12} text-anchor="middle">
                 {d.count.toLocaleString()}
               </text>
             )}
@@ -92,8 +92,8 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
 
       <line class="threshold copper" x1={xForIndex(38) + barWidth / 2} y1={plot.top} x2={xForIndex(38) + barWidth / 2} y2={plot.bottom} />
       <line class="threshold grey" x1={xForIndex(39) + barWidth / 2} y1={plot.top} x2={xForIndex(39) + barWidth / 2} y2={plot.bottom} />
-      <text class="threshold-label copper" x={xForIndex(38) - 116} y={plot.top + 20}>Superhost minimum</text>
-      <text class="threshold-label grey" x={xForIndex(39) - 82} y={plot.top + 44}>Guest Favorite</text>
+      <text class="threshold-label copper" x={xForIndex(38) - 126} y={plot.top - 42}>Superhost minimum</text>
+      <text class="threshold-label grey" x={xForIndex(39) - 92} y={plot.top - 20}>Guest Favorite</text>
     </svg>
     <div class="tooltip" data-tooltip hidden></div>
   </div>
@@ -288,8 +288,8 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
     const totalRated = Number(chart.dataset.totalRated);
     const maxCount = Number(chart.dataset.maxCount);
     const maxShare = Number(chart.dataset.maxShare);
-    const plotBottom = 306;
-    const plotHeight = 244;
+    const plotBottom = 326;
+    const plotHeight = 232;
     const bars = Array.from(chart.querySelectorAll('[data-bar]'));
     const yTicks = Array.from(chart.querySelectorAll('[data-y-tick]'));
     const barLabels = Array.from(chart.querySelectorAll('[data-bar-label]'));
@@ -327,7 +327,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
       barLabels.forEach((label) => {
         const bar = bars.find((item) => item.dataset.rating === label.dataset.rating);
         const y = Number(bar.getAttribute('y'));
-        label.setAttribute('y', String(y - 10));
+        label.setAttribute('y', String(y - 12));
         label.textContent = mode === 'share' ? formatShare(label.dataset.share) : formatCount(label.dataset.count);
       });
 
