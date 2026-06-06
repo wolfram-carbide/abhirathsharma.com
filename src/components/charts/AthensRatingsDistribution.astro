@@ -16,8 +16,8 @@ const totalListings = 15584;
 const maxCount = Math.max(...ratings.map((d) => d.count));
 const maxShare = Math.max(...ratings.map((d) => (d.count / totalRated) * 100));
 const width = 820;
-const height = 450;
-const plot = { left: 58, right: 24, top: 62, bottom: 330 };
+const height = 430;
+const plot = { left: 64, right: 52, top: 62, bottom: 306 };
 const plotWidth = width - plot.left - plot.right;
 const plotHeight = plot.bottom - plot.top;
 const barGap = 3;
@@ -26,11 +26,11 @@ const ticks = [0, 1, 2, 3, 4].map((i) => Math.round((maxCount * i) / 4));
 
 const yForCount = (count: number) => plot.bottom - (count / maxCount) * plotHeight;
 const xForIndex = (index: number) => plot.left + index * (barWidth + barGap);
-const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '4.9', '5.0']);
+const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
 const labelRatings = new Set(['4.8', '4.9', '5.0']);
 ---
 
-<figure class="rating-chart" data-athens-rating-chart data-total-rated={totalRated} data-max-count={maxCount} data-max-share={maxShare.toFixed(4)}>
+<figure class="rating-chart" data-athens-rating-chart data-total-rated={totalRated} data-max-count={maxCount} data-max-share={maxShare.toFixed(4)} aria-label="Athens Airbnb ratings distribution">
   <div class="chart-head">
     <div>
       <h3>Athens Airbnb ratings distribution</h3>
@@ -43,10 +43,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
   </div>
 
   <div class="chart-canvas">
-    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby="athens-rating-title athens-rating-desc">
-      <title id="athens-rating-title">Athens Airbnb ratings distribution</title>
-      <desc id="athens-rating-desc">Interactive histogram of Athens Airbnb review scores, binned by 0.1 rating increments.</desc>
-
+    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Interactive histogram of Athens Airbnb review scores, binned by 0.1 rating increments">
       {ticks.map((tick) => {
         const y = yForCount(tick);
         return (
@@ -59,7 +56,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
 
       <line class="axis" x1={plot.left} y1={plot.bottom} x2={plot.left + plotWidth} y2={plot.bottom} />
       <text class="axis-label" x={plot.left + plotWidth / 2} y={height - 24} text-anchor="middle">Rating</text>
-      <text class="axis-label" x="16" y={plot.top + plotHeight / 2} transform={`rotate(-90 16 ${plot.top + plotHeight / 2})`} text-anchor="middle">Number of listings</text>
+      <text class="axis-label" data-y-axis-label x="18" y={plot.top + plotHeight / 2} transform={`rotate(-90 18 ${plot.top + plotHeight / 2})`} text-anchor="middle">Number of listings</text>
 
       {ratings.map((d, index) => {
         const x = xForIndex(index);
@@ -74,8 +71,6 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
               data-rating={d.rating}
               data-count={d.count}
               data-share={share.toFixed(3)}
-              data-x={x.toFixed(2)}
-              data-width={barWidth.toFixed(2)}
               x={x}
               y={y}
               width={barWidth}
@@ -97,8 +92,8 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
 
       <line class="threshold copper" x1={xForIndex(38) + barWidth / 2} y1={plot.top} x2={xForIndex(38) + barWidth / 2} y2={plot.bottom} />
       <line class="threshold grey" x1={xForIndex(39) + barWidth / 2} y1={plot.top} x2={xForIndex(39) + barWidth / 2} y2={plot.bottom} />
-      <text class="threshold-label copper" x={xForIndex(38) - 74} y={plot.top + 18}>Superhost minimum</text>
-      <text class="threshold-label grey" x={xForIndex(39) - 34} y={plot.top + 42}>Guest Favorite</text>
+      <text class="threshold-label copper" x={xForIndex(38) - 116} y={plot.top + 20}>Superhost minimum</text>
+      <text class="threshold-label grey" x={xForIndex(39) - 82} y={plot.top + 44}>Guest Favorite</text>
     </svg>
     <div class="tooltip" data-tooltip hidden></div>
   </div>
@@ -118,6 +113,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
     background: var(--bg);
     border-radius: 6px;
     color: var(--text);
+    overflow: visible;
   }
 
   .chart-head {
@@ -125,7 +121,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
     justify-content: space-between;
     gap: 1rem;
     align-items: flex-start;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.65rem;
   }
 
   h3 {
@@ -169,13 +165,16 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
   .chart-canvas {
     position: relative;
     overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: thin;
   }
 
   svg {
     display: block;
     width: 100%;
-    min-width: 680px;
+    min-width: 640px;
     height: auto;
+    overflow: visible;
   }
 
   .y-tick line {
@@ -187,7 +186,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
   .x-tick,
   .bar-label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10.5px;
     fill: var(--muted);
   }
 
@@ -203,7 +202,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
 
   .axis-label {
     font-family: var(--font-heading);
-    font-size: 13px;
+    font-size: 12px;
     fill: var(--text);
   }
 
@@ -289,14 +288,14 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
     const totalRated = Number(chart.dataset.totalRated);
     const maxCount = Number(chart.dataset.maxCount);
     const maxShare = Number(chart.dataset.maxShare);
-    const plotTop = 62;
-    const plotBottom = 330;
-    const plotHeight = plotBottom - plotTop;
+    const plotBottom = 306;
+    const plotHeight = 244;
     const bars = Array.from(chart.querySelectorAll('[data-bar]'));
     const yTicks = Array.from(chart.querySelectorAll('[data-y-tick]'));
     const barLabels = Array.from(chart.querySelectorAll('[data-bar-label]'));
     const tooltip = chart.querySelector('[data-tooltip]');
     const buttons = Array.from(chart.querySelectorAll('[data-mode]'));
+    const yAxisLabel = chart.querySelector('[data-y-axis-label]');
 
     function formatShare(value) {
       return `${Number(value).toFixed(1)}%`;
@@ -336,7 +335,22 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
         button.setAttribute('aria-pressed', String(button.dataset.mode === mode));
       });
 
+      if (yAxisLabel) {
+        yAxisLabel.textContent = mode === 'share' ? 'Share of rated listings' : 'Number of listings';
+      }
+
       chart.dataset.mode = mode;
+    }
+
+    function positionTooltip(event, target) {
+      if ('clientX' in event && event.clientX) {
+        tooltip.style.left = `${event.clientX}px`;
+        tooltip.style.top = `${event.clientY}px`;
+        return;
+      }
+      const box = target.getBoundingClientRect();
+      tooltip.style.left = `${box.left + box.width / 2}px`;
+      tooltip.style.top = `${box.top}px`;
     }
 
     function showTooltip(event, bar) {
@@ -344,8 +358,7 @@ const labelRatings = new Set(['4.8', '4.9', '5.0']);
       const share = (count / totalRated) * 100;
       tooltip.innerHTML = `<strong>${bar.dataset.rating}</strong><br>${count.toLocaleString()} listings<br>${share.toFixed(1)}% of rated listings`;
       tooltip.hidden = false;
-      tooltip.style.left = `${event.clientX}px`;
-      tooltip.style.top = `${event.clientY}px`;
+      positionTooltip(event, bar);
     }
 
     buttons.forEach((button) => button.addEventListener('click', () => update(button.dataset.mode)));
