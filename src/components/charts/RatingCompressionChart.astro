@@ -1,0 +1,327 @@
+---
+interface Props {
+  kind: 'airbnb' | 'imdb';
+}
+
+const { kind } = Astro.props;
+
+const configs = {
+  airbnb: {
+    title: 'Airbnb',
+    start: 4.0,
+    steps: 10,
+    pctMax: 3,
+    multiplierMax: 3,
+    multiplierTicks: [1, 2, 3],
+    xTickIndexes: [0, 2, 4, 6, 7, 8, 9],
+    multiplier: [1.0, 1.06, 1.13, 1.22, 1.34, 1.5, 1.72, 2.05, 2.45, 3.0],
+    note: 'The perceived curve accelerates around 4.7-5.0, where Airbnb ratings become most compressed.',
+  },
+  imdb: {
+    title: 'IMDb',
+    start: 7.0,
+    steps: 25,
+    pctMax: 2,
+    multiplierMax: 2.4,
+    multiplierTicks: [1, 1.5, 2],
+    xTickIndexes: [0, 5, 10, 15, 20, 24],
+    multiplier: Array.from({ length: 25 }, (_, index) => {
+      const t = index / 24;
+      return 1 + 1.2 * (0.55 * t + 0.45 * t ** 1.35);
+    }),
+    note: 'The IMDb curve is gentler: the scale has more headroom, so each visible jump does less work.',
+  },
+};
+
+const config = configs[kind];
+const width = 820;
+const height = 430;
+const plot = { left: 60, right: 104, top: 58, bottom: 312 };
+const plotWidth = width - plot.left - plot.right;
+const plotHeight = plot.bottom - plot.top;
+const stepWidth = plotWidth / config.steps;
+const barWidth = stepWidth * (config.steps <= 10 ? 0.62 : 0.56);
+
+const points = Array.from({ length: config.steps }, (_, index) => {
+  const rating = config.start + index * 0.1;
+  const nextRating = rating + 0.1;
+  const pctGain = (0.1 / rating) * 100;
+  const multiplier = config.multiplier[index];
+  const x = plot.left + stepWidth * (index + 0.5);
+  const barHeight = (pctGain / config.pctMax) * plotHeight;
+  const barY = plot.bottom - barHeight;
+  const lineY = plot.bottom - ((multiplier - 1) / (config.multiplierMax - 1)) * plotHeight;
+  return {
+    rating,
+    nextRating,
+    pctGain,
+    multiplier,
+    x,
+    barY,
+    barHeight,
+    lineY,
+  };
+});
+
+const pctTicks = [0, config.pctMax / 3, (config.pctMax * 2) / 3, config.pctMax];
+const linePoints = points.map((point) => `${point.x.toFixed(1)},${point.lineY.toFixed(1)}`).join(' ');
+const fmtRating = (value: number) => value.toFixed(1);
+const fmtPct = (value: number) => `${value.toFixed(2)}%`;
+const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
+---
+
+<figure class="compression-chart" data-compression-chart>
+  <div class="chart-head">
+    <h3>{config.title}</h3>
+    <p>{config.note}</p>
+  </div>
+
+  <div class="chart-canvas">
+    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={`${kind}-compression-title ${kind}-compression-desc`}>
+      <title id={`${kind}-compression-title`}>{config.title} rating increment compression</title>
+      <desc id={`${kind}-compression-desc`}>Interactive chart comparing mathematical percentage gain per 0.1 rating step with an illustrative perceived multiplier.</desc>
+
+      {pctTicks.map((tick) => {
+        const y = plot.bottom - (tick / config.pctMax) * plotHeight;
+        const label = Math.abs(tick - Math.round(tick)) < 0.001 ? `${Math.round(tick)}%` : `${tick.toFixed(1)}%`;
+        return (
+          <g class="y-tick">
+            <line x1={plot.left} y1={y} x2={plot.left + plotWidth} y2={y} />
+            <text x={plot.left - 10} y={y + 4} text-anchor="end">{label}</text>
+          </g>
+        );
+      })}
+
+      <line class="axis" x1={plot.left} y1={plot.bottom} x2={plot.left + plotWidth} y2={plot.bottom} />
+      <text class="left-axis-label" x="17" y={plot.top + plotHeight / 2} transform={`rotate(-90 17 ${plot.top + plotHeight / 2})`} text-anchor="middle">% gain per +0.1</text>
+      <text class="right-axis-label" x={plot.left + plotWidth + 28} y={plot.top - 18}>Perceived multiplier</text>
+
+      {config.multiplierTicks.map((tick) => {
+        const y = plot.bottom - ((tick - 1) / (config.multiplierMax - 1)) * plotHeight;
+        return (
+          <g class="multiplier-tick">
+            <line x1={plot.left + plotWidth + 6} y1={y} x2={plot.left + plotWidth + 16} y2={y} />
+            <text x={plot.left + plotWidth + 26} y={y + 4}>{fmtMultiplier(tick)}</text>
+          </g>
+        );
+      })}
+
+      {points.map((point, index) => (
+        <rect
+          class="bar"
+          data-tooltip={`Step ${fmtRating(point.rating)}-${fmtRating(point.nextRating)}<br>${fmtPct(point.pctGain)} mathematical gain<br>${fmtMultiplier(point.multiplier)} perceived multiplier`}
+          x={point.x - barWidth / 2}
+          y={point.barY}
+          width={barWidth}
+          height={point.barHeight}
+          rx="2"
+          tabindex="0"
+        />
+      ))}
+
+      <polyline class="multiplier-line" points={linePoints} fill="none" />
+
+      {points.map((point, index) => (
+        (config.steps <= 10 || config.xTickIndexes.includes(index)) && (
+          <circle
+            class="point"
+            data-tooltip={`Step ${fmtRating(point.rating)}-${fmtRating(point.nextRating)}<br>${fmtPct(point.pctGain)} mathematical gain<br>${fmtMultiplier(point.multiplier)} perceived multiplier`}
+            cx={point.x}
+            cy={point.lineY}
+            r="3"
+            tabindex="0"
+          />
+        )
+      ))}
+
+      <text class="endpoint" x={points[points.length - 1].x - 8} y={points[points.length - 1].lineY - 12} text-anchor="end">
+        {fmtMultiplier(points[points.length - 1].multiplier)}
+      </text>
+
+      {config.xTickIndexes.map((index) => {
+        const point = points[index];
+        return (
+          <text class="x-tick" x={point.x} y={plot.bottom + 23} text-anchor="middle">
+            {fmtRating(point.rating)}-{fmtRating(point.nextRating)}
+          </text>
+        );
+      })}
+
+      <text class="axis-label" x={plot.left + plotWidth / 2} y={height - 24} text-anchor="middle">Rating step</text>
+    </svg>
+    <div class="tooltip" data-tooltip-box hidden></div>
+  </div>
+
+  <figcaption>Bars show the shrinking mathematical gain from each +0.1 step. The grey curve is an illustrative perceived multiplier.</figcaption>
+</figure>
+
+<style>
+  .compression-chart {
+    --bg: #faf8f5;
+    --text: #1a1a1a;
+    --muted: #888888;
+    --grid: #e8e3dc;
+    --copper: #c17f59;
+    --grey: #6f6f6f;
+    margin: 2rem 0;
+    padding: 1.25rem;
+    background: var(--bg);
+    border-radius: 6px;
+    color: var(--text);
+  }
+
+  .chart-head {
+    margin-bottom: 0.75rem;
+  }
+
+  h3 {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  p,
+  figcaption {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .chart-canvas {
+    position: relative;
+    overflow-x: auto;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    min-width: 680px;
+    height: auto;
+  }
+
+  .y-tick line {
+    stroke: var(--grid);
+    stroke-width: 1;
+  }
+
+  .y-tick text,
+  .x-tick,
+  .multiplier-tick text,
+  .endpoint {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    fill: var(--muted);
+  }
+
+  .axis,
+  .multiplier-tick line {
+    stroke: var(--muted);
+    stroke-width: 0.9;
+  }
+
+  .left-axis-label,
+  .axis-label {
+    font-family: var(--font-heading);
+    font-size: 12px;
+    fill: var(--text);
+  }
+
+  .right-axis-label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    fill: var(--grey);
+  }
+
+  .left-axis-label {
+    fill: var(--copper);
+  }
+
+  .bar {
+    fill: var(--copper);
+    opacity: 0.72;
+    outline: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .bar:hover,
+  .bar:focus {
+    opacity: 1;
+  }
+
+  .multiplier-line {
+    stroke: var(--grey);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .point {
+    fill: var(--grey);
+    outline: none;
+    transition: r 0.15s ease;
+  }
+
+  .point:hover,
+  .point:focus {
+    r: 4;
+  }
+
+  .endpoint {
+    fill: var(--grey);
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .tooltip {
+    position: fixed;
+    z-index: 20;
+    pointer-events: none;
+    transform: translate(12px, 12px);
+    padding: 0.5rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(250, 248, 245, 0.96);
+    box-shadow: 0 8px 24px rgba(47, 40, 32, 0.14);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .compression-chart {
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      padding: 1rem 0.75rem;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.querySelectorAll('[data-compression-chart]').forEach((chart) => {
+    if (chart.dataset.ready === 'true') return;
+    chart.dataset.ready = 'true';
+
+    const tooltip = chart.querySelector('[data-tooltip-box]');
+    const targets = Array.from(chart.querySelectorAll('[data-tooltip]'));
+
+    function showTooltip(event, target) {
+      tooltip.innerHTML = target.dataset.tooltip;
+      tooltip.hidden = false;
+      tooltip.style.left = `${event.clientX}px`;
+      tooltip.style.top = `${event.clientY}px`;
+    }
+
+    targets.forEach((target) => {
+      target.addEventListener('pointermove', (event) => showTooltip(event, target));
+      target.addEventListener('focus', (event) => showTooltip(event, target));
+      target.addEventListener('pointerleave', () => { tooltip.hidden = true; });
+      target.addEventListener('blur', () => { tooltip.hidden = true; });
+    });
+  });
+</script>
