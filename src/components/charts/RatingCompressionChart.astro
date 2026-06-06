@@ -35,8 +35,8 @@ const configs = {
 
 const config = configs[kind];
 const width = 820;
-const height = 440;
-const plot = { left: 70, right: 160, top: 72, bottom: 312 };
+const height = 450;
+const plot = { left: 74, right: 132, top: 104, bottom: 322 };
 const plotWidth = width - plot.left - plot.right;
 const plotHeight = plot.bottom - plot.top;
 const stepWidth = plotWidth / config.steps;
@@ -69,6 +69,14 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
 
   <div class="chart-canvas">
     <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${config.title} rating increment compression chart`}>
+      <g class="annotation-key">
+        <rect class="bar-sample" x={plot.left} y="34" width="22" height="14" rx="2" />
+        <text class="bar-note" x={plot.left + 34} y="46">% gain per +0.1</text>
+        <line class="line-sample" x1={plot.left + 222} y1="41" x2={plot.left + 256} y2="41" />
+        <circle class="line-point" cx={plot.left + 239} cy="41" r="3.5" />
+        <text class="line-note" x={plot.left + 270} y="46">Perceived multiplier</text>
+      </g>
+
       {pctTicks.map((tick) => {
         const y = plot.bottom - (tick / config.pctMax) * plotHeight;
         const label = Math.abs(tick - Math.round(tick)) < 0.001 ? `${Math.round(tick)}%` : `${tick.toFixed(1)}%`;
@@ -81,8 +89,7 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
       })}
 
       <line class="axis" x1={plot.left} y1={plot.bottom} x2={plot.left + plotWidth} y2={plot.bottom} />
-      <text class="left-axis-label" x="21" y={plot.top + plotHeight / 2} transform={`rotate(-90 21 ${plot.top + plotHeight / 2})`} text-anchor="middle">% gain per +0.1</text>
-      <text class="right-axis-label" x={plot.left + plotWidth + 26} y={plot.top - 22}>Perceived multiplier</text>
+      <text class="left-axis-label" x="23" y={plot.top + plotHeight / 2} transform={`rotate(-90 23 ${plot.top + plotHeight / 2})`} text-anchor="middle">% gain per +0.1</text>
 
       {config.multiplierTicks.map((tick) => {
         const y = plot.bottom - ((tick - 1) / (config.multiplierMax - 1)) * plotHeight;
@@ -148,7 +155,7 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
   .compression-chart {
     --bg: #faf8f5;
     --text: #1a1a1a;
-    --muted: #777777;
+    --muted: #555555;
     --grid: #e8e3dc;
     --copper: #c17f59;
     --blue: #2c5282;
@@ -194,6 +201,35 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
     overflow: visible;
   }
 
+  .annotation-key text {
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .bar-note {
+    fill: var(--copper);
+  }
+
+  .line-note {
+    fill: var(--blue);
+  }
+
+  .bar-sample {
+    fill: var(--copper);
+    opacity: 0.82;
+  }
+
+  .line-sample {
+    stroke: var(--blue);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  .line-point {
+    fill: var(--blue);
+  }
+
   .y-tick line {
     stroke: var(--grid);
     stroke-width: 1;
@@ -219,13 +255,6 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
     font-family: var(--font-heading);
     font-size: 14px;
     fill: var(--text);
-  }
-
-  .right-axis-label {
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
-    fill: var(--blue);
   }
 
   .left-axis-label {
