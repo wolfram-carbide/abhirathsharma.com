@@ -16,8 +16,8 @@ const totalListings = 15584;
 const maxCount = Math.max(...ratings.map((d) => d.count));
 const maxShare = Math.max(...ratings.map((d) => (d.count / totalRated) * 100));
 const width = 820;
-const height = 460;
-const plot = { left: 64, right: 64, top: 94, bottom: 326 };
+const height = 470;
+const plot = { left: 64, right: 64, top: 126, bottom: 338 };
 const plotWidth = width - plot.left - plot.right;
 const plotHeight = plot.bottom - plot.top;
 const barGap = 3;
@@ -27,7 +27,6 @@ const ticks = [0, 1, 2, 3, 4].map((i) => Math.round((maxCount * i) / 4));
 const yForCount = (count: number) => plot.bottom - (count / maxCount) * plotHeight;
 const xForIndex = (index: number) => plot.left + index * (barWidth + barGap);
 const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
-const labelRatings = new Set(['5.0']);
 ---
 
 <figure class="rating-chart" data-athens-rating-chart data-total-rated={totalRated} data-max-count={maxCount} data-max-share={maxShare.toFixed(4)} aria-label="Athens Airbnb ratings distribution">
@@ -44,6 +43,15 @@ const labelRatings = new Set(['5.0']);
 
   <div class="chart-canvas">
     <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Interactive histogram of Athens Airbnb review scores, binned by 0.1 rating increments">
+      <g class="annotation-key">
+        <line class="threshold-sample copper" x1={plot.left} y1="42" x2={plot.left + 26} y2="42" />
+        <text x={plot.left + 36} y="46">4.8 Superhost minimum</text>
+        <line class="threshold-sample grey" x1={plot.left + 252} y1="42" x2={plot.left + 278} y2="42" />
+        <text class="muted" x={plot.left + 288} y="46">4.9 Guest Favorite</text>
+        <rect class="peak-sample" x={plot.left + 486} y="34" width="18" height="13" rx="2" />
+        <text class="muted" x={plot.left + 514} y="46">5.0 peak: 3,107 listings</text>
+      </g>
+
       {ticks.map((tick) => {
         const y = yForCount(tick);
         return (
@@ -78,11 +86,6 @@ const labelRatings = new Set(['5.0']);
               rx="2"
               tabindex="0"
             />
-            {labelRatings.has(d.rating) && (
-              <text class="bar-label" data-bar-label data-rating={d.rating} data-count={d.count} data-share={share.toFixed(1)} x={x + barWidth / 2} y={y - 12} text-anchor="middle">
-                {d.count.toLocaleString()}
-              </text>
-            )}
             {tickRatings.has(d.rating) && (
               <text class="x-tick" x={x + barWidth / 2} y={plot.bottom + 22} text-anchor="middle">{d.rating}</text>
             )}
@@ -92,8 +95,6 @@ const labelRatings = new Set(['5.0']);
 
       <line class="threshold copper" x1={xForIndex(38) + barWidth / 2} y1={plot.top} x2={xForIndex(38) + barWidth / 2} y2={plot.bottom} />
       <line class="threshold grey" x1={xForIndex(39) + barWidth / 2} y1={plot.top} x2={xForIndex(39) + barWidth / 2} y2={plot.bottom} />
-      <text class="threshold-label copper" x={xForIndex(38) - 126} y={plot.top - 42}>Superhost minimum</text>
-      <text class="threshold-label grey" x={xForIndex(39) - 92} y={plot.top - 20}>Guest Favorite</text>
     </svg>
     <div class="tooltip" data-tooltip hidden></div>
   </div>
@@ -177,22 +178,47 @@ const labelRatings = new Set(['5.0']);
     overflow: visible;
   }
 
+  .annotation-key text {
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    fill: var(--copper);
+  }
+
+  .annotation-key text.muted {
+    fill: var(--muted);
+  }
+
+  .threshold-sample,
+  .threshold {
+    stroke-dasharray: 4 5;
+    stroke-width: 1.1;
+  }
+
+  .threshold-sample.copper,
+  .threshold.copper {
+    stroke: var(--copper);
+  }
+
+  .threshold-sample.grey,
+  .threshold.grey {
+    stroke: var(--muted);
+  }
+
+  .peak-sample {
+    fill: var(--copper);
+    opacity: 0.78;
+  }
+
   .y-tick line {
     stroke: var(--grid);
     stroke-width: 1;
   }
 
   .y-tick text,
-  .x-tick,
-  .bar-label {
+  .x-tick {
     font-family: var(--font-mono);
     font-size: 10.5px;
     fill: var(--muted);
-  }
-
-  .bar-label {
-    fill: var(--text);
-    font-weight: 500;
   }
 
   .axis {
@@ -216,32 +242,6 @@ const labelRatings = new Set(['5.0']);
   .bar:hover,
   .bar:focus {
     opacity: 1;
-  }
-
-  .threshold {
-    stroke-dasharray: 4 5;
-    stroke-width: 1.1;
-  }
-
-  .threshold.copper {
-    stroke: var(--copper);
-  }
-
-  .threshold.grey {
-    stroke: var(--muted);
-  }
-
-  .threshold-label {
-    font-family: var(--font-body);
-    font-size: 11px;
-  }
-
-  .threshold-label.copper {
-    fill: var(--copper);
-  }
-
-  .threshold-label.grey {
-    fill: var(--muted);
   }
 
   .tooltip {
@@ -288,11 +288,10 @@ const labelRatings = new Set(['5.0']);
     const totalRated = Number(chart.dataset.totalRated);
     const maxCount = Number(chart.dataset.maxCount);
     const maxShare = Number(chart.dataset.maxShare);
-    const plotBottom = 326;
-    const plotHeight = 232;
+    const plotBottom = 338;
+    const plotHeight = 212;
     const bars = Array.from(chart.querySelectorAll('[data-bar]'));
     const yTicks = Array.from(chart.querySelectorAll('[data-y-tick]'));
-    const barLabels = Array.from(chart.querySelectorAll('[data-bar-label]'));
     const tooltip = chart.querySelector('[data-tooltip]');
     const buttons = Array.from(chart.querySelectorAll('[data-mode]'));
     const yAxisLabel = chart.querySelector('[data-y-axis-label]');
@@ -322,13 +321,6 @@ const labelRatings = new Set(['5.0']);
         const text = tick.querySelector('text');
         text.setAttribute('y', String(y + 4));
         text.textContent = mode === 'share' ? formatShare(value) : formatCount(Math.round(value));
-      });
-
-      barLabels.forEach((label) => {
-        const bar = bars.find((item) => item.dataset.rating === label.dataset.rating);
-        const y = Number(bar.getAttribute('y'));
-        label.setAttribute('y', String(y - 12));
-        label.textContent = mode === 'share' ? formatShare(label.dataset.share) : formatCount(label.dataset.count);
       });
 
       buttons.forEach((button) => {
