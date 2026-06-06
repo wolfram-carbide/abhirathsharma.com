@@ -2,6 +2,20 @@
 
 Use this guide for charts on abhirathsharma.com. It is based on the consulting salary artifact, the Airbnb ratings charts, and the design decisions from the ratings post revisions.
 
+## Non-negotiables
+
+These are hard requirements for any chart update.
+
+- All bars, points, and lines must be visible. No data mark can be hidden behind labels, legends, axis text, or clipping.
+- Labels must have unambiguous ownership. A number beside a bar must clearly belong to that bar; a value beside a line must clearly belong to that line.
+- Numbers must be readable at 100% browser zoom. Do not use pale grey for important numbers.
+- Nothing can be cut off: title, axis labels, right-side ticks, endpoint labels, tooltips, legends, captions, and annotation markers all need enough internal space.
+- Every annotation needs either spatial separation or a distinct marker. If two annotations are near each other, use different colors and shapes.
+- Do not place explanatory labels in the densest part of the chart. Move them into a top key, side key, or caption.
+- Do not use native SVG `<title>` hover labels on marks; they create default browser tooltips that look accidental.
+- If a chart is interactive, toggles must update labels, axis text, and visible values together.
+- Mobile must scroll horizontally rather than compressing labels until they overlap.
+
 ## Mood
 
 Charts should feel editorial and essay-native, not like SaaS dashboards. They should look calm, readable, and intentional inside prose.
@@ -33,7 +47,7 @@ Core palette:
 - Copper accent: `#C17F59`
 - Strong copper annotation: `#B87333`
 - Blue annotation / secondary series: `#2C5282`
-- Muted grey: `#777777` or `#888888`
+- Muted grey: `#555555`, `#777777`, or `#888888`
 - Grid lines: `#E8E3DC`
 - Control inactive background: `#E8E3DC`
 
@@ -59,9 +73,9 @@ Give every chart enough internal whitespace. Most label issues come from placing
 
 Recommended SVG margin starting points:
 
-- Single-axis bar chart: left `65-75`, right `60-80`, top `100-130`, bottom `110-140`.
-- Dual-axis chart: left `65-75`, right `150-170`, top `70-90`, bottom `110-130`.
-- Threshold annotations: reserve `50-80px` above the plot and place a key there.
+- Single-axis bar chart: left `70-80`, right `70-90`, top `120-140`, bottom `110-140`.
+- Dual-axis chart: left `70-80`, right `130-170`, top `95-115`, bottom `110-130`.
+- Threshold annotations: reserve `60-90px` above the plot and place a key there.
 
 ## Annotation Rules
 
@@ -71,9 +85,9 @@ Annotations must clarify, not decorate.
 - Threshold labels should usually be in an annotation key above the plot, with dashed guide lines in the chart.
 - Use distinct annotation colors when two thresholds or concepts sit close together. For this site, use strong copper `#B87333` and blue `#2C5282`.
 - Use triangle markers or clear marker glyphs for threshold annotations. A dashed line alone is too easy to miss.
-- Label only true peaks or decisive outliers. Everything else belongs in a tooltip.
-- Use direct labels instead of legends when there are one or two series.
-- If a legend is needed, keep it as a one-line key below or above the plot, not a boxed panel.
+- Label only true peaks or decisive outliers. Everything else belongs in a tooltip or top key.
+- Use direct labels instead of legends when there are one or two series, but only if ownership is unambiguous.
+- If a legend/key is needed, keep it as a one-line key above the plot, not a boxed panel.
 - Avoid native SVG `<title>` tooltips for visible chart marks; they create browser-default grey hover boxes. Use custom tooltips via `data-tooltip` instead.
 
 ## Interaction
@@ -89,16 +103,16 @@ Interactions should support reading, not become the point.
 ## Axis and Grid Treatment
 
 - Use horizontal grid lines only unless the chart cannot be read without vertical guides.
-- Axis tick values use `IBM Plex Mono` and muted grey.
+- Axis tick values use `IBM Plex Mono` and muted grey. Use `#555555` when the chart is dense.
 - Axis labels use `Literata`; y-axis labels can use copper when tied to copper bars.
 - Do not over-label x axes. Use meaningful anchors, not every tick.
-- If a chart has a secondary axis, label it clearly and reserve right-side margin. Use blue for an actual secondary data series.
+- If a chart has a secondary axis, label it through a key above the plot when the right gutter is tight. Use blue for an actual secondary data series.
 
 ## Data Labels
 
 - Avoid labeling every bar or point.
 - Prefer exact numbers in tooltips.
-- Label a peak only when it matters to the argument.
+- Label a peak only when it matters to the argument, and only when it cannot be confused with a nearby threshold or series.
 - Never place multiple numeric labels in the same local cluster, especially near high bars.
 - Use monospaced numbers for exact values.
 - If a value is important enough to label, make it readable at 100% browser zoom.
