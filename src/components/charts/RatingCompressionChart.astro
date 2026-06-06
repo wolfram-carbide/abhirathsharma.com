@@ -35,12 +35,12 @@ const configs = {
 
 const config = configs[kind];
 const width = 820;
-const height = 430;
-const plot = { left: 60, right: 104, top: 58, bottom: 312 };
+const height = 420;
+const plot = { left: 64, right: 154, top: 64, bottom: 300 };
 const plotWidth = width - plot.left - plot.right;
 const plotHeight = plot.bottom - plot.top;
 const stepWidth = plotWidth / config.steps;
-const barWidth = stepWidth * (config.steps <= 10 ? 0.62 : 0.56);
+const barWidth = stepWidth * (config.steps <= 10 ? 0.58 : 0.52);
 
 const points = Array.from({ length: config.steps }, (_, index) => {
   const rating = config.start + index * 0.1;
@@ -51,16 +51,7 @@ const points = Array.from({ length: config.steps }, (_, index) => {
   const barHeight = (pctGain / config.pctMax) * plotHeight;
   const barY = plot.bottom - barHeight;
   const lineY = plot.bottom - ((multiplier - 1) / (config.multiplierMax - 1)) * plotHeight;
-  return {
-    rating,
-    nextRating,
-    pctGain,
-    multiplier,
-    x,
-    barY,
-    barHeight,
-    lineY,
-  };
+  return { rating, nextRating, pctGain, multiplier, x, barY, barHeight, lineY };
 });
 
 const pctTicks = [0, config.pctMax / 3, (config.pctMax * 2) / 3, config.pctMax];
@@ -70,17 +61,14 @@ const fmtPct = (value: number) => `${value.toFixed(2)}%`;
 const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
 ---
 
-<figure class="compression-chart" data-compression-chart>
+<figure class="compression-chart" data-compression-chart aria-label={`${config.title} rating increment compression`}>
   <div class="chart-head">
     <h3>{config.title}</h3>
     <p>{config.note}</p>
   </div>
 
   <div class="chart-canvas">
-    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={`${kind}-compression-title ${kind}-compression-desc`}>
-      <title id={`${kind}-compression-title`}>{config.title} rating increment compression</title>
-      <desc id={`${kind}-compression-desc`}>Interactive chart comparing mathematical percentage gain per 0.1 rating step with an illustrative perceived multiplier.</desc>
-
+    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${config.title} rating increment compression chart`}>
       {pctTicks.map((tick) => {
         const y = plot.bottom - (tick / config.pctMax) * plotHeight;
         const label = Math.abs(tick - Math.round(tick)) < 0.001 ? `${Math.round(tick)}%` : `${tick.toFixed(1)}%`;
@@ -93,20 +81,20 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
       })}
 
       <line class="axis" x1={plot.left} y1={plot.bottom} x2={plot.left + plotWidth} y2={plot.bottom} />
-      <text class="left-axis-label" x="17" y={plot.top + plotHeight / 2} transform={`rotate(-90 17 ${plot.top + plotHeight / 2})`} text-anchor="middle">% gain per +0.1</text>
-      <text class="right-axis-label" x={plot.left + plotWidth + 28} y={plot.top - 18}>Perceived multiplier</text>
+      <text class="left-axis-label" x="20" y={plot.top + plotHeight / 2} transform={`rotate(-90 20 ${plot.top + plotHeight / 2})`} text-anchor="middle">% gain per +0.1</text>
+      <text class="right-axis-label" x={plot.left + plotWidth + 26} y={plot.top - 18}>Perceived multiplier</text>
 
       {config.multiplierTicks.map((tick) => {
         const y = plot.bottom - ((tick - 1) / (config.multiplierMax - 1)) * plotHeight;
         return (
           <g class="multiplier-tick">
-            <line x1={plot.left + plotWidth + 6} y1={y} x2={plot.left + plotWidth + 16} y2={y} />
-            <text x={plot.left + plotWidth + 26} y={y + 4}>{fmtMultiplier(tick)}</text>
+            <line x1={plot.left + plotWidth + 6} y1={y} x2={plot.left + plotWidth + 15} y2={y} />
+            <text x={plot.left + plotWidth + 24} y={y + 4}>{fmtMultiplier(tick)}</text>
           </g>
         );
       })}
 
-      {points.map((point, index) => (
+      {points.map((point) => (
         <rect
           class="bar"
           data-tooltip={`Step ${fmtRating(point.rating)}-${fmtRating(point.nextRating)}<br>${fmtPct(point.pctGain)} mathematical gain<br>${fmtMultiplier(point.multiplier)} perceived multiplier`}
@@ -162,16 +150,17 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
     --muted: #888888;
     --grid: #e8e3dc;
     --copper: #c17f59;
-    --grey: #6f6f6f;
+    --grey: #737373;
     margin: 2rem 0;
     padding: 1.25rem;
     background: var(--bg);
     border-radius: 6px;
     color: var(--text);
+    overflow: visible;
   }
 
   .chart-head {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.65rem;
   }
 
   h3 {
@@ -192,13 +181,16 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
   .chart-canvas {
     position: relative;
     overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: thin;
   }
 
   svg {
     display: block;
     width: 100%;
-    min-width: 680px;
+    min-width: 640px;
     height: auto;
+    overflow: visible;
   }
 
   .y-tick line {
@@ -230,7 +222,7 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
 
   .right-axis-label {
     font-family: var(--font-body);
-    font-size: 12px;
+    font-size: 11.5px;
     fill: var(--grey);
   }
 
@@ -252,7 +244,7 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
 
   .multiplier-line {
     stroke: var(--grey);
-    stroke-width: 2.2;
+    stroke-width: 2.1;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -310,11 +302,21 @@ const fmtMultiplier = (value: number) => `${value.toFixed(1)}x`;
     const tooltip = chart.querySelector('[data-tooltip-box]');
     const targets = Array.from(chart.querySelectorAll('[data-tooltip]'));
 
+    function positionTooltip(event, target) {
+      if ('clientX' in event && event.clientX) {
+        tooltip.style.left = `${event.clientX}px`;
+        tooltip.style.top = `${event.clientY}px`;
+        return;
+      }
+      const box = target.getBoundingClientRect();
+      tooltip.style.left = `${box.left + box.width / 2}px`;
+      tooltip.style.top = `${box.top}px`;
+    }
+
     function showTooltip(event, target) {
       tooltip.innerHTML = target.dataset.tooltip;
       tooltip.hidden = false;
-      tooltip.style.left = `${event.clientX}px`;
-      tooltip.style.top = `${event.clientY}px`;
+      positionTooltip(event, target);
     }
 
     targets.forEach((target) => {
