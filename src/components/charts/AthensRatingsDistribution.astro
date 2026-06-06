@@ -16,8 +16,8 @@ const totalListings = 15584;
 const maxCount = Math.max(...ratings.map((d) => d.count));
 const maxShare = Math.max(...ratings.map((d) => (d.count / totalRated) * 100));
 const width = 820;
-const height = 470;
-const plot = { left: 64, right: 64, top: 126, bottom: 338 };
+const height = 480;
+const plot = { left: 70, right: 70, top: 128, bottom: 346 };
 const plotWidth = width - plot.left - plot.right;
 const plotHeight = plot.bottom - plot.top;
 const barGap = 3;
@@ -27,6 +27,10 @@ const ticks = [0, 1, 2, 3, 4].map((i) => Math.round((maxCount * i) / 4));
 const yForCount = (count: number) => plot.bottom - (count / maxCount) * plotHeight;
 const xForIndex = (index: number) => plot.left + index * (barWidth + barGap);
 const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
+const superhostX = xForIndex(38) + barWidth / 2;
+const guestFavoriteX = xForIndex(39) + barWidth / 2;
+const peakX = xForIndex(40) + barWidth / 2;
+const peakY = yForCount(3107);
 ---
 
 <figure class="rating-chart" data-athens-rating-chart data-total-rated={totalRated} data-max-count={maxCount} data-max-share={maxShare.toFixed(4)} aria-label="Athens Airbnb ratings distribution">
@@ -44,12 +48,12 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
   <div class="chart-canvas">
     <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Interactive histogram of Athens Airbnb review scores, binned by 0.1 rating increments">
       <g class="annotation-key">
-        <line class="threshold-sample copper" x1={plot.left} y1="42" x2={plot.left + 26} y2="42" />
-        <text x={plot.left + 36} y="46">4.8 Superhost minimum</text>
-        <line class="threshold-sample grey" x1={plot.left + 252} y1="42" x2={plot.left + 278} y2="42" />
-        <text class="muted" x={plot.left + 288} y="46">4.9 Guest Favorite</text>
-        <rect class="peak-sample" x={plot.left + 486} y="34" width="18" height="13" rx="2" />
-        <text class="muted" x={plot.left + 514} y="46">5.0 peak: 3,107 listings</text>
+        <path class="marker superhost" d={`M ${plot.left} 42 L ${plot.left + 10} 25 L ${plot.left + 20} 42 Z`} />
+        <text class="superhost" x={plot.left + 32} y="39">4.8 Superhost minimum</text>
+        <path class="marker favorite" d={`M ${plot.left + 280} 42 L ${plot.left + 290} 25 L ${plot.left + 300} 42 Z`} />
+        <text class="favorite" x={plot.left + 312} y="39">4.9 Guest Favorite</text>
+        <rect class="peak-sample" x={plot.left + 520} y="27" width="20" height="15" rx="2" />
+        <text class="peak-note" x={plot.left + 552} y="39">5.0 peak: 3,107 listings</text>
       </g>
 
       {ticks.map((tick) => {
@@ -57,14 +61,14 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
         return (
           <g class="y-tick" data-y-tick data-count={tick} data-share={((tick / totalRated) * 100).toFixed(1)}>
             <line x1={plot.left} y1={y} x2={plot.left + plotWidth} y2={y} />
-            <text x={plot.left - 10} y={y + 4} text-anchor="end">{tick.toLocaleString()}</text>
+            <text x={plot.left - 12} y={y + 4} text-anchor="end">{tick.toLocaleString()}</text>
           </g>
         );
       })}
 
       <line class="axis" x1={plot.left} y1={plot.bottom} x2={plot.left + plotWidth} y2={plot.bottom} />
       <text class="axis-label" x={plot.left + plotWidth / 2} y={height - 24} text-anchor="middle">Rating</text>
-      <text class="axis-label" data-y-axis-label x="18" y={plot.top + plotHeight / 2} transform={`rotate(-90 18 ${plot.top + plotHeight / 2})`} text-anchor="middle">Number of listings</text>
+      <text class="axis-label" data-y-axis-label x="20" y={plot.top + plotHeight / 2} transform={`rotate(-90 20 ${plot.top + plotHeight / 2})`} text-anchor="middle">Number of listings</text>
 
       {ratings.map((d, index) => {
         const x = xForIndex(index);
@@ -87,14 +91,17 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
               tabindex="0"
             />
             {tickRatings.has(d.rating) && (
-              <text class="x-tick" x={x + barWidth / 2} y={plot.bottom + 22} text-anchor="middle">{d.rating}</text>
+              <text class="x-tick" x={x + barWidth / 2} y={plot.bottom + 24} text-anchor="middle">{d.rating}</text>
             )}
           </g>
         );
       })}
 
-      <line class="threshold copper" x1={xForIndex(38) + barWidth / 2} y1={plot.top} x2={xForIndex(38) + barWidth / 2} y2={plot.bottom} />
-      <line class="threshold grey" x1={xForIndex(39) + barWidth / 2} y1={plot.top} x2={xForIndex(39) + barWidth / 2} y2={plot.bottom} />
+      <line class="threshold superhost" x1={superhostX} y1={plot.top} x2={superhostX} y2={plot.bottom} />
+      <line class="threshold favorite" x1={guestFavoriteX} y1={plot.top} x2={guestFavoriteX} y2={plot.bottom} />
+      <path class="chart-marker superhost" d={`M ${superhostX - 6} ${plot.top - 12} L ${superhostX + 6} ${plot.top - 12} L ${superhostX} ${plot.top - 1} Z`} />
+      <path class="chart-marker favorite" d={`M ${guestFavoriteX - 6} ${plot.top - 12} L ${guestFavoriteX + 6} ${plot.top - 12} L ${guestFavoriteX} ${plot.top - 1} Z`} />
+      <text class="peak-label" x={peakX} y={peakY - 16} text-anchor="middle">3,107</text>
     </svg>
     <div class="tooltip" data-tooltip hidden></div>
   </div>
@@ -106,9 +113,11 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
   .rating-chart {
     --bg: #faf8f5;
     --text: #1a1a1a;
-    --muted: #888888;
+    --muted: #777777;
     --grid: #e8e3dc;
     --copper: #c17f59;
+    --superhost: #b87333;
+    --favorite: #2c5282;
     margin: 2rem 0;
     padding: 1.25rem;
     background: var(--bg);
@@ -128,7 +137,7 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
   h3 {
     margin: 0 0 0.25rem;
     font-family: var(--font-heading);
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 600;
   }
 
@@ -136,23 +145,23 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
   figcaption {
     margin: 0;
     color: var(--muted);
-    font-size: 0.78rem;
+    font-size: 0.88rem;
     line-height: 1.5;
   }
 
   .chart-controls {
     display: flex;
-    gap: 0.35rem;
+    gap: 0.4rem;
     flex-shrink: 0;
   }
 
   button {
     border: 0;
-    border-radius: 4px;
-    padding: 0.35rem 0.7rem;
+    border-radius: 5px;
+    padding: 0.45rem 0.8rem;
     font-family: var(--font-body);
-    font-size: 0.78rem;
-    color: #555;
+    font-size: 0.9rem;
+    color: #4d4d4d;
     background: #e8e3dc;
     cursor: pointer;
   }
@@ -173,40 +182,55 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
   svg {
     display: block;
     width: 100%;
-    min-width: 640px;
+    min-width: 680px;
     height: auto;
     overflow: visible;
   }
 
   .annotation-key text {
     font-family: var(--font-body);
-    font-size: 11.5px;
-    fill: var(--copper);
+    font-size: 13.5px;
+    font-weight: 600;
   }
 
-  .annotation-key text.muted {
-    fill: var(--muted);
+  .annotation-key .superhost {
+    fill: var(--superhost);
   }
 
-  .threshold-sample,
+  .annotation-key .favorite {
+    fill: var(--favorite);
+  }
+
+  .peak-note {
+    fill: var(--text);
+  }
+
+  .marker.superhost,
+  .chart-marker.superhost {
+    fill: var(--superhost);
+  }
+
+  .marker.favorite,
+  .chart-marker.favorite {
+    fill: var(--favorite);
+  }
+
   .threshold {
-    stroke-dasharray: 4 5;
-    stroke-width: 1.1;
+    stroke-dasharray: 5 6;
+    stroke-width: 1.6;
   }
 
-  .threshold-sample.copper,
-  .threshold.copper {
-    stroke: var(--copper);
+  .threshold.superhost {
+    stroke: var(--superhost);
   }
 
-  .threshold-sample.grey,
-  .threshold.grey {
-    stroke: var(--muted);
+  .threshold.favorite {
+    stroke: var(--favorite);
   }
 
   .peak-sample {
     fill: var(--copper);
-    opacity: 0.78;
+    opacity: 0.82;
   }
 
   .y-tick line {
@@ -217,24 +241,31 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
   .y-tick text,
   .x-tick {
     font-family: var(--font-mono);
-    font-size: 10.5px;
+    font-size: 12.5px;
     fill: var(--muted);
+  }
+
+  .peak-label {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    fill: var(--text);
   }
 
   .axis {
     stroke: var(--muted);
-    stroke-width: 1;
+    stroke-width: 1.1;
   }
 
   .axis-label {
     font-family: var(--font-heading);
-    font-size: 12px;
+    font-size: 14px;
     fill: var(--text);
   }
 
   .bar {
     fill: var(--copper);
-    opacity: 0.78;
+    opacity: 0.82;
     outline: none;
     transition: opacity 0.15s ease, y 0.2s ease, height 0.2s ease;
   }
@@ -255,7 +286,7 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
     box-shadow: 0 8px 24px rgba(47, 40, 32, 0.14);
     color: var(--text);
     font-family: var(--font-body);
-    font-size: 0.78rem;
+    font-size: 0.86rem;
     line-height: 1.4;
   }
 
@@ -288,13 +319,15 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
     const totalRated = Number(chart.dataset.totalRated);
     const maxCount = Number(chart.dataset.maxCount);
     const maxShare = Number(chart.dataset.maxShare);
-    const plotBottom = 338;
-    const plotHeight = 212;
+    const plotBottom = 346;
+    const plotHeight = 218;
     const bars = Array.from(chart.querySelectorAll('[data-bar]'));
     const yTicks = Array.from(chart.querySelectorAll('[data-y-tick]'));
     const tooltip = chart.querySelector('[data-tooltip]');
     const buttons = Array.from(chart.querySelectorAll('[data-mode]'));
     const yAxisLabel = chart.querySelector('[data-y-axis-label]');
+    const peakLabel = chart.querySelector('.peak-label');
+    const peakBar = bars.find((bar) => bar.dataset.rating === '5.0');
 
     function formatShare(value) {
       return `${Number(value).toFixed(1)}%`;
@@ -322,6 +355,12 @@ const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
         text.setAttribute('y', String(y + 4));
         text.textContent = mode === 'share' ? formatShare(value) : formatCount(Math.round(value));
       });
+
+      if (peakLabel && peakBar) {
+        const y = Number(peakBar.getAttribute('y'));
+        peakLabel.setAttribute('y', String(y - 16));
+        peakLabel.textContent = mode === 'share' ? formatShare(peakBar.dataset.share) : '3,107';
+      }
 
       buttons.forEach((button) => {
         button.setAttribute('aria-pressed', String(button.dataset.mode === mode));
