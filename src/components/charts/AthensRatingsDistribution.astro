@@ -17,7 +17,7 @@ const maxCount = Math.max(...ratings.map((d) => d.count));
 const maxShare = Math.max(...ratings.map((d) => (d.count / totalRated) * 100));
 const width = 820;
 const height = 480;
-const plot = { left: 70, right: 70, top: 128, bottom: 346 };
+const plot = { left: 78, right: 74, top: 128, bottom: 346 };
 const plotWidth = width - plot.left - plot.right;
 const plotHeight = plot.bottom - plot.top;
 const barGap = 3;
@@ -29,8 +29,6 @@ const xForIndex = (index: number) => plot.left + index * (barWidth + barGap);
 const tickRatings = new Set(['1.0', '2.0', '3.0', '4.0', '4.5', '4.8', '5.0']);
 const superhostX = xForIndex(38) + barWidth / 2;
 const guestFavoriteX = xForIndex(39) + barWidth / 2;
-const peakX = xForIndex(40) + barWidth / 2;
-const peakY = yForCount(3107);
 ---
 
 <figure class="rating-chart" data-athens-rating-chart data-total-rated={totalRated} data-max-count={maxCount} data-max-share={maxShare.toFixed(4)} aria-label="Athens Airbnb ratings distribution">
@@ -61,14 +59,14 @@ const peakY = yForCount(3107);
         return (
           <g class="y-tick" data-y-tick data-count={tick} data-share={((tick / totalRated) * 100).toFixed(1)}>
             <line x1={plot.left} y1={y} x2={plot.left + plotWidth} y2={y} />
-            <text x={plot.left - 12} y={y + 4} text-anchor="end">{tick.toLocaleString()}</text>
+            <text x={plot.left - 14} y={y + 4} text-anchor="end">{tick.toLocaleString()}</text>
           </g>
         );
       })}
 
       <line class="axis" x1={plot.left} y1={plot.bottom} x2={plot.left + plotWidth} y2={plot.bottom} />
       <text class="axis-label" x={plot.left + plotWidth / 2} y={height - 24} text-anchor="middle">Rating</text>
-      <text class="axis-label" data-y-axis-label x="20" y={plot.top + plotHeight / 2} transform={`rotate(-90 20 ${plot.top + plotHeight / 2})`} text-anchor="middle">Number of listings</text>
+      <text class="axis-label" data-y-axis-label x="23" y={plot.top + plotHeight / 2} transform={`rotate(-90 23 ${plot.top + plotHeight / 2})`} text-anchor="middle">Number of listings</text>
 
       {ratings.map((d, index) => {
         const x = xForIndex(index);
@@ -101,7 +99,6 @@ const peakY = yForCount(3107);
       <line class="threshold favorite" x1={guestFavoriteX} y1={plot.top} x2={guestFavoriteX} y2={plot.bottom} />
       <path class="chart-marker superhost" d={`M ${superhostX - 6} ${plot.top - 12} L ${superhostX + 6} ${plot.top - 12} L ${superhostX} ${plot.top - 1} Z`} />
       <path class="chart-marker favorite" d={`M ${guestFavoriteX - 6} ${plot.top - 12} L ${guestFavoriteX + 6} ${plot.top - 12} L ${guestFavoriteX} ${plot.top - 1} Z`} />
-      <text class="peak-label" x={peakX} y={peakY - 16} text-anchor="middle">3,107</text>
     </svg>
     <div class="tooltip" data-tooltip hidden></div>
   </div>
@@ -113,7 +110,7 @@ const peakY = yForCount(3107);
   .rating-chart {
     --bg: #faf8f5;
     --text: #1a1a1a;
-    --muted: #777777;
+    --muted: #555555;
     --grid: #e8e3dc;
     --copper: #c17f59;
     --superhost: #b87333;
@@ -161,7 +158,7 @@ const peakY = yForCount(3107);
     padding: 0.45rem 0.8rem;
     font-family: var(--font-body);
     font-size: 0.9rem;
-    color: #4d4d4d;
+    color: #333333;
     background: #e8e3dc;
     cursor: pointer;
   }
@@ -245,13 +242,6 @@ const peakY = yForCount(3107);
     fill: var(--muted);
   }
 
-  .peak-label {
-    font-family: var(--font-mono);
-    font-size: 15px;
-    font-weight: 600;
-    fill: var(--text);
-  }
-
   .axis {
     stroke: var(--muted);
     stroke-width: 1.1;
@@ -326,8 +316,6 @@ const peakY = yForCount(3107);
     const tooltip = chart.querySelector('[data-tooltip]');
     const buttons = Array.from(chart.querySelectorAll('[data-mode]'));
     const yAxisLabel = chart.querySelector('[data-y-axis-label]');
-    const peakLabel = chart.querySelector('.peak-label');
-    const peakBar = bars.find((bar) => bar.dataset.rating === '5.0');
 
     function formatShare(value) {
       return `${Number(value).toFixed(1)}%`;
@@ -355,12 +343,6 @@ const peakY = yForCount(3107);
         text.setAttribute('y', String(y + 4));
         text.textContent = mode === 'share' ? formatShare(value) : formatCount(Math.round(value));
       });
-
-      if (peakLabel && peakBar) {
-        const y = Number(peakBar.getAttribute('y'));
-        peakLabel.setAttribute('y', String(y - 16));
-        peakLabel.textContent = mode === 'share' ? formatShare(peakBar.dataset.share) : '3,107';
-      }
 
       buttons.forEach((button) => {
         button.setAttribute('aria-pressed', String(button.dataset.mode === mode));
