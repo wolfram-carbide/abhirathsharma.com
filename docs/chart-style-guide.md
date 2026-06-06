@@ -10,6 +10,7 @@ Charts should feel editorial and essay-native, not like SaaS dashboards. They sh
 - Use fewer annotations, but make the remaining annotations impossible to miss.
 - Let the chart carry one idea. Move secondary detail into tooltips, captions, or a small key.
 - Avoid dense legends, boxes inside boxes, heavy borders, and large dashboard-style cards.
+- Do not make legibility subordinate to prettiness. Numbers are the story.
 
 ## Typography
 
@@ -19,27 +20,31 @@ Use the site font stack consistently.
 - Body notes, captions, buttons, annotations: `DM Sans`.
 - Axis tick values, exact numbers, ratios, and tooltip numeric values: `IBM Plex Mono`.
 - Do not let chart typography inherit huge article heading sizes accidentally. Scope chart headings inside components.
-- Keep SVG labels small: roughly `10.5px` to `12px` inside the SVG viewBox.
+- Minimum SVG tick size for published charts: `12px`; prefer `12.5px` for dense charts.
+- Key numeric labels and endpoint values should be `14px` to `15px`, semibold where useful.
+- Captions and explanatory notes should not drop below `0.85rem` when they contain source or methodology context.
 
-## Color palette
+## Color Palette
 
 Core palette:
 
 - Background: `#FAF8F5`
 - Text: `#1A1A1A`
 - Copper accent: `#C17F59`
-- Muted grey: `#888888`
-- Soft grey line: `#6F6F6F` or `#737373`
+- Strong copper annotation: `#B87333`
+- Blue annotation / secondary series: `#2C5282`
+- Muted grey: `#777777` or `#888888`
 - Grid lines: `#E8E3DC`
 - Control inactive background: `#E8E3DC`
 
 Usage:
 
-- Primary bars: copper at `0.72` to `0.80` opacity.
+- Primary bars: copper at `0.78` to `0.84` opacity.
 - Primary emphasis or active controls: solid copper.
-- Secondary/reference lines: grey, not black.
+- Secondary data series, multiplier lines, or comparison marks: blue, not low-contrast grey.
+- Grey is for scaffolding: ticks, captions, secondary labels, and axes.
 - Grid lines: light horizontal lines only.
-- Text: use black only for titles and important values; use muted grey for scaffolding.
+- Text: use black for titles and important values; use muted grey only for supporting context.
 
 ## Layout
 
@@ -50,20 +55,22 @@ Give every chart enough internal whitespace. Most label issues come from placing
 - Keep right-side axis labels inside the SVG viewBox. Increase right margin before shrinking text.
 - Avoid chart-wide borders. Use the chart background and whitespace to separate it from prose.
 - Use `overflow: visible` on SVGs only as a safety net; the primary fix should be proper margins.
-- On mobile, allow horizontal scrolling with `min-width: 640px` rather than crushing labels.
+- On mobile, allow horizontal scrolling with `min-width: 680px` rather than crushing labels.
 
 Recommended SVG margin starting points:
 
-- Single-axis bar chart: left `60-70`, right `40-70`, top `70-120`, bottom `90-130`.
-- Dual-axis chart: left `60-70`, right `130-160`, top `60-90`, bottom `100-130`.
-- Threshold annotations: reserve `40-70px` above the plot and place a key there.
+- Single-axis bar chart: left `65-75`, right `60-80`, top `100-130`, bottom `110-140`.
+- Dual-axis chart: left `65-75`, right `150-170`, top `70-90`, bottom `110-130`.
+- Threshold annotations: reserve `50-80px` above the plot and place a key there.
 
-## Annotation rules
+## Annotation Rules
 
 Annotations must clarify, not decorate.
 
 - If two labels overlap once, move them out of the plot area. Do not keep nudging by a few pixels.
 - Threshold labels should usually be in an annotation key above the plot, with dashed guide lines in the chart.
+- Use distinct annotation colors when two thresholds or concepts sit close together. For this site, use strong copper `#B87333` and blue `#2C5282`.
+- Use triangle markers or clear marker glyphs for threshold annotations. A dashed line alone is too easy to miss.
 - Label only true peaks or decisive outliers. Everything else belongs in a tooltip.
 - Use direct labels instead of legends when there are one or two series.
 - If a legend is needed, keep it as a one-line key below or above the plot, not a boxed panel.
@@ -77,25 +84,26 @@ Interactions should support reading, not become the point.
 - Tooltips should provide exact values, not duplicate every visible label.
 - Keyboard focus should show the same tooltip as hover.
 - Tooltip position should work for both pointer events and focus events.
-- Keep controls compact: rounded `4px`, active copper, inactive warm grey.
+- Keep controls compact but readable: rounded `5px`, active copper, inactive warm grey, `0.9rem` text.
 
-## Axis and grid treatment
+## Axis and Grid Treatment
 
 - Use horizontal grid lines only unless the chart cannot be read without vertical guides.
 - Axis tick values use `IBM Plex Mono` and muted grey.
 - Axis labels use `Literata`; y-axis labels can use copper when tied to copper bars.
 - Do not over-label x axes. Use meaningful anchors, not every tick.
-- If a chart has a secondary axis, label it clearly in grey and reserve right-side margin.
+- If a chart has a secondary axis, label it clearly and reserve right-side margin. Use blue for an actual secondary data series.
 
-## Data labels
+## Data Labels
 
 - Avoid labeling every bar or point.
 - Prefer exact numbers in tooltips.
 - Label a peak only when it matters to the argument.
 - Never place multiple numeric labels in the same local cluster, especially near high bars.
 - Use monospaced numbers for exact values.
+- If a value is important enough to label, make it readable at 100% browser zoom.
 
-## Component implementation notes
+## Component Implementation Notes
 
 - Keep charts self-contained Astro components when used in posts.
 - Use MDX only when a post needs component imports.
@@ -104,10 +112,11 @@ Interactions should support reading, not become the point.
 - Scope CSS inside components so article-level typography does not leak into SVG labels.
 - Use `aria-label` on the SVG and visible captions for source/method notes.
 
-## Checklist before publishing
+## Checklist Before Publishing
 
 - No text is clipped at the right or top edge.
 - No labels overlap at desktop width.
+- Numbers are readable at 100% browser zoom.
 - Mobile view scrolls horizontally instead of compressing labels.
 - Native browser tooltip boxes do not appear over chart elements.
 - Active controls are clear and accessible.
