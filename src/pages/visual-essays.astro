@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const visualEssays = [
+  {
+    title: 'Multiple approaches to AI',
+    description: 'What Yann LeCun, Fei-Fei Li and Demis Hassabis are building next',
+    link: 'https://claude.ai/public/artifacts/08e5c174-3bc4-4abb-b678-3fe8281d9147',
+  },
+  {
+    title: 'Talent wars in India',
+    description: 'What consulting salary ratios across the world tell us about talent wars',
+    link: 'https://claude.ai/public/artifacts/d2ccbf1c-afc2-4fe2-84ed-949fc18803f7',
+  },
+  {
+    title: 'Cheap Indian Media?',
+    description: 'Indian newspapers are cheap. Does it come at a price?',
+    link: 'https://claude.ai/public/artifacts/15a1b10e-11d0-4718-9a6d-c2ed0ac0fe40',
+  },
+  {
+    title: 'Private equity reduced book prices?',
+    description: 'Despite private equity buying book chains in the UK, prices have gone down in real terms',
+    link: 'https://claude.ai/public/artifacts/04664b3c-ca41-4b81-8b00-0578273d666d',
+  },
+];
+---
+
+<BaseLayout
+  title="Visual essays"
+  description="Visual explorations of ideas, data and debates."
+>
+  <h1>Visual essays</h1>
+  <p class="subtitle">Ideas, data and debates—explained visually.</p>
+
+  {visualEssays.length === 0 ? (
+    <p class="muted">No visual essays yet.</p>
+  ) : (
+    <div class="essays-grid">
+      {visualEssays.map((essay) => (
+        <article class="essay-card">
+          <h2>
+            <a href={essay.link} target="_blank" rel="noopener noreferrer">
+              {essay.title} ↗
+            </a>
+          </h2>
+          <p>{essay.description}</p>
+        </article>
+      ))}
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--color-muted);
+    margin-bottom: 3rem;
+  }
+
+  .essays-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .essay-card {
+    padding: 1.5rem;
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    transition: border-color 0.2s ease;
+  }
+
+  .essay-card:hover {
+    border-color: var(--color-accent);
+  }
+
+  .essay-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .essay-card h2 a {
+    color: var(--color-text);
+  }
+
+  .essay-card h2 a:hover {
+    color: var(--color-accent);
+  }
+
+  .essay-card p {
+    color: var(--color-muted);
+  }
+
+  .muted {
+    color: var(--color-muted);
+  }
+</style>

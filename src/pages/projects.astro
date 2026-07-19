@@ -33,93 +33,39 @@ const projects = [
     link: 'https://bespoke-canines.replit.app',
   },
 ];
-
-const knowledgeArtefacts = [
-  {
-    title: 'Multiple approaches to AI',
-    description: 'What Yann LeCun, Fei-Fei Li and Demis Hassabis are building next',
-    link: 'https://claude.ai/public/artifacts/08e5c174-3bc4-4abb-b678-3fe8281d9147',
-  },
-
- {
-    title: 'Talent wars in India',
-    description: 'What consulting salary ratios across the world tell us about talent wars',
-    link: 'https://claude.ai/public/artifacts/d2ccbf1c-afc2-4fe2-84ed-949fc18803f7',
-  },
-
-  {
-    title: 'Cheap Indian Media?',
-    description: 'Indian newspapers are cheap. Does it come at a price?',
-    link: 'https://claude.ai/public/artifacts/15a1b10e-11d0-4718-9a6d-c2ed0ac0fe40',
-  },
-
-  {
-    title: 'Private equity reduced book prices?',
-    description: 'Despite private equity buying book chains in the UK, prices have gone down in real terms',
-    link: 'https://claude.ai/public/artifacts/04664b3c-ca41-4b81-8b00-0578273d666d',
-  },
-
-];
 ---
 
 <BaseLayout title="Side projects">
   <h1>Side projects</h1>
   <p class="subtitle">Tools and applications I've built.</p>
 
-  <section class="section">
-    <h2 class="section-heading">Projects</h2>
-    {projects.length === 0 ? (
-      <p class="muted">No projects yet.</p>
-    ) : (
-      <div class="projects-grid">
-        {projects.map((project) => (
-          <article class="project-card">
-            <h3>
-              {project.link ? (
-                <a href={project.link} target="_blank" rel="noopener noreferrer">
-                  {project.title} ↗
-                </a>
-              ) : (
-                project.title
-              )}
-            </h3>
-            <p>{project.description}</p>
-            {project.tags && project.tags.length > 0 && (
-              <div class="tags">
-                {project.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
+  {projects.length === 0 ? (
+    <p class="muted">No projects yet.</p>
+  ) : (
+    <div class="projects-grid">
+      {projects.map((project) => (
+        <article class="project-card">
+          <h2>
+            {project.link ? (
+              <a href={project.link} target="_blank" rel="noopener noreferrer">
+                {project.title} ↗
+              </a>
+            ) : (
+              project.title
             )}
-          </article>
-        ))}
-      </div>
-    )}
-  </section>
-
-  <section class="section">
-    <h2 class="section-heading">Knowledge artefacts</h2>
-    {knowledgeArtefacts.length === 0 ? (
-      <p class="muted">No artefacts yet.</p>
-    ) : (
-      <div class="projects-grid">
-        {knowledgeArtefacts.map((artefact) => (
-          <article class="project-card artefact-card">
-            <h3>
-              {artefact.link ? (
-                <a href={artefact.link} target="_blank" rel="noopener noreferrer">
-                  {artefact.title} ↗
-                </a>
-              ) : (
-                artefact.title
-              )}
-            </h3>
-            <p>{artefact.description}</p>
-          </article>
-        ))}
-      </div>
-    )}
-  </section>
+          </h2>
+          <p>{project.description}</p>
+          {project.tags && project.tags.length > 0 && (
+            <div class="tags">
+              {project.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  )}
 </BaseLayout>
 
 <style>
@@ -130,19 +76,6 @@ const knowledgeArtefacts = [
   .subtitle {
     color: var(--color-muted);
     margin-bottom: 3rem;
-  }
-
-  .section {
-    margin-bottom: 4rem;
-  }
-
-  .section-heading {
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-muted);
-    margin-bottom: 1.5rem;
-    font-weight: 500;
   }
 
   .projects-grid {
@@ -162,26 +95,22 @@ const knowledgeArtefacts = [
     border-color: var(--color-accent);
   }
 
-  .project-card h3 {
+  .project-card h2 {
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
   }
 
-  .project-card h3 a {
+  .project-card h2 a {
     color: var(--color-text);
   }
 
-  .project-card h3 a:hover {
+  .project-card h2 a:hover {
     color: var(--color-accent);
   }
 
   .project-card p {
     color: var(--color-muted);
     margin-bottom: 1rem;
-  }
-
-  .artefact-card {
-    border-style: dashed;
   }
 
   .tags {
