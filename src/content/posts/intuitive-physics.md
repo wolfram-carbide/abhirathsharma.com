@@ -1,7 +1,7 @@
 ---
 title: "The Intuitive Understanding of Physics"
 description: "What Claire Dunphy claims to know"
-date: 2025-12-31
+date: 2026-08-28
 tags:
     - science
     - movies & series
@@ -26,7 +26,8 @@ In his book Alchemy, the legendary marketer Rory Sutherland talks about how we h
 
 I like to think that the intuitive understanding of classical Newtonian physics is somewhat similar. Just by looking and feeling objects, we have a sense of how they will move, fall and behave.
 
-That's why all hell breaks lose when we switch to quantum physics when the intuitive understanding has to bow down to the might of mathematics. 
+That's why all hell breaks lose when we switch to quantum physics and the intuitive understanding has to bow down to the might of mathematics. Quantum physics requires a completely different approach to solving problems - it is more abstract, and perhaps a bit more creative and mind boggling. You need to suspend your disbelief for a while, like in a movie, and really believe in those abstract dimensions and dualities. 
 
+I bet Claire Dunphy would not be able to predict wavefunctions of an electron. Sigh!
 
 ![alt text](/images/posts/intuitive-physics/image-3.png)
