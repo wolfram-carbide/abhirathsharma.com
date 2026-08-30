@@ -29,4 +29,4 @@ There is another benefit to seeing work in 2-week cycles: you realise how little
 
 A disclaimer: I am not a fan of teams making the 2-week sprint their whole identity. Shreyas Doshi, one of my favourite product leaders, describes that as project-management rather than product-management thinking.
 
-We need both. Product management sets the direction: what should we build to win? Project management supplies the speed: how do we orchestrate the work? Impact is a vector, in physics and in product. It needs both speed and direction.
+We need both. Product management sets the direction: what should we build to win? Project management supplies the speed: how do we orchestrate the work? True impact, like velocity, is a vector. It needs both speed and direction.
