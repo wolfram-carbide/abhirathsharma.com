@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Human development at scale"
+  description="How Germany, the United States and other large countries compare on population and human development."
+>
+  <article class="visual-essay">
+    <header class="essay-header">
+      <p class="eyebrow">Visual essay</p>
+      <h1>Human development at scale</h1>
+      <p class="dek">Which large countries manage to deliver both scale and a high standard of living?</p>
+    </header>
+
+    <p>
+      India and China have a long way to go. Their average Human Development Index scores over
+      2019–23 were <strong>0.662</strong> and <strong>0.791</strong>. Both countries disappear from
+      the first chart because their billion-plus populations flatten every other comparison.
+    </p>
+
+    <section class="chart-section">
+      <div class="section-heading">
+        <p class="figure-number">01</p>
+        <h2>Human development among large countries</h2>
+      </div>
+      <div class="chart-scroll">
+        <svg id="hdi-full" viewBox="0 0 930 570" role="img" aria-label="Population and average HDI among G20 countries below 400 million people"></svg>
+      </div>
+    </section>
+
+    <p>
+      Among G20 countries with fewer than 400 million people, Germany is unusual. It sustains an
+      average HDI of <strong>0.957</strong> across a population of more than 80 million. In 2023,
+      15% of its residents were foreign nationals—an imperfect but useful indication of the scale
+      at which the country absorbs migration.
+    </p>
+
+    <p>
+      Scandinavia performs slightly better, averaging <strong>0.961</strong> across Denmark, Norway
+      and Sweden. But the average Scandinavian country has only 7.3 million people. Delivering
+      similar outcomes across Germany’s population is a different administrative problem.
+    </p>
+
+    <section class="chart-section">
+      <div class="section-heading">
+        <p class="figure-number">02</p>
+        <h2>The high-HDI group</h2>
+      </div>
+      <div class="chart-scroll">
+        <svg id="hdi-zoom" viewBox="0 0 930 570" role="img" aria-label="Magnified comparison of countries with a higher average HDI than Türkiye"></svg>
+      </div>
+    </section>
+
+    <p>
+      The United States is the other exception. No country in this comparison combines a population
+      above 300 million with an HDI above 0.900. Its score of <strong>0.930</strong> trails Germany,
+      but achieving it across 343 million people still makes the US an outlier.
+    </p>
+
+    <section class="chart-section">
+      <div class="section-heading">
+        <p class="figure-number">03</p>
+        <h2>A closer look below 150 million</h2>
+      </div>
+      <div class="chart-scroll">
+        <svg id="hdi-close" viewBox="0 0 930 570" role="img" aria-label="Close comparison of high-HDI countries below 150 million people, with the United States retained as an off-scale reference"></svg>
+      </div>
+    </section>
+
+    <div class="chart-key" aria-label="Chart key">
+      <span><i class="peer"></i>G20 peer</span><span><i class="germany"></i>Germany</span>
+      <span><i class="usa"></i>United States</span><span><i class="scandinavia"></i>Scandinavia average</span>
+    </div>
+
+    <footer class="sources">
+      <p><strong>Method.</strong> HDI is the simple average for 2019–23; population is for 2023. Scandinavia is the unweighted average of Denmark, Norway and Sweden. Figure 03 excludes Türkiye and countries below it, then magnifies countries below 150 million; the US remains as an off-scale reference.</p>
+      <p><strong>Sources.</strong> <a href="https://hdr.undp.org/data-center/documentation-and-downloads">UNDP Human Development Report data</a>; <a href="https://www.destatis.de/EN/Themes/Society-Environment/Population/Current-Population/Tables/population-by-laender.html">German Federal Statistical Office</a>.</p>
+    </footer>
+  </article>
+</BaseLayout>
+
+<script is:inline>
+(() => {
+  const data = [
+    ['AR','Argentina',45.538,.8564],['AU','Australia',26.451,.9522],['BR','Brazil',211.141,.7760],
+    ['CA','Canada',39.299,.9358],['FR','France',66.439,.9148],['DE','Germany',84.548,.9568],
+    ['ID','Indonesia',281.190,.7170],['IT','Italy',59.499,.9066],['JP','Japan',124.371,.9224],
+    ['MX','Mexico',129.740,.7768],['KR','South Korea',51.749,.9306],['RU','Russia',145.441,.8272],
+    ['SA','Saudi Arabia',33.264,.8848],['ZA','South Africa',63.212,.7330],['TR','Türkiye',87.271,.8452],
+    ['UK','United Kingdom',68.683,.9408],['US','United States',343.477,.9300],
+    ['SC','Scandinavia average',7.339,.9607]
+  ].map(([code,name,pop,hdi]) => ({code,name,pop,hdi}));
+  const ns = 'http://www.w3.org/2000/svg';
+  const make = (tag, attrs = {}, text = '') => {
+    const element = document.createElementNS(ns, tag);
+    Object.entries(attrs).forEach(([key,value]) => element.setAttribute(key, String(value)));
+    if (text) element.textContent = text;
+    return element;
+  };
+  const draw = ({id,minHdi,maxPop,filter,offScaleUS = false}) => {
+    const svg = document.querySelector(id);
+    if (!svg) return;
+    const plot = {left:90,right:890,top:54,bottom:500};
+    const x = pop => plot.left + (pop / maxPop) * (plot.right - plot.left);
+    const y = hdi => plot.top + ((1 - hdi) / (1 - minHdi)) * (plot.bottom - plot.top);
+    const rows = data.filter(filter);
+    const step = minHdi >= .84 ? .02 : .05;
+    const ticks = [];
+    for (let value = 1; value >= minHdi - .0001; value -= step) ticks.push(Number(value.toFixed(2)));
+    svg.append(make('desc',{},'Country codes are printed inside each point; population increases rightward and HDI shortfall increases downward.'));
+    ticks.forEach(tick => {
+      const py = y(tick);
+      svg.append(make('line',{class:'gridline',x1:plot.left,y1:py,x2:plot.right,y2:py}));
+      svg.append(make('text',{class:'tick',x:plot.left-16,y:py+4,'text-anchor':'end'},tick === 1 ? '0' : `−${(1-tick).toFixed(2).replace('0.','.')}`));
+    });
+    const xStep = maxPop > 300 ? 100 : 50;
+    for (let tick = 0; tick <= maxPop; tick += xStep) {
+      svg.append(make('text',{class:'tick',x:x(tick),y:532,'text-anchor':'middle'},tick === 0 ? '0' : `${tick}m`));
+    }
+    svg.append(make('line',{class:'axis',x1:plot.left,y1:plot.top,x2:plot.right,y2:plot.top}));
+    svg.append(make('line',{class:'axis',x1:plot.left,y1:plot.top,x2:plot.left,y2:plot.bottom}));
+    svg.append(make('path',{class:'arrow',d:`M${plot.right} ${plot.top}l-10-5v10z`}));
+    svg.append(make('path',{class:'arrow',d:`M${plot.left} ${plot.bottom}l-5-10h10z`}));
+    svg.append(make('text',{class:'axis-label',x:490,y:562,'text-anchor':'middle'},'Population in 2023 · linear scale'));
+    svg.append(make('text',{class:'axis-label',x:23,y:277,'text-anchor':'middle',transform:'rotate(-90 23 277)'},'Average HDI distance from 1.0 · 2019–23'));
+    rows.forEach(d => {
+      const group = make('g',{class:`mark mark-${d.code.toLowerCase()}`});
+      group.append(make('title',{},`${d.name}: ${d.pop.toFixed(1)}m people; ${d.hdi.toFixed(3)} average HDI`));
+      group.append(make('circle',{cx:x(d.pop),cy:y(d.hdi),r:13}));
+      group.append(make('text',{x:x(d.pop),y:y(d.hdi)+4,'text-anchor':'middle'},d.code));
+      svg.append(group);
+    });
+    if (offScaleUS) {
+      const py = y(.9300);
+      svg.append(make('line',{class:'us-reference',x1:plot.right-92,y1:py,x2:plot.right,y2:py}));
+      svg.append(make('path',{class:'us-arrow',d:`M${plot.right} ${py}l-10-5v10z`}));
+      svg.append(make('text',{class:'us-label',x:plot.right-98,y:py+4,'text-anchor':'end'},'US · 343m · .930'));
+    }
+  };
+  draw({id:'#hdi-full',minHdi:.65,maxPop:350,filter:() => true});
+  draw({id:'#hdi-zoom',minHdi:.84,maxPop:350,filter:d => d.hdi > .8452});
+  draw({id:'#hdi-close',minHdi:.84,maxPop:150,filter:d => d.hdi > .8452 && d.pop < 150 && d.code !== 'US',offScaleUS:true});
+})();
+</script>
+
+<style>
+  .visual-essay { --cobalt:#3D5FA8; --teal:#28766F; --mustard:#C7922F; --vermilion:#D05A3A; }
+  .essay-header { margin-bottom: 2.5rem; }
+  .eyebrow, .figure-number { font-family: var(--font-mono); font-size: .8rem; color: var(--color-accent); text-transform: uppercase; letter-spacing: .08em; }
+  .essay-header h1 { margin-bottom: .5rem; }
+  .dek { max-width: 620px; color: var(--color-muted); font-family: var(--font-heading); font-size: 1.2rem; line-height: 1.5; }
+  .visual-essay > p { max-width: 680px; font-size: 1.05rem; line-height: 1.75; }
+  .chart-section { margin: 3rem 0; }
+  .section-heading { display: flex; align-items: baseline; gap: .8rem; margin-bottom: .5rem; }
+  .section-heading h2 { margin: 0; font-size: 1.35rem; font-weight: 600; }
+  .figure-number { margin: 0; }
+  .chart-scroll { overflow-x: auto; overflow-y: visible; scrollbar-width: thin; }
+  .chart-scroll svg { display: block; width: 100%; min-width: 700px; height: auto; overflow: visible; }
+  :global(.gridline) { stroke: #E6E3DC; stroke-width: 1; }
+  :global(.axis) { stroke: #5F6265; stroke-width: 1.2; }
+  :global(.arrow) { fill: #5F6265; }
+  :global(.tick) { fill: #5F6265; font-family: var(--font-mono); font-size: 12.5px; }
+  :global(.axis-label) { fill: #181A1B; font-family: var(--font-heading); font-size: 14px; }
+  :global(.mark circle) { fill: var(--cobalt); stroke: var(--color-bg); stroke-width: 2; }
+  :global(.mark text) { fill: #FCFBF8; font-family: var(--font-mono); font-size: 10px; font-weight: 500; pointer-events: none; }
+  :global(.mark-de circle) { fill: var(--mustard); }
+  :global(.mark-us circle) { fill: var(--vermilion); }
+  :global(.mark-sc circle) { fill: var(--teal); }
+  :global(.us-reference) { stroke: var(--vermilion); stroke-width: 1.5; }
+  :global(.us-arrow) { fill: var(--vermilion); }
+  :global(.us-label) { fill: #181A1B; font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; }
+  .chart-key { display: flex; flex-wrap: wrap; gap: .7rem 1.2rem; margin: 1rem 0 2rem; font-size: .85rem; }
+  .chart-key span { display: inline-flex; align-items: center; gap: .4rem; }
+  .chart-key i { width: .65rem; height: .65rem; border-radius: 50%; background: var(--cobalt); }
+  .chart-key .germany { background: var(--mustard); }
+  .chart-key .usa { background: var(--vermilion); }
+  .chart-key .scandinavia { background: var(--teal); }
+  .sources { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border); color: var(--color-muted); font-size: .85rem; line-height: 1.6; }
+  .sources p { margin-bottom: .65rem; }
+  @media (max-width: 600px) { .section-heading { align-items: flex-start; } .visual-essay > p { font-size: 1rem; } }
+</style>

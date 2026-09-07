@@ -3,6 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const visualEssays = [
   {
+    title: 'Human development at scale',
+    description: 'Which large countries combine population with a high standard of living?',
+    link: '/visual-essays/human-development-at-scale',
+    internal: true,
+  },
+  {
     title: 'Oceans - 8 fascinating maps',
     description: 'A trip to Cornwall made me wonder about overfishing, salinity and rough seas',
     link: 'https://world-ocean-eight-surveys.wolframcarbide.chatgpt.site/ocean-atlas',
@@ -59,8 +65,8 @@ const visualEssays = [
       {visualEssays.map((essay) => (
         <article class="essay-card">
           <h2>
-            <a href={essay.link} target="_blank" rel="noopener noreferrer">
-              {essay.title} ↗
+            <a href={essay.link} target={essay.internal ? undefined : '_blank'} rel={essay.internal ? undefined : 'noopener noreferrer'}>
+              {essay.title}{essay.internal ? '' : ' ↗'}
             </a>
           </h2>
           <p>{essay.description}</p>
