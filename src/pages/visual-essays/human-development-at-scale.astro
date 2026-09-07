@@ -45,6 +45,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <section class="chart-section">
       <div class="section-heading">
         <p class="figure-number">02</p>
+        <h2>Germany vs Scandinavia over 20 years</h2>
+      </div>
+      <div class="chart-scroll">
+        <svg id="hdi-trend" viewBox="0 0 930 500" role="img" aria-label="Germany and Scandinavia average HDI from 2004 to 2023"></svg>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <div class="section-heading">
+        <p class="figure-number">03</p>
         <h2>The high-HDI group</h2>
       </div>
       <div class="chart-scroll">
@@ -60,7 +70,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <section class="chart-section">
       <div class="section-heading">
-        <p class="figure-number">03</p>
+        <p class="figure-number">04</p>
         <h2>A closer look below 150 million</h2>
       </div>
       <div class="chart-scroll">
@@ -74,7 +84,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
 
     <footer class="sources">
-      <p><strong>Method.</strong> HDI is the simple average for 2019–23; population is for 2023. Scandinavia is the unweighted average of Denmark, Norway and Sweden. Figure 03 excludes Türkiye and countries below it, then magnifies countries below 150 million; the US remains as an off-scale reference.</p>
+      <p><strong>Method.</strong> HDI is the simple average for 2019–23; population is for 2023. Scandinavia is the unweighted average of Denmark, Norway and Sweden. Figure 04 excludes Türkiye and countries below it, then magnifies countries below 150 million; the US remains as an off-scale reference.</p>
       <p><strong>Sources.</strong> <a href="https://hdr.undp.org/data-center/documentation-and-downloads">UNDP Human Development Report data</a>; <a href="https://www.destatis.de/EN/Themes/Society-Environment/Population/Current-Population/Tables/population-by-laender.html">German Federal Statistical Office</a>.</p>
     </footer>
   </article>
@@ -91,6 +101,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     ['UK','United Kingdom',68.683,.9408],['US','United States',343.477,.9300],
     ['SC','Scandinavia average',7.339,.9607]
   ].map(([code,name,pop,hdi]) => ({code,name,pop,hdi}));
+  const trendData = [
+    [2004,.9230,.9190],[2005,.9230,.9223],[2006,.9270,.9247],[2007,.9310,.9260],[2008,.9330,.9260],
+    [2009,.9330,.9237],[2010,.9360,.9283],[2011,.9420,.9343],[2012,.9440,.9360],[2013,.9450,.9447],
+    [2014,.9490,.9460],[2015,.9480,.9490],[2016,.9490,.9533],[2017,.9510,.9550],[2018,.9520,.9553],
+    [2019,.9570,.9583],[2020,.9550,.9580],[2021,.9580,.9617],[2022,.9550,.9617],[2023,.9590,.9637]
+  ];
   const ns = 'http://www.w3.org/2000/svg';
   const make = (tag, attrs = {}, text = '') => {
     const element = document.createElementNS(ns, tag);
@@ -138,7 +154,34 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       svg.append(make('text',{class:'us-label',x:plot.right-98,y:py+4,'text-anchor':'end'},'US · 343m · .930'));
     }
   };
+  const drawTrend = () => {
+    const svg = document.querySelector('#hdi-trend');
+    if (!svg) return;
+    const plot = {left:90,right:770,top:48,bottom:420};
+    const x = year => plot.left + ((year - 2004) / 19) * (plot.right - plot.left);
+    const y = hdi => plot.bottom - ((hdi - .90) / .08) * (plot.bottom - plot.top);
+    [.90,.92,.94,.96,.98].forEach(tick => {
+      const py = y(tick);
+      svg.append(make('line',{class:'gridline',x1:plot.left,y1:py,x2:plot.right,y2:py}));
+      svg.append(make('text',{class:'tick',x:plot.left-14,y:py+4,'text-anchor':'end'},tick.toFixed(2)));
+    });
+    [2004,2009,2014,2019,2023].forEach(tick => svg.append(make('text',{class:'tick',x:x(tick),y:452,'text-anchor':'middle'},String(tick))));
+    svg.append(make('line',{class:'axis',x1:plot.left,y1:plot.bottom,x2:plot.right,y2:plot.bottom}));
+    svg.append(make('text',{class:'axis-label',x:24,y:234,'text-anchor':'middle',transform:'rotate(-90 24 234)'},'Human Development Index'));
+    const series = [
+      {key:1,className:'trend-de',label:'Germany',value:'.959'},
+      {key:2,className:'trend-sc',label:'Scandinavia',value:'.964'}
+    ];
+    series.forEach(seriesItem => {
+      const points = trendData.map(row => `${x(row[0])},${y(row[seriesItem.key])}`).join(' ');
+      svg.append(make('polyline',{class:`trend-line ${seriesItem.className}`,points,fill:'none'}));
+      trendData.forEach(row => svg.append(make('circle',{class:`trend-point ${seriesItem.className}`,cx:x(row[0]),cy:y(row[seriesItem.key]),r:3})));
+      const last = trendData[trendData.length-1];
+      svg.append(make('text',{class:`trend-label ${seriesItem.className}`,x:plot.right+14,y:y(last[seriesItem.key])+4},`${seriesItem.label} · ${seriesItem.value}`));
+    });
+  };
   draw({id:'#hdi-full',minHdi:.65,maxPop:350,filter:() => true});
+  drawTrend();
   draw({id:'#hdi-zoom',minHdi:.84,maxPop:350,filter:d => d.hdi > .8452});
   draw({id:'#hdi-close',minHdi:.84,maxPop:150,filter:d => d.hdi > .8452 && d.pop < 150 && d.code !== 'US',offScaleUS:true});
 })();
@@ -170,6 +213,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   :global(.us-reference) { stroke: var(--vermilion); stroke-width: 1.5; }
   :global(.us-arrow) { fill: var(--vermilion); }
   :global(.us-label) { fill: #181A1B; font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; }
+  :global(.trend-line) { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  :global(.trend-point) { stroke: var(--color-bg); stroke-width: 1; }
+  :global(.trend-line.trend-de) { stroke: var(--mustard); }
+  :global(.trend-line.trend-sc) { stroke: var(--teal); }
+  :global(.trend-point.trend-de), :global(.trend-label.trend-de) { fill: var(--mustard); }
+  :global(.trend-point.trend-sc), :global(.trend-label.trend-sc) { fill: var(--teal); }
+  :global(.trend-label) { font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; }
   .chart-key { display: flex; flex-wrap: wrap; gap: .7rem 1.2rem; margin: 1rem 0 2rem; font-size: .85rem; }
   .chart-key span { display: inline-flex; align-items: center; gap: .4rem; }
   .chart-key i { width: .65rem; height: .65rem; border-radius: 50%; background: var(--cobalt); }

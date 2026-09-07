@@ -15,3 +15,8 @@
 ## Validation
 
 - Run `npm run build` before publishing.
+
+## Editorial style
+
+- Follow `docs/editorial-style-guide.md` for essays and explanatory copy.
+- Preserve the author's first-person voice and argument. Do not flatten personal writing into neutral report prose.
