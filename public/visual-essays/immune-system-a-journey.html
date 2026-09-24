@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Immune system: A journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink-dark:#2b1511; --ink-dark-2:#5e3a31;
+  --ink-light:#f5ede7; --ink-light-2:#cbbcc2;
+  --ink:var(--ink-dark); --ink2:var(--ink-dark-2);
+  --halo:rgba(250,232,218,.85);
+  --panel:rgba(248,232,220,.84);
+  --scrim:rgba(247,228,212,.9);
+  --accent:#b3122a;
+  --font-display:"Gloock","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --font-body:"Instrument Sans","Avenir Next","Segoe UI",sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:#170a10}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#170a10;color:var(--ink);font-family:var(--font-body);font-size:1.0625rem;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body[data-ink="light"]{--ink:var(--ink-light);--ink2:var(--ink-light-2);--halo:rgba(12,5,12,.85);--panel:rgba(16,8,16,.74)}
+#world{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.veil{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(120% 90% at 60% 50%,transparent 55%,rgba(8,2,8,.42) 100%)}
+.grain{position:fixed;inset:-50%;pointer-events:none;z-index:2;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.scrim{position:fixed;top:0;bottom:0;left:0;width:min(56vw,820px);z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,var(--scrim) 0%,var(--scrim) 34%,transparent 100%);transition:background .9s var(--ease)}
+main{position:relative;z-index:3}
+.ch{min-height:260vh;padding:26vh 1.5rem 0 clamp(1.5rem,6vw,6.5rem);display:flex;flex-direction:column;gap:44vh}
+.beat{max-width:28.5rem;transition:color .6s var(--ease)}
+.beat h2{font-family:var(--font-display);font-weight:400;font-size:clamp(2.2rem,3.5vw,3.3rem);line-height:1.04;letter-spacing:-.012em;margin:0 0 1.1rem;color:var(--ink);text-wrap:balance}
+.beat p{margin:0 0 1em;color:var(--ink);text-wrap:pretty}
+.beat p:last-child{margin-bottom:0}
+.beat em{font-style:italic}
+.hero{padding-top:14vh}
+.hero h1{font-family:var(--font-display);font-weight:400;font-size:clamp(3.6rem,9vw,8.4rem);line-height:.9;letter-spacing:-.025em;margin:0 0 1.6rem;color:var(--ink);max-width:7ch}
+.hero .lede{font-size:clamp(1.1rem,1.35vw,1.28rem);max-width:26rem;color:var(--ink);margin:0 0 2.2rem}
+.cue{display:flex;align-items:center;gap:.8rem;color:var(--ink2);font-size:.95rem;margin:0}
+.cue i{display:block;width:1px;height:3.2rem;background:currentColor;transform-origin:top;animation:drip 2.6s var(--ease) infinite}
+@keyframes drip{0%{transform:scaleY(0);opacity:1}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+.hero-copy{animation:rise 1.6s var(--ease) both .15s}
+@keyframes rise{from{opacity:0;transform:translateY(18px);letter-spacing:.01em}to{opacity:1;transform:none}}
+.outro{min-height:100vh;display:flex;align-items:center;padding:0 1.5rem 0 clamp(1.5rem,6vw,6.5rem)}
+.outro .beat h2{font-size:clamp(2.4rem,4.4vw,4.2rem)}
+.btn{margin-top:1.6rem;font:600 1rem/1 var(--font-body);color:var(--ink);background:transparent;border:1.5px solid currentColor;border-radius:999px;padding:.95rem 1.5rem;min-height:48px;cursor:pointer;transition:background .25s var(--ease),color .25s var(--ease),transform .15s var(--ease)}
+.btn:hover{background:var(--ink);color:#1a0c12}
+body[data-ink="dark"] .btn:hover{color:#f7e8dc}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+/* scale gauge */
+.gauge{position:fixed;right:max(1.4rem,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:4;color:var(--ink);pointer-events:none;transition:color .6s var(--ease)}
+.rule{position:relative;height:min(62vh,540px);width:4.2rem}
+.axis{position:absolute;right:0;top:0;bottom:0;width:1px;background:currentColor;opacity:.45}
+.tick{position:absolute;right:0;height:1px;width:11px;background:currentColor;opacity:.6}
+.tick.minor{width:5px;opacity:.28}
+.tick span{position:absolute;right:17px;top:-.62em;font-size:.78rem;line-height:1.2;white-space:nowrap;opacity:.85;text-shadow:0 0 6px var(--halo),0 0 2px var(--halo);font-variant-numeric:tabular-nums}
+.marker{position:absolute;right:-7px;top:0;width:25px;height:2px;background:var(--accent);box-shadow:0 0 12px var(--accent);will-change:transform;transition:background .6s}
+.marker::after{content:"";position:absolute;right:-5px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.readout{position:absolute;right:5.4rem;top:0;width:13.5rem;text-align:right;will-change:transform;text-shadow:0 0 10px var(--halo),0 0 3px var(--halo)}
+.readout b{display:block;font:400 1.9rem/1 var(--font-display);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.readout small{display:block;font-size:.82rem;line-height:1.35;margin-top:.35rem;color:var(--ink2)}
+.nocanvas body{background:linear-gradient(#3a1222,#0e0610)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:899px){
+  .scrim{display:none}
+  .ch{padding:40vh 1rem 0;gap:52vh}
+  .hero{padding-top:12vh}
+  .beat{max-width:none;background:var(--panel);padding:1.15rem 1.25rem 1.25rem;border-radius:14px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .hero .beat.hero-copy{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0}
+  .gauge{top:auto;bottom:calc(1rem + env(safe-area-inset-bottom,0px));transform:none;right:.8rem}
+  .rule{height:30vh;width:3rem}
+  .tick span{font-size:.7rem;right:13px}
+  .tick.minor{display:none}
+  .readout{right:3.9rem;width:9rem}
+  .readout b{font-size:1.35rem}
+  .readout small{font-size:.72rem}
+  .outro{padding:0 1rem}
+}
+@media (max-width:520px){.tick:not(.major-show) span{display:none}}
+@media (prefers-reduced-motion:reduce){.cue i,.hero-copy{animation:none}}
+</style>
+</head>
+<body data-ink="dark">
+<canvas id="world" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<div class="scrim" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<aside class="gauge" aria-label="Width of the current view">
+  <div class="rule" id="rule">
+    <div class="axis"></div>
+    <div class="marker" id="marker"></div>
+    <p class="readout" id="readout" aria-live="off"><b id="fov">3 cm</b><small id="cmp"></small></p>
+  </div>
+</aside>
+
+<main id="story">
+  <section class="ch hero" data-i="0">
+    <div class="beat hero-copy">
+      <h1>Under the skin</h1>
+      <p class="lede">A journey through your immune system, from the surface of your arm down to single molecules. The scale on the right shows how wide your view is.</p>
+      <p class="cue"><i></i>Scroll to descend</p>
+    </div>
+    <div class="beat">
+      <p>Your skin covers about two square metres. From here it looks still. Yet a single square centimetre can carry up to a million bacteria, and your body is constantly deciding which of them may stay.</p>
+      <p>A thorn is all it takes.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="1">
+    <div class="beat">
+      <h2>A wall made of the dead</h2>
+      <p>The outer layer is 15 to 20 sheets of flattened, dead cells called corneocytes: bags of keratin, stacked like bricks and sealed with fats. The whole wall is replaced from below roughly every month.</p>
+      <p>The surface is mildly acidic, around pH 5, and laced with antimicrobial peptides. Most microbes living here, like the pale <em>Staphylococcus epidermidis</em>, are tolerated residents that crowd out worse ones.</p>
+    </div>
+    <div class="beat">
+      <p>The thorn splits the wall. Riding it in are clusters of <em>Staphylococcus aureus</em>. <em>Aureus</em> means golden, for the pigment they make.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="2">
+    <div class="beat">
+      <h2>The first alarm</h2>
+      <p>Beneath the wall lies the dermis: a scaffold of collagen cables threaded with capillaries and nerves. Sentinel cells wait here, already in position.</p>
+      <p>A mast cell is packed with hundreds of granules of histamine and other signals. Injury and bacterial molecules make it empty them within seconds.</p>
+    </div>
+    <div class="beat">
+      <p>Histamine loosens the walls of nearby vessels. Blood rushes in and fluid leaks out. The redness, heat and swelling of a wound are this, happening. Resident macrophages add chemical calls for help.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="3">
+    <div class="beat">
+      <h2>Leaving the bloodstream</h2>
+      <p>Inside a venule, a small vein just past the capillaries, red cells tumble by, slowed here many times over. Carried with them are neutrophils, the most common white cells: roughly half to two thirds of them.</p>
+      <p>Where the wall is inflamed, sticky molecules called selectins snag a passing neutrophil. It rolls, brakes, and grips the wall with integrins.</p>
+    </div>
+    <div class="beat">
+      <p>Then it squeezes through a gap between two wall cells, narrower than itself. Its nucleus, split into lobes, can pass through in pieces. In the first hours after an injury, neutrophils are most of what arrives.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="4">
+    <div class="beat">
+      <h2>The chase</h2>
+      <p>Bacteria shed formyl peptides, a chemical signature of their kind. The neutrophil turns toward the stronger trace and crawls, leading with a ruffled sheet of membrane.</p>
+      <p>An echo from deep time: your mitochondria were once free-living bacteria and still mark their proteins the same way. When your own cells are crushed, their mitochondria set off the same alarm.</p>
+    </div>
+    <div class="beat">
+      <p>The prey is engulfed and doused with hypochlorous acid, the active ingredient of household bleach, made by an enzyme called myeloperoxidase.</p>
+      <p>Some neutrophils go further. They burst, casting out their own DNA as a sticky net that snares microbes. Here it glows green, the way biologists stain it.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="5">
+    <div class="beat">
+      <h2>The big eater</h2>
+      <p>Macrophage is Greek for big eater. Many arrive as monocytes from the blood and mature on site; others have lived in the tissue for years.</p>
+      <p>It reaches out with a cup of membrane, wraps its target and pulls it inside a bubble called a phagosome. The bubble fuses with lysosomes, sacs of digestive enzymes kept at about pH 4.5, shown here in orange.</p>
+    </div>
+    <div class="beat">
+      <p>It also clears away spent neutrophils and releases cytokines such as IL‑1 and TNF. Reaching the brain, these reset its thermostat. This is how a fever starts.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="6">
+    <div class="beat">
+      <h2>Four hundred times smaller</h2>
+      <p>We drop onto the surface of a single rod-shaped bacterium that came in with the thorn. This scale is too fine for an ordinary light microscope; it has been mapped with electron microscopes and X‑ray crystallography.</p>
+      <p>Your blood carries more than 30 complement proteins, inert until they touch a microbe. Then they switch each other on in a cascade. Fragments called C3b stick to the surface: tags that mark it for eating.</p>
+    </div>
+    <div class="beat">
+      <p>The last proteins assemble into a ring, the membrane attack complex, and punch a pore about 10 nanometres wide through the outer membrane. Thin-walled bacteria like this one can burst. Staph's thick wall resists the punch, so against it the tags matter more.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="7">
+    <div class="beat">
+      <h2>The courier</h2>
+      <p>The scale jumps: we pull back to follow a messenger. Dendritic cells in the skin have been sampling the invader. Carrying its fragments, one crawls into a lymphatic vessel and drifts toward the nearest lymph node, a trip of a day or so.</p>
+    </div>
+    <div class="beat">
+      <p>You have hundreds of lymph nodes, around 600, most smaller than a bean. Inside, B cells gather in round follicles and T cells fill the zone around them. Every node is a place where the right cells can find each other.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="8">
+    <div class="beat">
+      <h2>One in a million</h2>
+      <p>The dendritic cell holds up fragments of the invader on molecules called MHC. T cells crawl over it by the thousands per hour, each touching briefly, testing the fit.</p>
+      <p>Each T cell carries one receptor design, built by randomly shuffling gene segments. Together yours carry an estimated 100 million or more designs. For any one invader, perhaps one naive T cell in a hundred thousand to a million fits.</p>
+    </div>
+    <div class="beat">
+      <p>When one does, the two cells lock into an immunological synapse, a bullseye of receptors. The T cell switches on.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="9">
+    <div class="beat">
+      <h2>An army from one</h2>
+      <p>The activated T cell divides, and its daughters divide, as often as every six to eight hours. Ten doublings make 1,024 cells in about three days.</p>
+    </div>
+    <div class="beat">
+      <p>Within a week a single clone can number in the tens of thousands or more. Helper T cells coordinate the response. Killer T cells go hunting.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="10">
+    <div class="beat">
+      <h2>A quiet execution</h2>
+      <p>Some enemies hide inside your cells, beyond the reach of antibodies: viruses, and bacteria that slip indoors. So nearly every cell in your body keeps displaying fragments of its own proteins on MHC class I molecules.</p>
+      <p>A killer T cell reads them. Finding a foreign fragment, it docks, aims its granules at the contact point and releases them. Perforin opens holes; granzymes pass through and trigger the cell's own self-destruct program.</p>
+    </div>
+    <div class="beat">
+      <p>The infected cell dies neatly, blebbing and breaking into sealed fragments that are swept up without spilling. The killer moves on to the next.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="11">
+    <div class="beat">
+      <h2>The factory</h2>
+      <p>Back in the lymph node's follicles, B cells that recognise the invader get help from T cells and improve. Their antibody genes mutate and the tightest binders are selected: evolution, run over days and weeks, inside you.</p>
+      <p>Some become plasma cells, filled with rough endoplasmic reticulum. Each one releases thousands of antibody molecules every second.</p>
+    </div>
+    <div class="beat">
+      <p>Antibodies spread through blood and tissue and coat the invader. At this scale, each one is far too small to see.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="12">
+    <div class="beat">
+      <h2>The shape of a Y</h2>
+      <p>An antibody is about 15 nanometres across: four protein chains folded into twelve compact domains.</p>
+      <p>Only the two tips differ from one antibody to the next. They fit one exact shape on the invader and grab it with both arms.</p>
+    </div>
+    <div class="beat">
+      <p>The stem is a handle. Macrophages and neutrophils carry receptors for it, so a coated bacterium is a marked one: easier to seize, faster to eat. The stem also sets off complement.</p>
+    </div>
+  </section>
+
+  <section class="ch" data-i="13">
+    <div class="beat">
+      <h2>What stays</h2>
+      <p>Within a couple of weeks the wound has closed. Most of the expanded army, around 90 to 95 percent, dies off on schedule.</p>
+      <p>The survivors become memory cells that can last for decades. Some settle in this patch of skin as resident guards. If the same invader returns, the response starts within hours, not days.</p>
+    </div>
+  </section>
+
+  <section class="outro">
+    <div class="beat">
+      <h2>All of this, for a scratch you forgot by dinner.</h2>
+      <button class="btn" id="top" type="button">Back to the surface</button>
+    </div>
+  </section>
+</main>
+<noscript><p style="position:fixed;bottom:1rem;left:1rem;z-index:9;color:#fff">The illustrations need JavaScript. The text above still reads in full.</p></noscript>
+<script>
+(()=>{
+"use strict";
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('world');
+const ctx=cv.getContext&&cv.getContext('2d');
+if(!ctx){document.documentElement.classList.add('nocanvas');return;}
+const buf=document.createElement('canvas'),bctx=buf.getContext('2d');
+const TAU=Math.PI*2, GA=Math.PI*(3-Math.sqrt(5));
+const clamp=(v,a=0,b=1)=>v<a?a:v>b?b:v;
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const sm=(a,b,v)=>{const t=clamp((v-a)/(b-a));return t*t*(3-2*t);};
+const win=(p,a,b,f=.06)=>sm(a,a+f,p)*(1-sm(b-f,b,p));
+function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function gauss(a,c,w){const d=Math.atan2(Math.sin(a-c),Math.cos(a-c));return Math.exp(-(d*d)/(w*w));}
+let W=1,H=1,DPR=1,U=1,CX=0,CY=0,WS=1,LA=1,wide=true;
+
+/* ---------- drawing primitives ---------- */
+const WOB={};
+function wobble(seed){if(WOB[seed])return WOB[seed];const R=rng(seed*7919+13);return WOB[seed]=[2,3,4,5,7].map(k=>[k,R()*TAU,(R()*.5+.15)*(R()<.5?-1:1),1/(k*.9)]);}
+function blob(c,x,y,r,seed,amp,t,sx=1,sy=1,rot=0,begin=true,n=64){
+  const h=wobble(seed),cr=Math.cos(rot),sr=Math.sin(rot);
+  if(begin)c.beginPath();
+  for(let i=0;i<=n;i++){const a=i/n*TAU;let k=1;for(const q of h)k+=amp*q[3]*Math.sin(q[0]*a+q[1]+q[2]*t);
+    const px=Math.cos(a)*r*k*sx,py=Math.sin(a)*r*k*sy,X=x+px*cr-py*sr,Y=y+px*sr+py*cr;i?c.lineTo(X,Y):c.moveTo(X,Y);}
+  c.closePath();
+}
+function polar(c,x,y,fn,n){c.beginPath();for(let i=0;i<=n;i++){const a=i/n*TAU,r=fn(a);i?c.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r):c.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}c.closePath();}
+function glass(c,x,y,r,core,mid,rim,stroke,lw=1.6){const g=c.createRadialGradient(x-r*.28,y-r*.32,r*.05,x,y,r*1.08);g.addColorStop(0,core);g.addColorStop(.72,mid);g.addColorStop(1,rim);c.fillStyle=g;c.fill();if(stroke){c.lineWidth=lw/WS;c.strokeStyle=stroke;c.stroke();}}
+function rrect(c,x,y,w,h,r){r=Math.min(r,w/2,h/2);c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+function dot(c,x,y,r){c.moveTo(x+r,y);c.arc(x,y,r,0,TAU);}
+function mk(size,fn){const c=document.createElement('canvas');c.width=c.height=size;fn(c.getContext('2d'),size);return c;}
+function spr(c,img,x,y,r){c.drawImage(img,x-r,y-r,2*r,2*r);}
+const GLOW={};
+function glowSpr(col){return GLOW[col]||(GLOW[col]=mk(64,g=>{const r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,col);r.addColorStop(.4,col.replace(/[\d.]+\)$/,m=>(parseFloat(m)*.35)+')'));r.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=r;g.fillRect(0,0,64,64);}));}
+function coccusSpr(base,hi,dark){return mk(64,g=>{const r=g.createRadialGradient(24,21,2,32,32,30);r.addColorStop(0,hi);r.addColorStop(.55,base);r.addColorStop(1,dark);g.fillStyle=r;g.beginPath();g.arc(32,32,29,0,TAU);g.fill();g.strokeStyle='rgba(255,255,255,.4)';g.lineWidth=1.6;g.stroke();});}
+const COC_A=coccusSpr('#eaa91c','#fff1b8','#7d5205');
+const COC_E=coccusSpr('#e3d8c4','#fffbf2','#8f826d');
+const RBC=mk(128,g=>{const c=64;const r=g.createRadialGradient(c,c,0,c,c,60);r.addColorStop(0,'#8a1220');r.addColorStop(.42,'#a3172a');r.addColorStop(.76,'#e23f52');r.addColorStop(.9,'#c12739');r.addColorStop(1,'rgba(110,8,22,0)');g.fillStyle=r;g.beginPath();g.arc(c,c,61,0,TAU);g.fill();const h=g.createRadialGradient(c-22,c-26,0,c-22,c-26,34);h.addColorStop(0,'rgba(255,215,215,.38)');h.addColorStop(1,'rgba(255,215,215,0)');g.fillStyle=h;g.fillRect(0,0,128,128);});
+function tSpr(core,mid,rim,nucA,nucB,villi){return mk(220,g=>{const c=110,R=80;g.strokeStyle=villi;g.lineCap='round';g.lineWidth=2.2;for(let i=0;i<110;i++){const a=i/110*TAU,l=5+((i*37)%13);g.beginPath();g.moveTo(c+Math.cos(a)*(R-3),c+Math.sin(a)*(R-3));g.lineTo(c+Math.cos(a)*(R+l),c+Math.sin(a)*(R+l));g.stroke();}
+  let r=g.createRadialGradient(c-24,c-28,6,c,c,R);r.addColorStop(0,core);r.addColorStop(.75,mid);r.addColorStop(1,rim);g.fillStyle=r;g.beginPath();g.arc(c,c,R,0,TAU);g.fill();
+  r=g.createRadialGradient(c-14,c-12,4,c+6,c+4,R*.72);r.addColorStop(0,nucA);r.addColorStop(1,nucB);g.fillStyle=r;g.beginPath();g.arc(c+6,c+4,R*.7,0,TAU);g.fill();
+  g.strokeStyle=rim;g.lineWidth=2.5;g.beginPath();g.arc(c,c,R,0,TAU);g.stroke();
+  const hl=g.createRadialGradient(c-30,c-34,0,c-30,c-34,30);hl.addColorStop(0,'rgba(255,255,255,.35)');hl.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=hl;g.fillRect(0,0,220,220);});}
+const T_REST=tSpr('rgba(210,220,255,.35)','rgba(170,185,245,.45)','rgba(225,232,255,.95)','rgba(120,110,210,.8)','rgba(70,60,150,.85)','rgba(210,220,255,.5)');
+const T_ACT=tSpr('rgba(255,210,200,.55)','rgba(255,120,120,.55)','rgba(255,225,215,1)','rgba(255,120,110,.85)','rgba(190,40,70,.9)','rgba(255,170,160,.6)');
+
+function label(c,ax,ay,dx,dy,text,a=1){
+  a*=LA;if(a<.02)return;const s=1/WS;c.save();c.globalAlpha*=a;
+  const lx=ax+dx*s,ly=ay+dy*s;
+  c.strokeStyle='rgba(255,250,245,.75)';c.lineWidth=1.1*s;c.beginPath();c.moveTo(ax,ay);c.lineTo(lx,ly);c.stroke();
+  c.fillStyle='rgba(255,250,245,.95)';c.beginPath();c.arc(ax,ay,2.8*s,0,TAU);c.fill();
+  c.font=`500 ${13.5*s}px "Instrument Sans","Avenir Next","Segoe UI",sans-serif`;
+  const m=c.measureText(text).width,px=9*s,h=25*s,bx=dx>=0?lx:lx-m-px*2;
+  c.fillStyle='rgba(18,10,20,.8)';c.beginPath();rrect(c,bx,ly-h/2,m+px*2,h,h/2);c.fill();
+  c.fillStyle='#f7f0ea';c.textBaseline='middle';c.fillText(text,bx+px,ly+.6*s);c.restore();
+}
+function screenText(c,text,x,y,a){if(a*LA<.02)return;c.save();c.setTransform(DPR,0,0,DPR,0,0);c.globalAlpha=a*LA;c.font='400 22px "Gloock",Georgia,serif';c.textAlign='center';c.fillStyle='#fbe9e4';c.shadowColor='rgba(0,0,0,.7)';c.shadowBlur=10;c.fillText(text,x,y);c.restore();}
+
+/* ========== SCENE 0 / 13: skin surface (1 unit = 30 µm) ========== */
+const SKIN=(()=>{const R=rng(7),lines=[];
+  const fams=[{a:.35,sp:95,w:3.2,al:.30},{a:1.55,sp:125,w:2.6,al:.24},{a:2.55,sp:88,w:2.2,al:.22},{a:.95,sp:270,w:5.2,al:.30}];
+  for(const f of fams){const dx=Math.cos(f.a),dy=Math.sin(f.a),nx=-dy,ny=dx;
+    for(let o=-1200;o<=1200;o+=f.sp*(.7+R()*.6)){const ph=R()*TAU,am=6+R()*14,fr=.004+R()*.006,path=new Path2D();
+      for(let s=-1300,k=0;s<=1300;s+=40,k++){const w=Math.sin(s*fr+ph)*am,x=dx*s+nx*(o+w),y=dy*s+ny*(o+w);k?path.lineTo(x,y):path.moveTo(x,y);}
+      lines.push({path,w:f.w*(.7+R()*.6),al:f.al*(.6+R()*.6)});}}
+  const hairs=[];for(let i=0;i<11;i++)hairs.push({x:(R()-.5)*1700,y:(R()-.5)*1000,a:-.5+(R()-.5)*.6,len:240+R()*300,c:(R()-.5)*.35,ph:R()*TAU});
+  const blotch=[];for(let i=0;i<16;i++)blotch.push({x:(R()-.5)*1800,y:(R()-.5)*1100,r:140+R()*280,c:R()<.5?'rgba(214,118,108,.12)':'rgba(255,232,210,.14)'});
+  const pores=[];for(let i=0;i<90;i++)pores.push([(R()-.5)*1900,(R()-.5)*1200]);
+  const mem=[];for(let i=0;i<9;i++)mem.push({x:(R()-.5)*900,y:(R()-.5)*600,ph:R()*TAU});
+  return{lines,hairs,blotch,pores,mem};})();
+function thorn(c,tx,ty,dir,len,w,shadow){
+  const ux=Math.cos(dir),uy=Math.sin(dir),nx=-uy,ny=ux,bx=tx+ux*len,by=ty+uy*len;
+  if(shadow){c.fillStyle='rgba(80,30,18,.2)';c.beginPath();c.moveTo(tx,ty);c.quadraticCurveTo(tx+ux*len*.5+nx*w*.6+60,ty+uy*len*.5+ny*w*.6+110,bx+nx*w+120,by+ny*w+230);c.lineTo(bx-nx*w+120,by-ny*w+230);c.closePath();c.fill();}
+  c.beginPath();c.moveTo(tx,ty);c.quadraticCurveTo(tx+ux*len*.5+nx*w*.62,ty+uy*len*.5+ny*w*.62,bx+nx*w,by+ny*w);c.lineTo(bx-nx*w*.9,by-ny*w*.9);c.quadraticCurveTo(tx+ux*len*.55-nx*w*.32,ty+uy*len*.55-ny*w*.32,tx,ty);c.closePath();
+  const g=c.createLinearGradient(tx+ux*300+nx*w*.6,ty+uy*300+ny*w*.6,tx+ux*300-nx*w*.4,ty+uy*300-ny*w*.4);
+  g.addColorStop(0,'#86733f');g.addColorStop(.45,'#4d3e1f');g.addColorStop(1,'#241a0c');c.fillStyle=g;c.fill();
+  c.strokeStyle='rgba(255,235,190,.22)';c.lineWidth=2/WS;c.stroke();
+}
+function drawSkin(c,p,t,healed){
+  const S=SKIN;
+  for(const b of S.blotch){const g=c.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);g.addColorStop(0,b.c);g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(b.x-b.r,b.y-b.r,b.r*2,b.r*2);}
+  c.fillStyle='rgba(120,58,46,.32)';c.beginPath();for(const q of S.pores)dot(c,q[0],q[1],2.4);c.fill();
+  c.lineCap='round';c.lineJoin='round';
+  for(const L of S.lines){c.save();c.translate(2.2,2.8);c.strokeStyle=`rgba(255,240,226,${L.al*.95})`;c.lineWidth=L.w*.7;c.stroke(L.path);c.restore();c.strokeStyle=`rgba(116,50,40,${L.al})`;c.lineWidth=L.w;c.stroke(L.path);}
+  for(const h of S.hairs){const a=h.a+Math.sin(t*.6+h.ph)*.025,ex=h.x+Math.cos(a)*h.len,ey=h.y+Math.sin(a)*h.len,mx=(h.x+ex)/2-Math.sin(a)*h.len*h.c,my=(h.y+ey)/2+Math.cos(a)*h.len*h.c;
+    c.strokeStyle='rgba(95,40,28,.16)';c.lineWidth=5;c.beginPath();c.moveTo(h.x+3,h.y+5);c.quadraticCurveTo(mx+16,my+26,ex+26,ey+42);c.stroke();
+    c.fillStyle='rgba(92,40,30,.55)';c.beginPath();c.ellipse(h.x,h.y,8,5.5,a,0,TAU);c.fill();
+    c.strokeStyle='#3a231d';c.lineWidth=2.6;c.beginPath();c.moveTo(h.x,h.y);c.quadraticCurveTo(mx,my,ex,ey);c.stroke();
+    c.strokeStyle='rgba(255,222,200,.38)';c.lineWidth=.9;c.beginPath();c.moveTo(h.x-.8,h.y-.8);c.quadraticCurveTo(mx-.8,my-.8,ex-.8,ey-.8);c.stroke();}
+  const F=[60,40];
+  if(!healed){
+    const k=sm(.4,.86,p);
+    if(k>0){const tx=lerp(820,F[0],ease(k)),ty=lerp(-1000,F[1],ease(k)),dir=Math.atan2(-1000-F[1],820-F[0]);
+      if(k>.85){const d=sm(.85,1,k),g=c.createRadialGradient(F[0],F[1],0,F[0],F[1],70);g.addColorStop(0,`rgba(90,20,20,${.35*d})`);g.addColorStop(1,'rgba(90,20,20,0)');c.fillStyle=g;c.fillRect(F[0]-70,F[1]-70,140,140);}
+      thorn(c,tx,ty,dir,1500,150,true);}
+    const b=sm(.86,1,p);
+    if(b>0){const r=26*b,x=F[0]-18,y=F[1]+14,g=c.createRadialGradient(x-r*.35,y-r*.4,1,x,y,r);g.addColorStop(0,'#ff6f7d');g.addColorStop(.35,'#c3142e');g.addColorStop(1,'#6d0615');c.fillStyle=g;c.beginPath();c.ellipse(x,y,r,r*.9,0,0,TAU);c.fill();c.fillStyle='rgba(255,255,255,.75)';c.beginPath();c.ellipse(x-r*.35,y-r*.4,r*.2,r*.13,-.5,0,TAU);c.fill();}
+    label(c,S.hairs[3].x+60,S.hairs[3].y-20,40,-60,'Hair, about 70 µm thick',win(p,.02,.42));
+    label(c,-120,210,-40,70,'Skin furrows',win(p,.08,.42));
+  }else{
+    c.strokeStyle='rgba(222,120,130,.45)';c.lineWidth=7;c.beginPath();c.moveTo(F[0]-30,F[1]-10);c.quadraticCurveTo(F[0],F[1]+6,F[0]+34,F[1]+4);c.stroke();
+    for(const m of S.mem){const pu=.6+.4*Math.sin(t*1.2+m.ph);spr(c,glowSpr('rgba(255,120,130,.55)'),m.x,m.y,34*pu);c.fillStyle='rgba(255,215,210,.9)';c.beginPath();c.arc(m.x,m.y,5,0,TAU);c.fill();}
+    label(c,F[0]+20,F[1],40,-70,'The healed wound',win(p,.05,1,.08));
+    label(c,S.mem[1].x,S.mem[1].y,-40,70,'Memory T cells, enlarged about 50×',win(p,.1,1,.08));
+  }
+}
+
+/* ========== SCENE 1: stratum corneum (1 µm = 16.7 u) ========== */
+const SC=(()=>{const R=rng(11),rows=[];
+  for(let j=0;j<15;j++){const y=-150+j*17.5,b=[];let x=-1300-(j%2)*280-R()*200;while(x<1300){const L=470+R()*190;b.push([x,x+L]);x+=L+9+R()*8;}rows.push({y,b});}
+  const kera=[];for(let row=0;row<3;row++)for(let i=0;i<11;i++)kera.push({x:-1000+i*200+(row%2)*100+(R()-.5)*40,y:215+row*165+(R()-.5)*30,r:82+R()*18,s:100+row*20+i});
+  const clus=(cx,cy,n,sp)=>{const pts=[];for(let k=0;k<n;k++){const a=R()*TAU,rr=Math.sqrt(R())*sp;pts.push([cx+Math.cos(a)*rr,cy+Math.sin(a)*rr*.75]);}return pts;};
+  const epi=[];for(const x of[-900,-640,-470,260,430,640,820,1000])epi.push(clus(x,-168,6+(R()*7|0),30));
+  const aur=[];for(let i=0;i<3;i++)aur.push({pts:clus(0,0,7+(R()*4|0),24),x:-110+i*95,d:i*.05});
+  return{rows,kera,epi,aur};})();
+function drawWall(c,p,t){
+  const S=SC,cr=sm(.3,.72,p),tipY=lerp(-1000,250,ease(cr));
+  for(const k of S.kera){blob(c,k.x,k.y,k.r,k.s,.05,t*.3);glass(c,k.x,k.y,k.r,'rgba(215,120,120,.35)','rgba(170,80,95,.45)','rgba(240,170,170,.7)','rgba(255,200,200,.55)',1.4);
+    blob(c,k.x+8,k.y+4,k.r*.36,k.s+5,.08,t*.3);c.fillStyle='rgba(95,40,90,.55)';c.fill();}
+  const band=c.createLinearGradient(0,-160,0,120);band.addColorStop(0,'rgba(170,95,60,.95)');band.addColorStop(1,'rgba(120,55,50,.95)');c.fillStyle=band;c.fillRect(-1400,-158,2800,270);
+  const g2=c.createLinearGradient(0,108,0,200);g2.addColorStop(0,'rgba(120,55,50,.9)');g2.addColorStop(1,'rgba(120,55,50,0)');c.fillStyle=g2;c.fillRect(-1400,108,2800,92);
+  S.rows.forEach((row,j)=>{const y=row.y,gap=tipY>y?(tipY-y)*.13+5:0,sh=gap*.06;c.beginPath();
+    for(const[x0,x1]of row.b){if(gap>0&&x0<gap&&x1>-gap){if(x0<-gap)rrect(c,x0,y+sh,-gap-x0,12,6);if(x1>gap)rrect(c,gap,y+sh,x1-gap,12,6);}else rrect(c,x0,y,x1-x0,12,6);}
+    const l=j/14;c.fillStyle=`rgb(${Math.round(lerp(246,226,l))},${Math.round(lerp(226,176,l))},${Math.round(lerp(196,146,l))})`;c.fill();c.strokeStyle='rgba(255,248,236,.35)';c.lineWidth=1/WS;c.stroke();});
+  c.save();c.translate(560,-176);c.rotate(-.05);c.beginPath();rrect(c,-230,0,460,12,6);c.fillStyle='#f6e6cc';c.fill();c.restore();
+  for(const cl of S.epi)for(const q of cl)spr(c,COC_E,q[0],q[1],8.6);
+  if(cr>0){c.beginPath();c.moveTo(0,tipY+30);c.lineTo(-(tipY+1100)*.2,-1100);c.lineTo((tipY+1100)*.2,-1100);c.closePath();c.fillStyle='rgba(40,12,10,.35)';c.fill();
+    c.beginPath();c.moveTo(0,tipY);c.lineTo(-(tipY+1100)*.13,-1100);c.lineTo((tipY+1100)*.13,-1100);c.closePath();
+    const g=c.createLinearGradient(-120,0,120,0);g.addColorStop(0,'#7c6a3a');g.addColorStop(.4,'#44361a');g.addColorStop(1,'#1f160a');c.fillStyle=g;c.fill();c.strokeStyle='rgba(255,230,180,.25)';c.lineWidth=1.5/WS;c.stroke();}
+  S.aur.forEach((a,i)=>{const s=sm(.42+a.d,.86+a.d,p),s1=ease(Math.min(1,s*2)),s2=ease(Math.max(0,s*2-1));
+    const gy=tipY>-170?(tipY+170)*.13+26:0,cx=lerp(a.x,(i-1)*6+(i-1)*gy*.2,s1),cy=lerp(-176,Math.min(tipY-40-i*70,200),s2);
+    spr(c,glowSpr('rgba(255,190,60,.35)'),cx,cy,60);for(const q of a.pts)spr(c,COC_A,cx+q[0],cy+q[1],8.6);});
+  label(c,300,20,50,150,'Dead corneocytes, 15 to 20 layers',win(p,.03,.5));
+  label(c,-700,-178,20,-70,'S. epidermidis, a resident',win(p,.08,.5));
+  label(c,S.aur[2].x+10,-180,70,-60,'S. aureus, golden',win(p,.1,.7));
+  label(c,-500,300,-20,80,'Living cells below',win(p,.14,.5));
+}
+
+/* ========== SCENE 2: dermis + mast cell (1 µm = 12.5 u) ========== */
+const DERM=(()=>{const R=rng(23),rib=[];for(let i=0;i<11;i++)rib.push({y:-620+i*125+(R()-.5)*60,a:(R()-.5)*.7,w:36+R()*44,ph:R()*TAU,am:20+R()*40,fr:.003+R()*.004,al:.07+R()*.08});
+  const gran=[];for(let i=0;i<160;i++){const a=R()*TAU,r=Math.sqrt(R())*72;gran.push({x:Math.cos(a)*r,y:Math.sin(a)*r*.9,r:3.6+R()*3,v:.8+R()*1.6,a2:a+(R()-.5)*.8,o:R()});}
+  const rbc=[];for(let i=0;i<8;i++)rbc.push({o:i/8+R()*.05,ph:R()*TAU});
+  const bac=[[-420,-300],[-395,-315],[-410,-278],[-440,-290],[-385,-290],[-360,-420],[-340,-432],[-352,-400]];
+  const el=[];for(let i=0;i<9;i++){const pts=[];let x=(R()-.5)*1800,y=(R()-.5)*1200,a=R()*TAU;for(let k=0;k<14;k++){a+=(R()-.5)*1.2;x+=Math.cos(a)*40;y+=Math.sin(a)*40;pts.push([x,y]);}el.push(pts);}
+  return{rib,gran,rbc,bac,el};})();
+const capX=y=>270+40*Math.sin(y*.004);
+function drawDermis(c,p,t){
+  const S=DERM,d=sm(.22,.72,p),dil=sm(.35,.85,p);
+  c.lineCap='round';
+  for(const r of S.rib){for(let k=0;k<7;k++){const off=(k/6-.5)*r.w;c.beginPath();for(let x=-1300,i=0;x<=1300;x+=45,i++){const y=r.y+x*Math.tan(r.a)+r.am*Math.sin(x*r.fr+r.ph+t*.08)+off;i?c.lineTo(x,y):c.moveTo(x,y);}
+    c.strokeStyle=`rgba(250,196,206,${r.al*(k%3?1:1.6)})`;c.lineWidth=k%3?2.2:3.4;c.stroke();}}
+  c.strokeStyle='rgba(255,170,120,.16)';c.lineWidth=2;for(const e of S.el){c.beginPath();e.forEach((q,i)=>i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1]));c.stroke();}
+  const w=100+70*dil;
+  c.lineWidth=w+90;c.strokeStyle=`rgba(255,60,90,${.06+.12*dil})`;c.beginPath();for(let y=-700,i=0;y<=700;y+=30,i++){i?c.lineTo(capX(y),y):c.moveTo(capX(y),y);}c.stroke();
+  c.lineWidth=w;c.strokeStyle='rgba(110,8,26,.85)';c.stroke();
+  c.lineWidth=w+12;c.globalCompositeOperation='source-over';
+  for(const s of[-1,1]){c.beginPath();for(let y=-700,i=0;y<=700;y+=30,i++){const x=capX(y)+s*w/2;i?c.lineTo(x,y):c.moveTo(x,y);}c.lineWidth=7;c.strokeStyle='rgba(255,160,178,.6)';c.stroke();}
+  for(const r of S.rbc){const y=((r.o*1400+t*70)%1400)-700,x=capX(y);c.save();c.translate(x,y);c.rotate(.15*Math.sin(t+r.ph));c.scale(1,.42+.12*Math.sin(t*1.3+r.ph));c.drawImage(RBC,-45,-45,90,90);c.restore();}
+  for(const g of S.gran){const out=d*g.v,x=g.x+Math.cos(g.a2)*out*230+out*120,y=g.y+Math.sin(g.a2)*out*160;
+    if(out>.35){spr(c,glowSpr('rgba(232,64,156,.5)'),x,y,(12+out*38)*(1-.4*d));}}
+  const mx=-120,my=40;blob(c,mx,my,86,31,.05+.08*d,t*.6);glass(c,mx,my,86,'rgba(255,215,235,.16)','rgba(230,150,200,.28)','rgba(255,205,230,.7)','rgba(255,225,240,.85)',1.8);
+  blob(c,mx-12,my+10,30,32,.08,t*.3,1.2,.9);c.fillStyle='rgba(110,50,120,.45)';c.fill();
+  c.beginPath();for(const g of S.gran){const out=d*g.v;if(out>.35)continue;dot(c,mx+g.x*(1+out*.4),my+g.y*(1+out*.4),g.r);}c.fillStyle='#e8409c';c.fill();
+  c.beginPath();for(const g of S.gran){const out=d*g.v;if(out>.35)continue;dot(c,mx+g.x*(1+out*.4)-1.2,my+g.y*(1+out*.4)-1.2,g.r*.35);}c.fillStyle='rgba(255,210,235,.8)';c.fill();
+  for(const q of S.bac)spr(c,COC_A,q[0],q[1],6.4);
+  label(c,mx,my-80,-40,-70,'Mast cell',win(p,.03,.9));
+  label(c,mx+40,my+30,-60,110,'Granules of histamine',win(p,.08,.4));
+  label(c,capX(-240)+w/2,-240,60,-40,dil>.3?'Capillary, widening':'Capillary',win(p,.05,.95));
+  label(c,-420,-300,-10,-70,'S. aureus',win(p,.1,.8));
+  label(c,380,330,40,60,'Collagen',win(p,.1,.6));
+}
+
+/* ========== SCENE 3: venule, neutrophil exits (1 µm = 25 u) ========== */
+const VTOP=-390,VBOT=250,NR=150;
+const VEN=(()=>{const R=rng(31),rbc=[];for(let i=0;i<15;i++)rbc.push({x:R()*2200-1100,y:-340+R()*470,v:70+R()*60,ph:R()*TAU,sz:180+R()*20});
+  const plt=[];for(let i=0;i<6;i++)plt.push({x:R()*2200-1100,y:-320+R()*420,v:80+R()*40,ph:R()*TAU});
+  const gr=[];for(let i=0;i<70;i++){const a=R()*TAU,r=Math.sqrt(R())*.85;gr.push([Math.cos(a)*r,Math.sin(a)*r,R()]);}
+  return{rbc,plt,gr};})();
+function lobes(c,pts,r){c.strokeStyle='rgba(120,80,215,.8)';c.lineWidth=r*.28;c.lineCap='round';c.beginPath();pts.forEach((q,i)=>i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1]));c.stroke();
+  for(const q of pts){const g=c.createRadialGradient(q[0]-r*.3,q[1]-r*.35,1,q[0],q[1],r);g.addColorStop(0,'#b79bff');g.addColorStop(.6,'#7552d8');g.addColorStop(1,'#4b2fa4');c.fillStyle=g;c.beginPath();c.arc(q[0],q[1],r,0,TAU);c.fill();}}
+function neutro(c,x,y,r,t,o={}){const{sx=1,sy=1,rot=0,spin=0,seed=41,amp=.05,alpha=1}=o;
+  c.save();c.globalAlpha*=alpha;blob(c,x,y,r,seed,amp,t,sx,sy,rot);
+  glass(c,x,y,r*Math.max(sx,sy),'rgba(248,240,255,.16)','rgba(215,200,248,.30)','rgba(242,232,255,.78)','rgba(250,246,255,.9)',1.8);
+  c.fillStyle='rgba(255,236,250,.55)';c.beginPath();for(const g of VEN.gr){const a=Math.atan2(g[1],g[0])+spin,m=Math.hypot(g[0],g[1]);dot(c,x+Math.cos(a)*m*r*sx,y+Math.sin(a)*m*r*sy,r*.02+g[2]*r*.012);}c.fill();
+  const L=[[-.34,-.12],[.02,.2],[.34,-.08]].map(q=>{const a=Math.atan2(q[1],q[0])+spin,m=Math.hypot(q[0],q[1]);return[x+Math.cos(a)*m*r*sx,y+Math.sin(a)*m*r*sy];});
+  lobes(c,L,r*.22);c.restore();}
+function drawVenule(c,p,t){
+  const S=VEN;
+  const lg=c.createLinearGradient(0,VTOP,0,VBOT);lg.addColorStop(0,'rgba(150,30,40,.45)');lg.addColorStop(.5,'rgba(190,60,50,.35)');lg.addColorStop(1,'rgba(150,30,40,.45)');c.fillStyle=lg;c.fillRect(-1400,VTOP,2800,VBOT-VTOP);
+  for(const q of S.plt){const x=((q.x+t*q.v+1100)%2200+2200)%2200-1100;c.fillStyle='rgba(245,215,225,.55)';c.beginPath();c.ellipse(x,q.y,34,12,Math.sin(t+q.ph)*.5,0,TAU);c.fill();}
+  for(const q of S.rbc){const x=((q.x+t*q.v+1100)%2200+2200)%2200-1100,ph=t*.9+q.ph;c.save();c.translate(x,q.y);c.rotate(Math.sin(ph*.7)*.8);c.scale(1,Math.max(.22,Math.abs(Math.cos(ph))));c.drawImage(RBC,-q.sz/2,-q.sz/2,q.sz,q.sz);c.restore();}
+  let gapW=0;const f=sm(.42,.9,p);
+  if(p<.42){let x,y,sx=1,sy=1;if(p<.3){const q=ease(p/.3);x=lerp(-780,-80,q);y=VBOT-NR;}else{const q=sm(.3,.42,p);x=lerp(-80,0,q);sx=1+.2*q;sy=1-.16*q;y=VBOT-NR*sy;}
+    if(p<.36){c.strokeStyle='rgba(255,158,196,.85)';c.lineWidth=1.6/WS;for(let k=0;k<5;k++){const bx=x+(k-2)*34,fl=.5+.5*Math.sin(t*6+k*2);c.globalAlpha=fl;c.beginPath();c.moveTo(bx,VBOT-NR*.06);c.lineTo(bx+(k-2)*8-20,VBOT+2);c.stroke();}c.globalAlpha=1;}
+    neutro(c,x,y,NR,t,{sx,sy,spin:p<.3?x/NR:-80/NR});
+  }else{
+    const rU=NR*Math.sqrt(Math.max(0,1-f))*1.05,rL=NR*Math.sqrt(f)*1.05,yU=VBOT-rU*.8,yL=VBOT+24+rL*.85;gapW=(rU>6&&rL>6)?44:0;
+    c.save();c.shadowColor='rgba(225,210,255,.75)';c.shadowBlur=18*WS;c.beginPath();
+    if(rU>4)blob(c,0,yU,rU,43,.05,t,1.2,.84,0,false);if(rL>4)blob(c,0,yL,rL,44,.05,t,1.05,.95,0,false);if(gapW)c.rect(-gapW/2+2,yU,gapW-4,yL-yU);
+    const g=c.createLinearGradient(0,yU-rU,0,yL+rL);g.addColorStop(0,'rgba(232,220,255,.55)');g.addColorStop(.5,'rgba(215,200,248,.45)');g.addColorStop(1,'rgba(232,220,255,.55)');c.fillStyle=g;c.fill();c.restore();
+    const base=[[-.34,-.1],[.02,.18],[.34,-.06]];const L=base.map((q,i)=>{const cr=sm(.12+i*.25,.4+i*.25,f),xa=q[0]*rU*1.2,xb=q[0]*rL,x=lerp(xa,xb,cr)*(1-Math.sin(cr*Math.PI)),y=lerp(yU+q[1]*rU,yL+q[1]*rL,cr);return[x,y];});
+    lobes(c,L,NR*.2);
+  }
+  const wall=(y0,y1,gw)=>{c.beginPath();if(gw){c.rect(-1400,y0,1400-gw/2,y1-y0);c.rect(gw/2,y0,1400-gw/2,y1-y0);}else c.rect(-1400,y0,2800,y1-y0);const g=c.createLinearGradient(0,y0,0,y1);g.addColorStop(0,'rgba(255,190,200,.8)');g.addColorStop(1,'rgba(200,90,120,.8)');c.fillStyle=g;c.fill();};
+  wall(VTOP-24,VTOP,0);wall(VBOT,VBOT+24,gapW);
+  c.fillStyle='rgba(150,70,150,.55)';for(let x=-1200;x<1300;x+=520){c.beginPath();c.ellipse(x+130,VTOP+8,90,20,0,0,TAU);c.fill();c.beginPath();c.ellipse(x-120,VBOT-6,90,18,0,0,TAU);c.fill();}
+  c.strokeStyle='rgba(255,220,230,.28)';c.lineWidth=1.2/WS;c.beginPath();for(let x=-1300;x<1300;x+=14){c.moveTo(x,VTOP);c.lineTo(x+3,VTOP+10+(x*7%6));c.moveTo(x,VBOT);c.lineTo(x+3,VBOT-10-(x*7%6));}c.stroke();
+  c.fillStyle='rgba(255,240,245,.9)';for(const jx of[-520,0,520]){c.fillRect(jx-1.5,VBOT,3,24);}
+  for(const q of[[420,470],[452,500],[398,515],[470,462],[430,532]])spr(c,COC_A,q[0],q[1],12.5);
+  spr(c,glowSpr('rgba(255,190,60,.2)'),430,495,260);
+  label(c,-500,-120,-40,-80,'Red blood cells',win(p,.02,.5));
+  label(c,p<.3?lerp(-780,-80,ease(p/.3)):0,VBOT-NR*1.9,30,-40,'Neutrophil',win(p,.04,.4));
+  label(c,-300,VBOT+12,-40,110,'Vessel wall',win(p,.08,.5));
+  label(c,0,VBOT+12,90,90,'Through a gap between two wall cells',win(p,.5,.95));
+  label(c,430,470,40,-70,'The bacteria it senses',win(p,.2,.9));
+}
+
+/* ========== SCENE 4: the chase + NET (1 µm = 33 u) ========== */
+const HUNT=(()=>{const R=rng(47),net=[];for(let i=0;i<36;i++){let a=R()*TAU,x=0,y=0;const pts=[[0,0]];const L=10+(R()*14|0);for(let k=0;k<L;k++){a+=(R()-.5)*.9;const st=22+R()*30;x+=Math.cos(a)*st;y+=Math.sin(a)*st;pts.push([x,y]);}net.push(pts);}
+  const loose=[];for(let i=0;i<12;i++){const a=R()*TAU,r=160+R()*320;loose.push({x:330+Math.cos(a)*r,y:230+Math.sin(a)*r*.8,ph:R()*TAU,s:i});}
+  const col=[];for(let i=0;i<7;i++)col.push({y:-500+i*170,a:(R()-.5)*.5,ph:R()*TAU});
+  return{net,loose,col};})();
+const bez=(p0,p1,p2,p3,t)=>{const u=1-t;return[u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]];};
+const HP=[[-330,420],[-380,40],[-60,120],[80,-130]],TGT=[80,-130],TCL=[[0,0],[30,8],[12,-26],[-18,20]];
+function drawHunt(c,p,t){
+  const S=HUNT;c.strokeStyle='rgba(240,180,200,.06)';c.lineWidth=26;for(const q of S.col){c.beginPath();for(let x=-1200,i=0;x<=1200;x+=60,i++){const y=q.y+x*Math.tan(q.a)+30*Math.sin(x*.004+q.ph);i?c.lineTo(x,y):c.moveTo(x,y);}c.stroke();}
+  const e=sm(.46,.6,p),q=ease(sm(0,.52,p));
+  spr(c,glowSpr('rgba(255,200,80,.2)'),TGT[0],TGT[1],480*(1-e*.8));
+  const n=bez(...HP,q),n2=bez(...HP,Math.min(1,q+.01)),hd=Math.atan2(n2[1]-n[1],n2[0]-n[0]);
+  const Q=sm(.62,.95,p),N2=[330,240];
+  // NET
+  if(Q>0){c.save();c.lineCap='round';c.lineJoin='round';c.shadowColor='rgba(155,232,106,.9)';c.shadowBlur=10*WS;c.strokeStyle='rgba(170,240,120,.85)';c.lineWidth=2.2/WS;
+    for(const s of S.net){const m=Math.max(1,Math.floor(s.length*Q));c.beginPath();for(let i=0;i<m;i++){const x=N2[0]+s[i][0]*(.6+.4*Q),y=N2[1]+s[i][1]*(.6+.4*Q);i?c.lineTo(x,y):c.moveTo(x,y);}c.stroke();}
+    c.restore();c.fillStyle='rgba(235,255,220,.85)';c.beginPath();for(const s of S.net){const m=Math.floor(s.length*Q);for(let i=2;i<m;i+=3)dot(c,N2[0]+s[i][0]*(.6+.4*Q),N2[1]+s[i][1]*(.6+.4*Q),2.2/WS*1.4);}c.fill();}
+  for(const b of S.loose){const drift=[Math.sin(t*.7+b.ph)*18,Math.cos(t*.6+b.ph)*14];const trap=sm(.7,.9,p);const x=lerp(b.x+drift[0],N2[0]+(b.x-N2[0])*.7,trap*(b.s%2)),y=lerp(b.y+drift[1],N2[1]+(b.y-N2[1])*.7,trap*(b.s%2));spr(c,COC_A,x,y,16.5);}
+  neutro(c,N2[0],N2[1],160,t,{seed:52,alpha:1-Q*.85,amp:.05+Q*.1});
+  if(Q>0){spr(c,glowSpr('rgba(155,232,106,.5)'),N2[0],N2[1],140*Q);}
+  // hunter
+  const tj=[Math.sin(t*1.7)*6,Math.cos(t*1.3)*6];
+  for(let i=0;i<TCL.length;i++){const bx=lerp(TGT[0]+TCL[i][0]+tj[0],n[0]+TCL[i][0]*.35,e),by=lerp(TGT[1]+TCL[i][1]+tj[1],n[1]+TCL[i][1]*.35,e);if(e<1)spr(c,COC_A,bx,by,16.5*(1-.2*e));}
+  const len=1-.12*e;neutro(c,n[0]-Math.cos(hd)*30*(1-e),n[1]-Math.sin(hd)*30*(1-e),175,t,{sx:lerp(1.22,1,e),sy:lerp(.86,1,e),rot:hd,seed:48,spin:hd});
+  if(e<1){c.save();c.globalAlpha=(1-e)*.9;blob(c,n[0]+Math.cos(hd)*150,n[1]+Math.sin(hd)*150,70,49,.2,t*2.2,.55,1.2,hd);c.fillStyle='rgba(240,232,255,.28)';c.fill();c.strokeStyle='rgba(255,250,255,.9)';c.lineWidth=1.6/WS;c.stroke();c.restore();}
+  if(e>0){c.globalAlpha=e;for(const cc of TCL)spr(c,COC_A,n[0]+cc[0]*.35,n[1]+cc[1]*.35,13);c.strokeStyle='rgba(255,240,250,.9)';c.lineWidth=1.8/WS;c.beginPath();c.arc(n[0],n[1],40,0,TAU);c.stroke();c.globalAlpha=1;}
+  label(c,n[0],n[1]-150,-30,-60,'Neutrophil, following the trail',win(p,.03,.46));
+  label(c,TGT[0]+30,TGT[1]-20,70,-60,'S. aureus',win(p,.03,.45));
+  label(c,n[0]+10,n[1],80,70,'Engulfed',win(p,.56,.72));
+  label(c,N2[0]+180,N2[1]-120,50,-50,'NET: its own DNA, cast as a net',win(p,.74,1,.05));
+}
+
+/* ========== SCENE 5: macrophage (1 µm = 16.7 u) ========== */
+const MC=[0,20],MB=[420,-240],MA0=Math.atan2(MB[1]-MC[1],MB[0]-MC[0]),ROD=[-230,330];
+const MAC=(()=>{const R=rng(55),lys=[];for(let i=0;i<34;i++){const a=R()*TAU,r=40+Math.sqrt(R())*140;lys.push({x:MC[0]+Math.cos(a)*r,y:MC[1]+Math.sin(a)*r,r:5+R()*5,mig:i<9,k:i});}
+  const ves=[];for(let i=0;i<110;i++){const a=R()*TAU,r=Math.sqrt(R())*190;ves.push([MC[0]+Math.cos(a)*r,MC[1]+Math.sin(a)*r,1.4+R()*2.6]);}
+  const cyt=[];for(let i=0;i<80;i++)cyt.push({a:R()*TAU,o:R(),v:.5+R()*.8});
+  const deb=[[-290,-300,44,61],[340,250,36,62],[270,330,28,63]];
+  return{lys,ves,cyt,deb};})();
+function macR(a,t,p){let r=225*(1+.05*Math.sin(3*a+t*.25+1)+.035*Math.sin(5*a-t*.35+2)+.018*Math.sin(13*a+t*.9));
+  r+=75*gauss(a,2.4,.2)*(.6+.4*Math.sin(t*.45))+55*gauss(a,-2.5,.16)*(.5+.5*Math.sin(t*.33+1))+45*gauss(a,1.15,.13)*(.5+.5*Math.sin(t*.5+2));
+  const L=285*sm(0,.36,p)*(1-sm(.46,.72,p)),cup=sm(.22,.38,p)*(1-sm(.46,.64,p));
+  r+=L*(1-.4*cup)*gauss(a,MA0,.11)+L*cup*1.12*(gauss(a,MA0-.13,.045)+gauss(a,MA0+.13,.045));return r;}
+function drawMacro(c,p,t){
+  const S=MAC;
+  for(const d of S.deb){blob(c,d[0],d[1],d[2],d[3],.25,t*.2);c.fillStyle='rgba(200,180,230,.14)';c.fill();c.strokeStyle='rgba(220,200,240,.35)';c.lineWidth=1/WS;c.stroke();}
+  const cy=sm(.2,.5,p);c.fillStyle='rgba(255,180,200,.8)';c.beginPath();for(const q of S.cyt){if(q.o>cy)continue;const u=(t*.07*q.v+q.o)%1,r=240+u*460;dot(c,MC[0]+Math.cos(q.a)*r,MC[1]+Math.sin(q.a)*r,2.6/WS*1.3*(1-u)+.6);}c.fill();
+  // rod bacterium (gram-negative)
+  c.save();c.translate(ROD[0],ROD[1]);c.rotate(.5+Math.sin(t*.4)*.1);spr(c,glowSpr('rgba(210,236,120,.45)'),0,0,50);c.beginPath();rrect(c,-17,-5.5,34,11,5.5);c.fillStyle='#d9ee86';c.fill();c.restore();
+  polar(c,MC[0],MC[1],a=>macR(a,t,p),240);
+  const g=c.createRadialGradient(MC[0]-60,MC[1]-60,20,MC[0],MC[1],320);g.addColorStop(0,'rgba(236,210,246,.10)');g.addColorStop(.62,'rgba(200,160,225,.24)');g.addColorStop(1,'rgba(240,212,255,.5)');c.fillStyle=g;c.fill();
+  c.save();c.shadowColor='rgba(235,200,255,.6)';c.shadowBlur=12*WS;c.strokeStyle='rgba(250,232,255,.9)';c.lineWidth=1.8/WS;c.stroke();c.restore();
+  c.fillStyle='rgba(255,240,255,.13)';c.beginPath();for(const v of S.ves)dot(c,v[0],v[1],v[2]);c.fill();
+  blob(c,MC[0]-70,MC[1]+70,88,57,.05,t*.2,1.3,.78,.4);const ng=c.createRadialGradient(MC[0]-90,MC[1]+50,5,MC[0]-70,MC[1]+70,110);ng.addColorStop(0,'rgba(170,130,220,.7)');ng.addColorStop(1,'rgba(90,60,150,.7)');c.fillStyle=ng;c.fill();
+  const pull=ease(sm(.44,.72,p)),bp=[lerp(MB[0],150,pull),lerp(MB[1],-70,pull)],fu=sm(.78,.98,p),ph=sm(.42,.52,p),mg=sm(.66,.9,p);
+  if(ph>0){c.fillStyle=`rgba(255,112,66,${.5*fu})`;c.beginPath();c.arc(bp[0],bp[1],46,0,TAU);c.fill();c.strokeStyle=`rgba(255,238,250,${.85*ph})`;c.lineWidth=1.8/WS;c.stroke();}
+  c.globalAlpha=1-.65*fu;for(const q of[[0,0],[17,6],[-11,13],[8,-15],[-15,-8]])spr(c,COC_A,bp[0]+q[0],bp[1]+q[1],8.5*(1-.25*fu));c.globalAlpha=1;
+  for(const l of S.lys){let x=l.x,y=l.y;if(l.mig){const a=l.k/9*TAU;x=lerp(x,bp[0]+Math.cos(a)*48,mg);y=lerp(y,bp[1]+Math.sin(a)*48,mg);}
+    spr(c,glowSpr('rgba(255,112,66,.55)'),x,y,l.r*3);c.fillStyle='#ff7a4d';c.beginPath();c.arc(x,y,l.r,0,TAU);c.fill();}
+  if(fu>0)spr(c,glowSpr('rgba(255,120,60,.6)'),bp[0],bp[1],110*fu);
+  label(c,-150,-150,-50,-80,'Macrophage',win(p,.02,.95));
+  label(c,MB[0],MB[1],60,-50,p<.4?'Staph, about to be cupped':'Phagocytic cup',win(p,.12,.46));
+  label(c,bp[0],bp[1]+46,70,90,'Phagosome fusing with lysosomes',win(p,.72,1,.05));
+  label(c,MC[0]-70,MC[1]+70,-80,110,'Nucleus',win(p,.05,.4));
+  label(c,MC[0]+250,MC[1]+140,60,60,'Cytokines, drifting out',win(p,.3,.7));
+  label(c,ROD[0],ROD[1]+10,-40,80,'A rod-shaped bacterium',win(p,.5,1,.05));
+}
+
+/* ========== SCENE 6: complement on a membrane (1 nm = 6.67 u) ========== */
+const ys=x=>120+x*x/9000;
+const CMP=(()=>{const R=rng(61),lps=[];for(let x=-1200;x<=1200;x+=24)lps.push({x:x+R()*8,l:60+R()*90,ph:R()*TAU});
+  const c3=[-480,-360,-60,90,420,560,700].map((x,i)=>({x,d:i*.03+R()*.03,s:600+i}));
+  const fp=[];for(let i=0;i<24;i++)fp.push({x:(R()-.5)*1900,y:-560+R()*420,r:12+R()*18,ph:R()*TAU,s:620+i});
+  return{lps,c3,fp};})();
+function macRing(c,x,m,t,open){
+  const y0=ys(x)-12,rx=86,ry=26,N=18,n=m*18;
+  if(open>0){c.fillStyle=`rgba(5,3,14,${.9*open})`;c.beginPath();c.ellipse(x,y0,rx*.55,ry*.55,0,0,TAU);c.fill();c.fillRect(x-33,y0,66,70*open);}
+  const draw=(front)=>{for(let i=0;i<N;i++){const a=i/N*TAU+Math.PI/2,sa=Math.sin(a);if((sa>0)!==front)continue;const vis=clamp(n-i);if(vis<=0)continue;
+    const px=x+Math.cos(a)*rx,py=y0+sa*ry,drop=(1-vis)*-160;c.save();c.globalAlpha*=vis;c.beginPath();rrect(c,px-11,py-100+drop,22,150,11);
+    const g=c.createLinearGradient(px-11,0,px+11,0);const first=i===0;g.addColorStop(0,first?'#ffd88a':'#c9b4ff');g.addColorStop(1,first?'#c08a2a':'#6b4bd6');c.fillStyle=g;c.globalAlpha*=front?1:.7;c.fill();
+    c.strokeStyle='rgba(240,230,255,.8)';c.lineWidth=1/WS;c.stroke();c.restore();}};
+  draw(false);c.save();c.shadowColor='rgba(169,139,255,.8)';c.shadowBlur=14*WS*m;draw(true);c.restore();
+  if(open>0){c.fillStyle='rgba(225,215,255,.8)';c.beginPath();for(let i=0;i<22;i++){const u=(t*.35+i/22)%1;dot(c,x+Math.sin(i*2.3)*22,y0-120+u*300,2.4);}c.globalAlpha=open;c.fill();c.globalAlpha=1;}
+}
+function drawComplement(c,p,t){
+  const S=CMP;
+  for(const f of S.fp){blob(c,f.x+Math.sin(t*.3+f.ph)*20,f.y+Math.cos(t*.25+f.ph)*14,f.r,f.s,.2,t*.5);c.fillStyle='rgba(180,170,240,.12)';c.fill();}
+  c.strokeStyle='rgba(215,236,130,.45)';c.lineWidth=2.2/WS*1.3;c.lineCap='round';
+  for(const l of S.lps){const b=ys(l.x)-28;c.beginPath();c.moveTo(l.x,b);for(let k=1;k<=6;k++){c.lineTo(l.x+Math.sin(t*.6+l.ph+k*.7)*8*k/3,b-l.l*k/6);}c.stroke();}
+  // periplasm + peptidoglycan + inner membrane
+  c.strokeStyle='rgba(190,180,255,.18)';c.lineWidth=2;c.beginPath();for(let x=-1300;x<=1300;x+=40){c.moveTo(x,ys(x)+118);c.lineTo(x,ys(x)+150);}for(const o of[118,134,150]){for(let x=-1300,i=0;x<=1300;x+=40,i++){i?c.lineTo(x,ys(x)+o):c.moveTo(x,ys(x)+o);}}c.stroke();
+  const heads=(off,a)=>{c.fillStyle=`rgba(210,220,250,${a})`;c.beginPath();for(let x=-1300;x<=1300;x+=9)dot(c,x,ys(x)+off,4.3);c.fill();};
+  const tails=(off,dir,a)=>{c.strokeStyle=`rgba(190,170,230,${a})`;c.lineWidth=1.2;c.beginPath();for(let x=-1300;x<=1300;x+=9){c.moveTo(x-1.5,ys(x)+off);c.lineTo(x-1.5,ys(x)+off+17*dir);c.moveTo(x+1.5,ys(x)+off);c.lineTo(x+1.5,ys(x)+off+17*dir);}c.stroke();};
+  tails(-22,1,.5);tails(22,-1,.5);heads(-24,.9);heads(24,.75);
+  tails(252,1,.22);tails(296,-1,.22);heads(250,.35);heads(298,.3);
+  for(const q of S.c3){const a=sm(.02+q.d,.26+q.d,p);if(a<=0)continue;const y=lerp(-620,ys(q.x)-62,ease(a));blob(c,q.x,y,33,q.s,.15,t*.3);glass(c,q.x,y,33,'rgba(255,245,250,.4)','rgba(235,215,240,.45)','rgba(255,240,250,.85)','rgba(255,250,255,.9)',1.4);
+    if(a>=1){c.strokeStyle='rgba(255,220,140,.9)';c.lineWidth=2/WS;c.beginPath();c.moveTo(q.x,y+30);c.lineTo(q.x,ys(q.x)-28);c.stroke();}}
+  const m1=sm(.3,.7,p),m2=sm(.38,.78,p);macRing(c,-190,m1,t,sm(.78,.92,p));macRing(c,250,m2,t,sm(.84,.98,p));
+  label(c,-700,ys(-700)-24,-20,-110,'Outer membrane, a lipid bilayer',win(p,.02,.5));
+  label(c,600,ys(600)-110,40,-70,'Lipopolysaccharide chains',win(p,.04,.4));
+  label(c,-360,ys(-360)-80,-30,-110,'C3b tags',win(p,.22,.6));
+  label(c,250,ys(250)-110,80,-70,'Membrane attack complex',win(p,.5,1,.05));
+  label(c,-190,ys(-190)+40,-90,120,'Pore, about 10 nm',win(p,.8,1,.04));
+  label(c,500,ys(500)+140,50,80,'Cell wall and inner membrane',win(p,.1,.45));
+}
+
+/* ========== SCENE 7: lymph node (1 mm = 100 u) ========== */
+const NC=[40,10];
+const nodeR=a=>{const rx=400,ry=260,e=1/Math.sqrt((Math.cos(a)/rx)**2+(Math.sin(a)/ry)**2);return e-80*gauss(a,0,.33)+8*Math.sin(5*a+1);};
+const NODE=(()=>{const R=rng(71);
+  const fol=[];for(const a of[1.05,1.55,2.05,2.55,3.0,3.45,3.9,4.4,4.85,5.3]){const r=nodeR(a)*.76;fol.push({x:NC[0]+Math.cos(a)*r,y:NC[1]+Math.sin(a)*r,r:44+R()*22,gc:R()<.6,a});}
+  const aff=[2.25,2.85,3.55,4.25].map((a,i)=>{const r=nodeR(a),ex=NC[0]+Math.cos(a)*r,ey=NC[1]+Math.sin(a)*r,d=[Math.cos(a),Math.sin(a)];return[[ex+d[0]*560+(i-1.5)*120,ey+d[1]*560-80],[ex+d[0]*360+60,ey+d[1]*300],[ex+d[0]*150,ey+d[1]*150+20],[ex,ey]];});
+  const pc=NC.slice();const dcEnd=[NC[0]+Math.cos(2.85)*nodeR(2.85)*.42,NC[1]+Math.sin(2.85)*nodeR(2.85)*.42];
+  const cache=document.createElement('canvas'),S=1.25;cache.width=1900*S;cache.height=1300*S;const g=cache.getContext('2d');g.setTransform(S,0,0,S,950*S,650*S);
+  const tube=(pts,w,col,edge)=>{g.lineCap='round';g.beginPath();g.moveTo(...pts[0]);g.bezierCurveTo(...pts[1],...pts[2],...pts[3]);g.lineWidth=w+6;g.strokeStyle=edge;g.stroke();g.lineWidth=w;g.strokeStyle=col;g.stroke();};
+  for(const v of aff){tube(v,26,'rgba(170,190,255,.22)','rgba(200,215,255,.45)');}
+  const hx=NC[0]+nodeR(0)*.98,hy=NC[1];
+  tube([[hx,hy-20],[hx+180,hy-60],[hx+380,hy-160],[hx+700,hy-200]],24,'rgba(170,190,255,.22)','rgba(200,215,255,.45)');
+  tube([[hx,hy+10],[hx+200,hy+20],[hx+420,hy+60],[hx+700,hy+70]],18,'rgba(226,72,94,.75)','rgba(255,150,160,.5)');
+  tube([[hx,hy+40],[hx+200,hy+90],[hx+400,hy+180],[hx+700,hy+230]],24,'rgba(120,80,190,.7)','rgba(170,140,230,.45)');
+  g.beginPath();for(let i=0;i<=200;i++){const a=i/200*TAU,r=nodeR(a);i?g.lineTo(NC[0]+Math.cos(a)*r,NC[1]+Math.sin(a)*r):g.moveTo(NC[0]+Math.cos(a)*r,NC[1]+Math.sin(a)*r);}g.closePath();
+  let rg=g.createRadialGradient(NC[0]-60,NC[1]-40,20,NC[0],NC[1],440);rg.addColorStop(0,'rgba(120,90,170,.55)');rg.addColorStop(1,'rgba(60,55,140,.65)');g.fillStyle=rg;g.fill();g.lineWidth=6;g.strokeStyle='rgba(215,222,255,.65)';g.stroke();
+  g.save();g.clip();
+  g.beginPath();for(let i=0;i<=200;i++){const a=i/200*TAU,r=nodeR(a)*.94;i?g.lineTo(NC[0]+Math.cos(a)*r,NC[1]+Math.sin(a)*r):g.moveTo(NC[0]+Math.cos(a)*r,NC[1]+Math.sin(a)*r);}g.closePath();g.lineWidth=2;g.strokeStyle='rgba(200,210,255,.3)';g.stroke();
+  for(let i=0;i<2600;i++){const a=R()*TAU,u=Math.sqrt(R()),r=nodeR(a)*u*.9;const x=NC[0]+Math.cos(a)*r,y=NC[1]+Math.sin(a)*r;const tz=u>.3&&u<.62;g.fillStyle=tz?'rgba(255,200,140,.28)':'rgba(190,195,255,.16)';g.fillRect(x,y,2.2,2.2);}
+  for(const f of fol){let r=g.createRadialGradient(f.x,f.y,0,f.x,f.y,f.r);r.addColorStop(0,'rgba(150,160,255,.55)');r.addColorStop(1,'rgba(110,120,240,.25)');g.fillStyle=r;g.beginPath();g.arc(f.x,f.y,f.r,0,TAU);g.fill();
+    for(let k=0;k<70;k++){const a=R()*TAU,rr=Math.sqrt(R())*f.r;g.fillStyle='rgba(210,215,255,.35)';g.fillRect(f.x+Math.cos(a)*rr,f.y+Math.sin(a)*rr,2,2);}
+    if(f.gc){const ox=-Math.cos(f.a)*f.r*.2,oy=-Math.sin(f.a)*f.r*.2;r=g.createRadialGradient(f.x+ox,f.y+oy,0,f.x+ox,f.y+oy,f.r*.55);r.addColorStop(0,'rgba(255,225,245,.75)');r.addColorStop(1,'rgba(255,200,240,0)');g.fillStyle=r;g.beginPath();g.arc(f.x+ox,f.y+oy,f.r*.55,0,TAU);g.fill();}}
+  g.strokeStyle='rgba(200,215,255,.35)';g.lineCap='round';
+  for(let i=0;i<9;i++){let x=hx-20,y=hy+(i-4)*10,a=Math.PI+(i-4)*.2;g.lineWidth=7;g.beginPath();g.moveTo(x,y);for(let k=0;k<7;k++){a+=(R()-.5)*.5;x+=Math.cos(a)*30;y+=Math.sin(a)*30;g.lineTo(x,y);}g.stroke();}
+  g.restore();
+  return{fol,aff,dcEnd,cache,S};})();
+function affPt(v,u){return bez(v[0],v[1],v[2],v[3],u);}
+function drawNode(c,p,t){
+  const S=NODE;c.drawImage(S.cache,-950,-650,1900,1300);
+  c.fillStyle='rgba(220,230,255,.65)';c.beginPath();for(const v of S.aff)for(let i=0;i<5;i++){const u=(t*.05+i/5)%1;const q=affPt(v,u);dot(c,q[0],q[1],3.4);}c.fill();
+  const v=S.aff[1],d=ease(sm(.04,.85,p));let pos;if(d<.75){pos=affPt(v,d/.75);}else{const k=(d-.75)/.25,a=v[3];pos=[lerp(a[0],S.dcEnd[0],k),lerp(a[1],S.dcEnd[1],k)];}
+  for(let i=1;i<14;i++){const dd=Math.max(0,d-i*.012);let q;if(dd<.75)q=affPt(v,dd/.75);else{const k=(dd-.75)/.25;q=[lerp(v[3][0],S.dcEnd[0],k),lerp(v[3][1],S.dcEnd[1],k)];}spr(c,glowSpr('rgba(255,196,107,.35)'),q[0],q[1],18*(1-i/14));}
+  spr(c,glowSpr('rgba(255,190,100,.7)'),pos[0],pos[1],60+8*Math.sin(t*3));c.fillStyle='#fff0cf';c.beginPath();c.arc(pos[0],pos[1],7,0,TAU);c.fill();
+  const f=S.fol[2];
+  label(c,pos[0],pos[1],-40,-60,'Dendritic cell, enlarged',win(p,.02,1,.04));
+  label(c,affPt(S.aff[3],.35)[0],affPt(S.aff[3],.35)[1],-30,70,'Lymphatic vessel in',win(p,.06,.6));
+  label(c,f.x,f.y,40,-80,'B-cell follicle',win(p,.2,.75));
+  label(c,NC[0]+60,NC[1]-60,70,-160,'T-cell zone',win(p,.3,.95));
+  label(c,NC[0]+nodeR(0)+60,NC[1]+30,40,110,'Out to the blood',win(p,.35,.8));
+}
+
+/* ========== SCENE 8: T-cell zone, the match (1 µm = 25 u) ========== */
+const DC=[-60,20],MEND=[120,-140],MSTART=[640,-380];
+const TZ=(()=>{const R=rng(83),cells=[];let tries=0;while(cells.length<24&&tries<4000){tries++;const x=(R()-.5)*1900,y=(R()-.5)*1250;if(Math.hypot(x-DC[0],y-DC[1])<190||Math.hypot(x-MEND[0],y-MEND[1])<200)continue;if(cells.some(c=>Math.hypot(c.x-x,c.y-y)<175))continue;cells.push({x,y,ph:R()*TAU,z:.82+R()*.3});}
+  const den=[];for(let i=0;i<8;i++)den.push({a:i/8*TAU+(R()-.5)*.4,len:320+R()*180,bend:(R()-.5)*1.1,ph:R()*TAU});
+  const frc=[];for(let i=0;i<34;i++)frc.push([(R()-.5)*2000,(R()-.5)*1300]);const lines=[];frc.forEach((a,i)=>{frc.map((b,j)=>[j,Math.hypot(a[0]-b[0],a[1]-b[1])]).sort((x,y)=>x[1]-y[1]).slice(1,3).forEach(([j])=>lines.push([a,frc[j]]));});
+  return{cells,den,lines};})();
+function dendrite(c,d,t,cx,cy){const L=[],Rr=[],n=14;for(let i=0;i<=n;i++){const s=i/n,a=d.a+d.bend*s*s+Math.sin(t*.5+d.ph+s*3)*.08*s,r=60+s*d.len,w=lerp(30,2,Math.pow(s,.8)),x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r,nx=-Math.sin(a),ny=Math.cos(a);L.push([x+nx*w,y+ny*w]);Rr.push([x-nx*w,y-ny*w]);}
+  c.beginPath();L.forEach((q,i)=>i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1]));for(let i=Rr.length-1;i>=0;i--)c.lineTo(Rr[i][0],Rr[i][1]);c.closePath();return L;}
+function drawTzone(c,p,t){
+  const S=TZ;c.strokeStyle='rgba(200,210,255,.08)';c.lineWidth=3;c.beginPath();for(const[a,b]of S.lines){c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);}c.stroke();
+  for(const q of S.cells){const x=q.x+Math.sin(t*.23+q.ph)*40,y=q.y+Math.cos(t*.19+q.ph)*30;c.globalAlpha=.55+.45*(q.z-.82)/.3;spr(c,T_REST,x,y,88*q.z*1.37);}c.globalAlpha=1;
+  const pm=[];for(const d of S.den){const L=dendrite(c,d,t,DC[0],DC[1]);c.fillStyle='rgba(244,217,160,.26)';c.fill();c.strokeStyle='rgba(255,236,196,.7)';c.lineWidth=1.4/WS;c.stroke();for(let i=3;i<L.length-1;i+=2)pm.push(L[i]);}
+  blob(c,DC[0],DC[1],95,85,.08,t*.4);glass(c,DC[0],DC[1],95,'rgba(255,240,210,.3)','rgba(240,205,150,.35)','rgba(255,236,200,.8)','rgba(255,244,220,.9)',1.8);
+  blob(c,DC[0]-10,DC[1]+8,44,86,.1,t*.3);c.fillStyle='rgba(170,120,80,.5)';c.fill();
+  c.fillStyle='#ff6b6b';c.beginPath();for(const q of pm)dot(c,q[0],q[1],5.5);for(let i=0;i<14;i++){const a=i/14*TAU;dot(c,DC[0]+Math.cos(a)*95,DC[1]+Math.sin(a)*95,5.5);}c.fill();
+  const mv=ease(sm(.12,.55,p)),M=[lerp(MSTART[0],MEND[0],mv)+Math.sin(t*.4)*8*(1-mv),lerp(MSTART[1],MEND[1],mv)],syn=sm(.55,.7,p),act=sm(.68,.9,p);
+  const ang=Math.atan2(M[1]-DC[1],M[0]-DC[0]),cp=[DC[0]+Math.cos(ang)*95,DC[1]+Math.sin(ang)*95];
+  if(act>0){spr(c,glowSpr('rgba(255,107,107,.55)'),M[0],M[1],(230+20*Math.sin(t*2.4))*act);}
+  const rr=88*(1+.15*act)*1.37;spr(c,T_REST,M[0],M[1],rr);if(act>0){c.globalAlpha=act;spr(c,T_ACT,M[0],M[1],rr);c.globalAlpha=1;}
+  if(syn>0){c.save();c.translate(cp[0],cp[1]);c.rotate(ang);c.globalAlpha=syn;c.shadowColor='rgba(255,120,120,.9)';c.shadowBlur=16*WS;c.lineWidth=5/WS*1.4;c.strokeStyle='#ffd27a';c.beginPath();c.ellipse(4,0,12,56,0,0,TAU);c.stroke();c.strokeStyle='#ff6b6b';c.beginPath();c.ellipse(4,0,6,24,0,0,TAU);c.stroke();c.restore();}
+  label(c,DC[0]-40,DC[1]-60,-60,-90,'Dendritic cell',win(p,.02,.6));
+  label(c,pm[5][0],pm[5][1],-50,90,'Invader fragments on MHC',win(p,.06,.55));
+  label(c,S.cells[2].x,S.cells[2].y,30,-60,'T cells, each with its own receptor',win(p,.04,.5));
+  label(c,cp[0],cp[1],-80,-110,'Immunological synapse',win(p,.6,.85));
+  label(c,M[0]+80,M[1]-60,50,-60,'The one that fits',win(p,.78,1,.05));
+}
+
+/* ========== SCENE 9: clonal expansion ========== */
+const NMAX=1024,SP=95,ppos=i=>{const r=SP*Math.sqrt(i+.35);return[Math.cos(i*GA)*r,Math.sin(i*GA)*r];};
+const POS=Array.from({length:NMAX},(_,i)=>ppos(i));
+const genOf=i=>i===0?0:Math.floor(Math.log2(i))+1;
+const expZ=p=>{const N=Math.pow(2,clamp(p*10.4,0,10));return Math.min(1,440/(SP*Math.sqrt(N)+SP));};
+function drawExpand(c,p,t){
+  const gf=clamp(p*10.4,0,10),z=expZ(p);
+  spr(c,glowSpr('rgba(255,90,110,.28)'),0,0,(SP*Math.sqrt(Math.pow(2,gf))+300)*z);
+  c.save();c.scale(z,z);
+  for(let i=0;i<NMAX;i++){const g=genOf(i);if(g>Math.ceil(gf)&&i>0)break;let s=i===0?1:clamp(gf-(g-1));if(s<=0)continue;s=ease(s);
+    const par=i===0?0:i-Math.pow(2,g-1),a=POS[par],b=POS[i],x=lerp(a[0],b[0],s)+Math.sin(t*.8+i)*4,y=lerp(a[1],b[1],s)+Math.cos(t*.7+i)*4;
+    c.globalAlpha=.4+.6*s;spr(c,T_ACT,x,y,44*1.37*(.8+.2*s));}
+  c.restore();c.globalAlpha=1;
+  const g=Math.floor(gf),n=Math.pow(2,g),hrs=g*7;
+  screenText(c,g===0?'One activated T cell':`Generation ${g}: ${n.toLocaleString('en-GB')} cells, about ${hrs<24?hrs+' hours':(hrs/24).toFixed(1).replace('.0','')+' days'}`,CX,wide?H-70:H*.6,win(p,.03,1,.03));
+}
+
+/* ========== SCENE 10: killer T cell (1 µm = 33 u) ========== */
+const TC=[-170,40],TRr=260,CA=-.35,CPT=[TC[0]+Math.cos(CA)*TRr,TC[1]+Math.sin(CA)*TRr],KD=[CPT[0]+Math.cos(CA)*122,CPT[1]+Math.sin(CA)*122],KS=[520,-340];
+const KIL=(()=>{const R=rng(97),mhc=[];for(let i=0;i<30;i++){const a=i/30*TAU+(R()-.5)*.08;mhc.push({a,f:Math.abs(Math.atan2(Math.sin(a-CA),Math.cos(a-CA)))<.25||R()<.18});}
+  const gran=[];for(let i=0;i<10;i++){const a=R()*TAU,r=Math.sqrt(R())*70;gran.push([Math.cos(a)*r,Math.sin(a)*r]);}
+  const vir=[];for(let i=0;i<46;i++){const a=R()*TAU,r=Math.sqrt(R())*210;vir.push([TC[0]+Math.cos(a)*r,TC[1]+Math.sin(a)*r]);}
+  const frag=[];for(let i=0;i<7;i++)frag.push({a:i/7*TAU+R()*.4,r:70+R()*70,s:45+R()*35,seed:700+i,v:.7+R()*.5});
+  const bl=[];for(let i=0;i<10;i++)bl.push({a:R()*TAU,ph:R()*TAU});return{mhc,gran,vir,frag,bl};})();
+function drawKiller(c,p,t){
+  const S=KIL,d=sm(.66,.98,p),fr=sm(.82,1,p),dock=ease(sm(0,.28,p)),leave=sm(.84,1,p);
+  const shrink=1-.22*d;
+  if(fr<1){c.save();c.globalAlpha=1-fr;
+    polar(c,TC[0],TC[1],a=>{let r=TRr*shrink*(1+.025*Math.sin(3*a+t*.3)+.02*Math.sin(5*a-t*.2));for(const b of S.bl)r+=TRr*.15*d*gauss(a,b.a,.13)*(.55+.45*Math.sin(t*2.2+b.ph));return r;},160);
+    glass(c,TC[0],TC[1],TRr,'rgba(240,200,225,.14)','rgba(210,160,200,.26)','rgba(245,210,235,.65)','rgba(250,225,245,.85)',1.8);
+    const nr=110*(1-.4*d);if(d<.5){blob(c,TC[0]-40,TC[1]+40,nr,98,.05,t*.2);c.fillStyle=`rgba(${lerp(130,70,d*2)|0},90,150,.6)`;c.fill();}else{for(let k=0;k<3;k++){const a=k/3*TAU+.4;blob(c,TC[0]-40+Math.cos(a)*30,TC[1]+40+Math.sin(a)*30,nr*.45,99+k,.1,t*.2);c.fillStyle='rgba(60,40,110,.8)';c.fill();}}
+    c.fillStyle='#cfe87a';c.beginPath();for(const v of S.vir)dot(c,v[0],v[1],3.2);c.fill();
+    for(const m of S.mhc){const x=TC[0]+Math.cos(m.a)*TRr*shrink,y=TC[1]+Math.sin(m.a)*TRr*shrink,x2=TC[0]+Math.cos(m.a)*(TRr*shrink+22),y2=TC[1]+Math.sin(m.a)*(TRr*shrink+22);c.strokeStyle='rgba(240,225,245,.7)';c.lineWidth=2/WS;c.beginPath();c.moveTo(x,y);c.lineTo(x2,y2);c.stroke();c.fillStyle=m.f?'#ff6b6b':'rgba(215,200,245,.9)';c.beginPath();c.arc(x2,y2,m.f?7:5,0,TAU);c.fill();}
+    const pf=sm(.58,.66,p)*(1-d);if(pf>0){c.strokeStyle=`rgba(255,120,120,${pf})`;c.lineWidth=2.2/WS;for(let k=-2;k<=2;k++){const a=CA+k*.07;c.beginPath();c.arc(TC[0]+Math.cos(a)*TRr,TC[1]+Math.sin(a)*TRr,7,0,TAU);c.stroke();}}
+    c.restore();}
+  if(fr>0){for(const f of S.frag){const o=f.r+fr*140*f.v,x=TC[0]+Math.cos(f.a)*o,y=TC[1]+Math.sin(f.a)*o;c.globalAlpha=fr;blob(c,x,y,f.s,f.seed,.12,t*.4);glass(c,x,y,f.s,'rgba(240,200,225,.14)','rgba(210,160,200,.26)','rgba(245,210,235,.6)','rgba(250,225,245,.8)',1.4);}c.globalAlpha=1;}
+  const K=[lerp(KS[0],KD[0],dock)+leave*300,lerp(KS[1],KD[1],dock)-leave*120];
+  blob(c,K[0],K[1],118,91,.06,t*.6,dock>.95&&leave<.05?.9:1,1,CA);glass(c,K[0],K[1],118,'rgba(225,232,255,.2)','rgba(185,195,245,.35)','rgba(232,238,255,.85)','rgba(240,244,255,.95)',1.8);
+  blob(c,K[0]+20,K[1]+10,60,92,.06,t*.3);c.fillStyle='rgba(90,90,190,.6)';c.fill();
+  const gp=sm(.3,.52,p),rl=sm(.52,.66,p),dir=[Math.cos(CA+Math.PI),Math.sin(CA+Math.PI)];
+  for(let i=0;i<S.gran.length;i++){const g=S.gran[i],tx=dir[0]*78+(i-5)*4*dir[1],ty=dir[1]*78-(i-5)*4*dir[0];let x=K[0]+lerp(g[0],tx,gp),y=K[1]+lerp(g[1],ty,gp);const go=clamp(rl*1.3-i*.03);if(go>=1)continue;x+=dir[0]*go*80;y+=dir[1]*go*80;c.globalAlpha=1-go;spr(c,glowSpr('rgba(255,107,107,.6)'),x,y,24);c.fillStyle='#ff6b6b';c.beginPath();c.arc(x,y,8,0,TAU);c.fill();}c.globalAlpha=1;
+  label(c,K[0]-40,K[1]-100,-40,-60,'Killer T cell',win(p,.04,.8));
+  label(c,TC[0]+60,TC[1]-200,30,-90,'Infected cell',win(p,.04,.6));
+  label(c,TC[0]+Math.cos(-1.2)*(TRr+22),TC[1]+Math.sin(-1.2)*(TRr+22),-20,-90,'MHC I showing a foreign fragment',win(p,.1,.4));
+  label(c,KD[0]-40,KD[1]+60,60,110,'Lytic granules, aimed',win(p,.34,.62));
+  label(c,TC[0]+40,TC[1]+TRr,40,90,'Blebbing, then sealed fragments',win(p,.72,1,.05));
+  label(c,TC[0]-60,TC[1]+120,-60,120,'Virus particles',win(p,.12,.5));
+}
+
+/* ========== SCENE 11: plasma cell (1 µm = 40 u) ========== */
+const PCc=[-60,30],PCR=[300,215],PCrot=-.18,NUCL=[-150,10];
+const PLS=(()=>{const R=rng(113),cache=document.createElement('canvas'),S=1.3;cache.width=760*S;cache.height=560*S;const g=cache.getContext('2d');g.setTransform(S,0,0,S,380*S,280*S);
+  g.beginPath();g.ellipse(0,0,PCR[0],PCR[1],0,0,TAU);let r=g.createRadialGradient(-80,-60,20,0,0,320);r.addColorStop(0,'rgba(200,230,245,.18)');r.addColorStop(.7,'rgba(140,190,215,.28)');r.addColorStop(1,'rgba(210,235,250,.62)');g.fillStyle=r;g.fill();
+  g.save();g.clip();g.lineCap='round';for(let rad=150;rad<480;rad+=17){g.strokeStyle='rgba(160,205,225,.42)';g.lineWidth=3;g.beginPath();g.arc(NUCL[0],NUCL[1],rad,0,TAU);g.stroke();g.fillStyle='rgba(225,245,255,.55)';const n=Math.floor(rad*TAU/16);g.beginPath();for(let k=0;k<n;k++){const a=k/n*TAU,off=(k%2?4.5:-4.5);dot(g,NUCL[0]+Math.cos(a)*(rad+off),NUCL[1]+Math.sin(a)*(rad+off),1.5);}g.fill();}
+  r=g.createRadialGradient(-10,0,0,-10,0,95);r.addColorStop(0,'rgba(225,240,245,.75)');r.addColorStop(1,'rgba(225,240,245,0)');g.fillStyle=r;g.beginPath();g.arc(-10,0,95,0,TAU);g.fill();
+  g.strokeStyle='rgba(240,250,255,.6)';g.lineWidth=3;for(let k=0;k<4;k++){g.beginPath();g.arc(-40,0,40+k*10,-.9,.9);g.stroke();}
+  g.restore();g.lineWidth=2.4;g.strokeStyle='rgba(230,245,255,.9)';g.beginPath();g.ellipse(0,0,PCR[0],PCR[1],0,0,TAU);g.stroke();
+  r=g.createRadialGradient(NUCL[0]-20,NUCL[1]-20,10,NUCL[0],NUCL[1],115);r.addColorStop(0,'rgba(140,130,210,.75)');r.addColorStop(1,'rgba(80,70,160,.85)');g.fillStyle=r;g.beginPath();g.arc(NUCL[0],NUCL[1],112,0,TAU);g.fill();
+  g.fillStyle='rgba(40,25,90,.75)';for(let k=0;k<10;k++){const a=k/10*TAU;g.beginPath();g.ellipse(NUCL[0]+Math.cos(a)*78,NUCL[1]+Math.sin(a)*78,20,13,a,0,TAU);g.fill();}g.beginPath();g.arc(NUCL[0],NUCL[1],22,0,TAU);g.fill();
+  const ab=[];for(let i=0;i<260;i++)ab.push({a:(R()-.5)*2.2,o:R(),sp:.7+R()*.6,dy:(R()-.5)*.6,tw:R()*TAU});
+  const coc=[[330,-170],[372,-150],[350,-118],[400,-190],[308,-205],[440,120],[470,146],[430,160]];
+  return{cache,S,ab,coc};})();
+function drawPlasma(c,p,t){
+  const S=PLS;c.save();c.translate(PCc[0],PCc[1]);c.rotate(PCrot);c.drawImage(S.cache,-380,-280,760,560);c.restore();
+  const rate=.15+.85*sm(.05,.6,p),cr=Math.cos(PCrot),sr=Math.sin(PCrot);
+  c.fillStyle='rgba(245,236,255,.9)';c.beginPath();
+  for(const q of S.ab){if(q.o>rate)continue;const u=(t*.06*q.sp+q.o*7)%1,lx=Math.cos(q.a)*PCR[0],ly=Math.sin(q.a)*PCR[1],x0=PCc[0]+lx*cr-ly*sr,y0=PCc[1]+lx*sr+ly*cr,x=x0+u*700,y=y0+u*700*q.dy+Math.sin(t+q.tw)*6;dot(c,x,y,(1.5+Math.sin(t*3+q.tw))/WS*1.2+.4);}
+  c.fill();
+  const co=sm(.3,.95,p);
+  for(const q of S.coc){spr(c,COC_A,q[0],q[1],20);const n=Math.floor(22*co);c.fillStyle='rgba(255,120,190,.95)';c.beginPath();for(let k=0;k<n;k++){const a=k*GA*3;dot(c,q[0]+Math.cos(a)*23,q[1]+Math.sin(a)*23,1.9);}c.fill();if(co>.2)spr(c,glowSpr('rgba(255,120,190,.4)'),q[0],q[1],40*co);}
+  label(c,PCc[0]+60,PCc[1]-200,30,-70,'Plasma cell',win(p,.02,.9));
+  label(c,NUCL[0]+PCc[0]+10,NUCL[1]+PCc[1]+30,-80,120,'Cartwheel nucleus',win(p,.05,.5));
+  label(c,PCc[0]+160,PCc[1]+60,40,130,'Rough ER, where antibodies are built',win(p,.08,.55));
+  label(c,560,-40,30,70,'Antibodies, each far too small to see',win(p,.3,.75));
+  label(c,372,-170,40,-80,'Staph, coated',win(p,.55,1,.05));
+}
+
+/* ========== SCENE 12: one antibody (1 nm = 25 u) ========== */
+const ABs=x=>330+x*x/12000,EPX=110,EPY=206,TIPL=225,THD=Math.asin(EPX/TIPL),HDK=[0,EPY-Math.cos(THD)*TIPL];
+function domain(c,x,y,rot,col,glow,a=1){c.save();c.translate(x,y);c.rotate(rot);c.globalAlpha*=a;if(glow){c.shadowColor=col;c.shadowBlur=glow*WS;}c.beginPath();c.ellipse(0,0,50,30,0,0,TAU);const g=c.createRadialGradient(-14,-10,2,0,0,52);g.addColorStop(0,'rgba(255,255,255,.85)');g.addColorStop(.35,col);g.addColorStop(1,col);c.fillStyle=g;c.globalAlpha*=.88;c.fill();c.shadowBlur=0;c.globalAlpha/=.88;c.strokeStyle='rgba(255,255,255,.55)';c.lineWidth=1.3/WS;c.stroke();c.strokeStyle='rgba(40,40,80,.2)';c.beginPath();for(const o of[-12,0,12]){c.moveTo(-34,o);c.lineTo(34,o*.8);}c.stroke();c.restore();}
+function antibody(c,hx,hy,rot,th,tipGlow,a=1){
+  c.save();c.translate(hx,hy);c.rotate(rot);c.globalAlpha*=a;
+  const HC='#c9dcf6',LC='#e8d8ff';
+  c.strokeStyle='rgba(215,230,250,.8)';c.lineWidth=5;c.lineCap='round';
+  for(const sg of[-1,1]){const dx=sg*Math.sin(th),dy=Math.cos(th),nx=sg*Math.cos(th),ny=-Math.sin(th);c.beginPath();c.moveTo(dx*28-nx*28,dy*28-ny*28);c.quadraticCurveTo(sg*10,-10,sg*30,-36);c.stroke();}
+  c.fillStyle='rgba(232,213,138,.9)';c.strokeStyle='rgba(232,213,138,.8)';c.lineWidth=2.5;for(const sg of[-1,1]){c.beginPath();c.moveTo(sg*12,-72);c.lineTo(sg*2,-90);c.lineTo(sg*9,-106);c.moveTo(sg*2,-90);c.lineTo(-sg*4,-100);c.stroke();c.beginPath();for(const q of[[sg*12,-72],[sg*2,-90],[sg*9,-106],[-sg*4,-100]])dot(c,q[0],q[1],4.5);c.fill();}
+  domain(c,-38,-82,Math.PI/2,HC,0);domain(c,38,-82,Math.PI/2,HC,0);domain(c,-32,-182,Math.PI/2,HC,0);domain(c,32,-182,Math.PI/2,HC,0);
+  for(const sg of[-1,1]){const dx=sg*Math.sin(th),dy=Math.cos(th),nx=sg*Math.cos(th),ny=-Math.sin(th),ang=Math.atan2(dy,dx);
+    domain(c,dx*78-nx*31,dy*78-ny*31,ang,HC,0);domain(c,dx*78+nx*31,dy*78+ny*31,ang,LC,0);
+    domain(c,dx*176-nx*31,dy*176-ny*31,ang,'#ff4fa3',tipGlow);domain(c,dx*176+nx*31,dy*176+ny*31,ang,'#ff86c4',tipGlow);}
+  c.restore();}
+function drawAntibody(c,p,t){
+  const top=c.createLinearGradient(0,200,0,700);top.addColorStop(0,'#6b4a10');top.addColorStop(1,'#1c1204');c.beginPath();c.moveTo(-1400,ABs(-1400));for(let x=-1400;x<=1400;x+=40)c.lineTo(x,ABs(x));c.lineTo(1400,900);c.lineTo(-1400,900);c.closePath();c.fillStyle=top;c.fill();
+  c.strokeStyle='rgba(255,210,120,.18)';c.lineWidth=2;for(let o=20;o<300;o+=26){c.beginPath();for(let x=-1400,i=0;x<=1400;x+=40,i++){const y=ABs(x)+o+Math.sin(x*.02+o)*3;i?c.lineTo(x,y):c.moveTo(x,y);}c.stroke();}
+  c.strokeStyle='rgba(255,220,140,.35)';c.lineWidth=2.2;for(let x=-1300;x<=1300;x+=70){if(Math.abs(Math.abs(x)-EPX)<60)continue;const b=ABs(x);c.beginPath();c.moveTo(x,b);for(let k=1;k<6;k++)c.lineTo(x+Math.sin(t*.5+x+k)*6,b-k*12);c.stroke();}
+  for(const sg of[-1,1]){const x=sg*EPX,b=ABs(x);const bond=sm(.46,.58,p);for(let k=0;k<3;k++){const y=lerp(b,EPY+20,k/2.4);const g=c.createRadialGradient(x-6,y-6,1,x,y,24);g.addColorStop(0,'#fff2c0');g.addColorStop(1,'#d69a1c');c.fillStyle=g;c.beginPath();c.arc(x+(k%2?6:-4),y,22,0,TAU);c.fill();}
+    if(bond>0){c.globalAlpha=bond*(1-sm(.62,.9,p)*.6);spr(c,glowSpr('rgba(255,120,190,.8)'),x,EPY,90);c.globalAlpha=1;}}
+  antibody(c,380+Math.sin(t*.2)*40,-360+Math.cos(t*.25)*30,2.4+t*.05,.6+.2*Math.sin(t*.9),0,.28);
+  const q=ease(sm(0,.5,p)),th=lerp(.42+.22*Math.sin(t*1.3),THD,q),hx=lerp(-240,HDK[0],q),hy=lerp(-640,HDK[1],q),rot=lerp(-.9+Math.sin(t*.4)*.1,0,q);
+  const fr=sm(.62,.95,p),my=lerp(-760,HDK[1]-236-40,ease(fr));
+  if(fr>0){const mem=x=>my-x*x/4200;c.beginPath();c.moveTo(-1400,-900);for(let x=-1400;x<=1400;x+=40)c.lineTo(x,mem(x));c.lineTo(1400,-900);c.closePath();const g=c.createLinearGradient(0,my-200,0,my);g.addColorStop(0,'rgba(120,80,170,.4)');g.addColorStop(1,'rgba(200,170,245,.55)');c.fillStyle=g;c.fill();
+    c.strokeStyle='rgba(235,220,255,.7)';c.lineWidth=5;for(const o of[0,-44]){c.beginPath();for(let x=-1400,i=0;x<=1400;x+=40,i++){i?c.lineTo(x,mem(x)+o):c.moveTo(x,mem(x)+o);}c.stroke();}
+    const grip=sm(.85,.95,p),ry=lerp(my,HDK[1]-236,grip);c.save();c.globalAlpha=sm(.7,.8,p);c.fillStyle='rgba(255,214,140,.85)';c.beginPath();c.ellipse(0,my+36,22,44,0,0,TAU);c.fill();c.beginPath();c.ellipse(0,(my+ry)/2+50,20,Math.max(14,(ry-my)/2),0,0,TAU);c.fill();if(grip>0){c.globalAlpha=grip*.8;spr(c,glowSpr('rgba(255,214,140,.8)'),0,HDK[1]-236,70);}c.restore();}
+  antibody(c,hx,hy,rot,th,q>.95?18:4,1);
+  label(c,hx+Math.sin(th)*176+30,hy+Math.cos(th)*176,90,-30,'Variable tips, unique to this antibody',win(p,.05,.62));
+  label(c,hx-60,hy+60,-90,20,'Arm',win(p,.08,.45));
+  label(c,hx,hy-10,-70,-60,'Hinge',win(p,.1,.45));
+  label(c,hx+36,hy-182,80,-20,'Stem, the handle',win(p,.12,.62));
+  label(c,hx+14,hy-92,90,40,'Sugar chains',win(p,.16,.5));
+  label(c,EPX,EPY+30,110,40,'The exact shape it fits',win(p,.48,.72));
+  label(c,-500,ABs(-500)+30,-20,80,'Surface of S. aureus',win(p,.05,.7));
+  label(c,0,my+10,80,-40,'Receptor on a macrophage',win(p,.78,1,.05));
+}
+
+/* ========== scenes ========== */
+const SK=[[0,'#f3d6bd'],[1,'#d19a7f']];
+const scenes=[
+ {fov:30000,ink:'dark',scrim:'rgba(247,228,212,.9)',accent:'#b3122a',mote:'255,244,232',bg:SK,glow:'rgba(255,246,232,.55)',focus:[60,40],origin:[60,40],draw:(c,p,t)=>drawSkin(c,p,t,false)},
+ {fov:60,ink:'light',scrim:'rgba(38,12,20,.86)',accent:'#f6b93b',mote:'255,225,190',bg:[[0,'#f0cdb0'],[.3,'#d99f82'],[.45,'#8a4438'],[1,'#2b0c17']],glow:'rgba(255,205,160,.18)',focus:[0,300],origin:[0,0],draw:drawWall},
+ {fov:80,ink:'light',scrim:'rgba(30,8,18,.86)',accent:'#e8409c',mote:'255,190,215',bg:[[0,'#401324'],[1,'#1a0710']],glow:'rgba(170,50,85,.45)',focus:[270,60],origin:[0,0],draw:drawDermis,enter:'descend'},
+ {fov:40,ink:'light',scrim:'rgba(24,5,11,.86)',accent:'#ff8fb8',mote:'255,170,170',bg:[[0,'#2a0710'],[1,'#12030a']],glow:'rgba(190,40,55,.35)',focus:[20,420],origin:[0,0],draw:drawVenule},
+ {fov:30,ink:'light',scrim:'rgba(26,8,20,.86)',accent:'#9be86a',mote:'230,200,240',bg:[[0,'#2b0c20'],[1,'#12050f']],glow:'rgba(150,60,115,.35)',focus:[0,0],origin:[0,0],draw:drawHunt},
+ {fov:60,ink:'light',scrim:'rgba(24,10,30,.86)',accent:'#ff7042',mote:'235,200,255',bg:[[0,'#271134'],[1,'#0f0615']],glow:'rgba(140,70,165,.35)',focus:ROD,origin:[150,-70],draw:drawMacro},
+ {fov:.15,ink:'light',scrim:'rgba(12,8,32,.86)',accent:'#a98bff',mote:'200,190,255',bg:[[0,'#140d32'],[1,'#06041a']],glow:'rgba(110,80,225,.3)',focus:[0,0],origin:[0,0],draw:drawComplement},
+ {fov:10000,ink:'light',scrim:'rgba(8,10,34,.86)',accent:'#ffc46b',mote:'200,210,255',bg:[[0,'#0f1334'],[1,'#04051a']],glow:'rgba(90,100,225,.28)',focus:NODE.dcEnd,origin:[-620,-470],draw:drawNode},
+ {fov:40,ink:'light',scrim:'rgba(10,12,34,.86)',accent:'#ff6b6b',mote:'210,215,255',bg:[[0,'#141939'],[1,'#070919']],glow:'rgba(120,120,225,.25)',focus:MEND,origin:[0,0],draw:drawTzone},
+ {fov:p=>80/expZ(p),ink:'light',scrim:'rgba(18,8,26,.86)',accent:'#ff6b6b',mote:'255,190,190',bg:[[0,'#1e0f2d'],[1,'#090512']],glow:'rgba(255,90,115,.18)',focus:[POS[3][0]*expZ(1),POS[3][1]*expZ(1)],origin:[0,0],draw:drawExpand},
+ {fov:30,ink:'light',scrim:'rgba(20,8,26,.86)',accent:'#ff6b6b',mote:'245,200,230',bg:[[0,'#1e0c26'],[1,'#0a0410']],glow:'rgba(200,80,145,.25)',focus:[0,0],origin:[0,0],draw:drawKiller},
+ {fov:25,ink:'light',scrim:'rgba(6,18,26,.86)',accent:'#ff78be',mote:'200,230,245',bg:[[0,'#0c1e2b'],[1,'#030b12']],glow:'rgba(60,140,175,.25)',focus:[372,-170],origin:[0,0],draw:drawPlasma},
+ {fov:.04,ink:'light',scrim:'rgba(6,14,24,.86)',accent:'#ff4fa3',mote:'210,225,255',bg:[[0,'#0b1925'],[1,'#02070c']],glow:'rgba(80,120,205,.25)',focus:[0,0],origin:[0,0],draw:drawAntibody},
+ {fov:30000,ink:'dark',scrim:'rgba(247,228,212,.9)',accent:'#d23a55',mote:'255,244,232',bg:SK,glow:'rgba(255,246,232,.55)',focus:[60,40],origin:[60,40],draw:(c,p,t)=>drawSkin(c,p,t,true)}
+];
+const fovAt=(S,p)=>typeof S.fov==='function'?S.fov(p):S.fov;
+
+/* ========== rendering ========== */
+function paintBg(c,S,a=1){c.save();c.setTransform(DPR,0,0,DPR,0,0);c.globalAlpha=a;const g=c.createLinearGradient(0,0,0,H);for(const s of S.bg)g.addColorStop(s[0],s[1]);c.fillStyle=g;c.fillRect(0,0,W,H);
+  const R=Math.max(W,H)*.7,r=c.createRadialGradient(CX,CY,0,CX,CY,R);r.addColorStop(0,S.glow);r.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=r;c.fillRect(0,0,W,H);c.restore();}
+function world(c,s,ox,oy,cx=CX,cy=CY){WS=U*s;c.setTransform(DPR*WS,0,0,DPR*WS,DPR*(cx+ox),DPR*(cy+oy));}
+const MOTES=(()=>{const R=rng(5);return Array.from({length:34},()=>({x:R(),y:R(),z:.3+R()*.7,r:2+R()*7,ph:R()*TAU}));})();
+function motes(c,S,t,a=1){c.save();c.setTransform(DPR,0,0,DPR,0,0);const img=glowSpr(`rgba(${S.mote},.5)`);for(const m of MOTES){const x=(m.x*W+Math.sin(t*.1*m.z+m.ph)*30+W)%W,y=((m.y*H-scrollY*.06*m.z+Math.cos(t*.08+m.ph)*20)%H+H)%H;c.globalAlpha=a*.35*m.z;spr(c,img,x,y,m.r*4*m.z);}c.restore();}
+const STREAK=(()=>{const R=rng(99);return Array.from({length:80},()=>({a:R()*TAU,r:R(),l:.04+R()*.12,w:.6+R()*1.4}));})();
+function streaks(c,x,y,k){const A=Math.sin(Math.PI*k);if(A<.03)return;c.save();c.setTransform(DPR,0,0,DPR,0,0);const D=Math.hypot(W,H);c.lineCap='round';for(const s of STREAK){const r0=((s.r+k*.9)%1)*D*.62,r1=r0+s.l*D*A;c.strokeStyle=`rgba(255,244,236,${(.22*A*(.2+r0/D)).toFixed(3)})`;c.lineWidth=s.w;c.beginPath();c.moveTo(x+Math.cos(s.a)*r0,y+Math.sin(s.a)*r0);c.lineTo(x+Math.cos(s.a)*r1,y+Math.sin(s.a)*r1);c.stroke();}c.restore();}
+function single(S,p,t){LA=1;paintBg(ctx,S);world(ctx,1,0,0);S.draw(ctx,p,t);motes(ctx,S,t);}
+function zoom(O,po,I,pi,k,focus,t){
+  const Z=14,e=ease(k),s=Math.pow(Z,e),fx=focus[0]*U,fy=focus[1]*U,ox=-fx*s*e,oy=-fy*s*e;
+  LA=1-sm(0,.3,k);paintBg(ctx,O);world(ctx,s,ox,oy);O.draw(ctx,po,t);
+  const px=CX+fx*s+ox,py=CY+fy*s+oy;
+  bctx.setTransform(1,0,0,1,0,0);bctx.clearRect(0,0,buf.width,buf.height);LA=sm(.72,1,k);paintBg(bctx,I);WS=U*s/Z;bctx.setTransform(DPR*WS,0,0,DPR*WS,DPR*px,DPR*py);I.draw(bctx,pi,t);
+  bctx.setTransform(DPR,0,0,DPR,0,0);const R=Math.hypot(W,H)*(s/Z)*1.08,g=bctx.createRadialGradient(px,py,R*.5,px,py,R);g.addColorStop(0,'#000');g.addColorStop(1,'rgba(0,0,0,0)');bctx.globalCompositeOperation='destination-in';bctx.fillStyle=g;bctx.fillRect(0,0,W,H);bctx.globalCompositeOperation='source-over';
+  ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=sm(0,.22,k);ctx.drawImage(buf,0,0);ctx.restore();
+  streaks(ctx,px,py,k);motes(ctx,k>.5?I:O,t,Math.abs(1-2*k));
+}
+function cross(A,B,k,t,descend){
+  const e=ease(k);LA=1-sm(0,.45,k);paintBg(ctx,A);
+  if(descend){world(ctx,1,0,-e*H*.7);}else world(ctx,1+.08*e,0,0);A.draw(ctx,1,t);
+  bctx.setTransform(1,0,0,1,0,0);bctx.clearRect(0,0,buf.width,buf.height);LA=sm(.6,1,k);paintBg(bctx,B);
+  if(descend)world(bctx,1,0,(1-e)*H*.7);else world(bctx,lerp(.92,1,e),0,0);B.draw(bctx,0,t);
+  ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=e;ctx.drawImage(buf,0,0);ctx.restore();motes(ctx,k>.5?B:A,t);
+}
+
+/* ========== gauge ========== */
+const rule=document.getElementById('rule'),marker=document.getElementById('marker'),readout=document.getElementById('readout'),fovEl=document.getElementById('fov'),cmpEl=document.getElementById('cmp');
+const TOP=5,BOT=-2;
+[['10 cm',5],['1 cm',4],['1 mm',3],['100 µm',2],['10 µm',1],['1 µm',0],['100 nm',-1],['10 nm',-2]].forEach(([l,v],i)=>{const d=document.createElement('div');d.className='tick'+(i%2===0?' major-show':'');d.style.top=((TOP-v)/(TOP-BOT)*100)+'%';d.innerHTML=`<span>${l}</span>`;rule.appendChild(d);
+  if(v>BOT)for(let m=2;m<10;m++){const mm=document.createElement('div');mm.className='tick minor';mm.style.top=((TOP-(v-1+Math.log10(m)))/(TOP-BOT)*100)+'%';rule.appendChild(mm);}});
+const sig=v=>Number(v.toPrecision(2)).toLocaleString('en-GB');
+function fmt(um){if(um>=10000)return sig(um/10000)+' cm';if(um>=1000)return sig(um/1000)+' mm';if(um>=1)return sig(um)+' µm';return sig(um*1000)+' nm';}
+function cmp(um){const n=(v)=>Math.max(1,Math.round(v)).toLocaleString('en-GB');
+  if(um>=400)return`about ${n(um/80)} hairs side by side`;
+  if(um>=12)return`about ${n(um/7.5)} red blood cells across`;
+  if(um>=.3)return`about ${n(um)} bacteria across`;
+  return`about ${n(um/.015)} antibodies across`;}
+let lastF='',lastC='',lastInk='',lastAcc='',lastScrim='';
+function setGauge(um,S){const h=rule.clientHeight,y=clamp((TOP-Math.log10(um))/(TOP-BOT))*h;marker.style.transform=`translateY(${y}px)`;readout.style.transform=`translateY(${y-24}px)`;
+  const f=fmt(um),cm=cmp(um);if(f!==lastF){fovEl.textContent=f;lastF=f;}if(cm!==lastC){cmpEl.textContent=cm;lastC=cm;}
+  if(S.ink!==lastInk){document.body.dataset.ink=S.ink;lastInk=S.ink;}
+  const rs=document.documentElement.style;if(S.accent!==lastAcc){rs.setProperty('--accent',S.accent);lastAcc=S.accent;}if(S.scrim!==lastScrim){rs.setProperty('--scrim',S.scrim);lastScrim=S.scrim;}}
+
+/* ========== layout + loop ========== */
+let secs=[];
+function measure(){secs=[...document.querySelectorAll('.ch')].map(el=>({top:el.offsetTop,h:el.offsetHeight}));}
+function resize(){DPR=Math.min(window.devicePixelRatio||1,1.6);W=innerWidth;H=innerHeight;for(const c of[cv,buf]){c.width=Math.round(W*DPR);c.height=Math.round(H*DPR);}
+  wide=W>=900;U=wide?Math.min(W,H)/1000:Math.min(W*1.15,H)/1000;CX=wide?W*.62:W*.5;CY=wide?H*.5:H*.42;measure();}
+addEventListener('resize',resize);resize();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+addEventListener('load',measure);
+const TR=.74,t0=performance.now();
+function frame(now){
+  const t=RM?14:(now-t0)/1000,y=scrollY;let i=0;for(let k=0;k<secs.length;k++)if(y>=secs[k].top-1)i=k;
+  const s=secs[i]||{top:0,h:1},f=clamp((y-s.top)/s.h),last=scenes.length-1;
+  if(i>=last||f<TR){const S=scenes[Math.min(i,last)],p=clamp(f/TR);single(S,p,t);setGauge(fovAt(S,p),S);}
+  else{const k=(f-TR)/(1-TR),A=scenes[i],B=scenes[i+1],fa=fovAt(A,1),fb=fovAt(B,0),r=fb/fa;
+    if(RM)cross(A,B,k,t,false);
+    else if(B.enter==='descend')cross(A,B,k,t,true);
+    else if(r<.8)zoom(A,1,B,0,k,A.focus,t);
+    else if(r>1.25)zoom(B,0,A,1,1-k,B.origin,t);
+    else cross(A,B,k,t,false);
+    const e=ease(k);setGauge(Math.exp(lerp(Math.log(fa),Math.log(fb),e)),k>.5?B:A);}
+  requestAnimationFrame(frame);}
+requestAnimationFrame(frame);
+document.getElementById('top').addEventListener('click',()=>scrollTo({top:0,behavior:RM?'auto':'smooth'}));
+})();
+</script>
+</body>
+</html>
