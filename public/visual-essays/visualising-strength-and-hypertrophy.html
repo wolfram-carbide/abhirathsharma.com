@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Visualising strength and hypertrophy</title>
+<meta name="description" content="How lattice stacking and size affect how much you lift">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #F1F0F6;
+  --panel: #FFFFFF;
+  --ink: #1C1A2A;
+  --muted: #5B5870;
+  --line: #DAD7E6;
+  --myosin: #C2305B;
+  --actin: #3A4CA8;
+  --bound: #D97706;
+  --tissue: #F8E7ED;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12101B; --panel: #1B1827; --ink: #EEEBF8; --muted: #A5A0BD; --line: #332F49;
+    --myosin: #FF6F9B; --actin: #8A9DFF; --bound: #FFB83D; --tissue: #2B1E2E;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12101B; --panel: #1B1827; --ink: #EEEBF8; --muted: #A5A0BD; --line: #332F49;
+  --myosin: #FF6F9B; --actin: #8A9DFF; --bound: #FFB83D; --tissue: #2B1E2E;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 44px;
+}
+.wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.1rem, 6vw, 3.2rem); line-height: 1.04; margin: 0; text-wrap: balance; }
+.lede { max-width: 64ch; color: var(--muted); margin: 12px 0 0; font-size: 1.05rem; }
+
+.presets { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.presets .lab { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.chip, .btn {
+  font: inherit; font-size: 0.9rem; font-weight: 500;
+  color: var(--ink); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 7px 14px; cursor: pointer;
+}
+.chip:hover, .btn:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"], .btn.solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+:focus-visible { outline: 2px solid var(--actin); outline-offset: 2px; }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.panel h2 { font-size: 1rem; font-weight: 600; margin: 0; }
+canvas { display: block; width: 100%; height: auto; }
+.stage { display: flex; flex-direction: column; gap: 16px; }
+.lower { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 760px) { .lower { grid-template-columns: minmax(0, 1fr); } }
+.endwrap { max-width: 460px; margin: 0 auto; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 10px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: 0.82rem; }
+.legend li { display: flex; align-items: center; gap: 6px; }
+.sw { display: inline-block; width: 18px; height: 0; border-top: 3px solid var(--muted); }
+.sw.a { border-color: var(--actin); }
+.sw.m { border-color: var(--myosin); border-top-width: 6px; }
+.sw.b { border-color: var(--bound); }
+.sw.d { border-top-style: dashed; border-top-width: 2px; }
+.dot { display: inline-block; border-radius: 50%; }
+.dot.m { width: 11px; height: 11px; background: var(--myosin); }
+.dot.a { width: 6px; height: 6px; background: var(--actin); }
+.stats { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; font-variant-numeric: tabular-nums; }
+
+.ctl { margin-bottom: 14px; }
+.ctl .row { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.ctl label { font-weight: 600; font-size: 0.95rem; }
+.ctl output { font-family: var(--font-mono); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+.ctl input[type="range"] { width: 100%; accent-color: var(--actin); margin: 6px 0 0; }
+.hint { margin: 2px 0 0; color: var(--muted); font-size: 0.82rem; }
+
+.meters { border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.meter .row { display: flex; justify-content: space-between; font-size: 0.9rem; gap: 12px; }
+.meter .row b { font-family: var(--font-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.bar { position: relative; height: 6px; border-radius: 3px; background: var(--line); margin-top: 4px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 50%; border-radius: 3px; }
+.bar::after { content: ""; position: absolute; left: 50%; top: 0; width: 2px; height: 100%; background: var(--panel); }
+.meter.live .row b { color: var(--muted); }
+.insight { margin: 14px 0 0; font-weight: 500; min-height: 3.2em; }
+.fine { color: var(--muted); font-size: 0.8rem; max-width: 80ch; margin: 0; }
+
+.train { display: flex; flex-direction: column; gap: 12px; }
+.train h2 { font-size: 1rem; font-weight: 600; margin: 0; }
+.train-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.card[aria-current="true"] { border-color: var(--bound); box-shadow: 0 0 0 1px var(--bound); }
+.card h3 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.45rem; line-height: 1.1; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.tag { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+.tag::before { content: "\25CF"; color: var(--bound); margin-right: 5px; }
+
+.train-grid { align-items: start; }
+.card .one { margin: 0; font-size: 0.98rem; }
+.goal-btn { align-self: flex-start; }
+.card details { border-top: 1px solid var(--line); padding-top: 8px; }
+.card summary { cursor: pointer; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.card details[open] summary { margin-bottom: 8px; }
+.card details p { margin: 0; font-size: 0.92rem; color: var(--muted); }
+
+.cmp { display: flex; flex-direction: column; gap: 14px; }
+.cmp h2 { font-size: 1rem; font-weight: 600; margin: 0; }
+.cmp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 16px; }
+.cmp-card { margin: 0; display: flex; flex-direction: column; }
+.cmp-card .tag { margin: 0 0 4px; }
+.gym { margin: 0 0 12px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 0.9rem; min-height: 4.2em; }
+.cmp-card h3 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; line-height: 1.15; }
+.cmp-card .sub { margin: 2px 0 8px; color: var(--muted); font-size: 0.86rem; min-height: 2.6em; }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <p class="eyebrow">Visual essay · Inside a muscle fibre</p>
+    <h1>Visualising strength and hypertrophy</h1>
+    <p class="lede">How lattice stacking and size affect how much you lift. Inside a muscle fibre, thick filaments (myosin) have tiny heads that grab thin filaments (actin) and pull. The more heads that grip, and the more filaments there are, the more force the muscle makes.</p>
+  </header>
+
+  <section class="train" aria-label="Training goals">
+    <h2>Three training goals</h2>
+    <div class="train-grid">
+      <article class="card" id="tStrength">
+        <h3>Strength <span class="tag" hidden>closest match</span></h3>
+        <p class="one">More of the heads grip. The muscle stays the same size.</p>
+        <button class="chip goal-btn" type="button" data-p="strength">Show in the fibre ↓</button>
+        <details>
+          <summary>How to train it</summary>
+          <p>Heavy weights (about 85 to 95% of your one-rep max), 1 to 5 reps, long rests, maximum effort.</p>
+        </details>
+      </article>
+      <article class="card" id="tHyp">
+        <h3>Hypertrophy <span class="tag" hidden>closest match</span></h3>
+        <p class="one">More filaments, plus some fluid. The muscle gets bigger.</p>
+        <button class="chip goal-btn" type="button" data-p="hyp">Show in the fibre ↓</button>
+        <details>
+          <summary>How to train it</summary>
+          <p>Moderate weights taken close to failure, 5 to 30 reps, 10 or more hard sets per muscle each week.</p>
+        </details>
+      </article>
+      <article class="card" id="tPower">
+        <h3>Power <span class="tag" hidden>closest match</span></h3>
+        <p class="one">Heads grip and let go faster. Same size, more speed.</p>
+        <button class="chip goal-btn" type="button" data-p="power">Show in the fibre ↓</button>
+        <details>
+          <summary>How to train it</summary>
+          <p>Light to moderate weights (about 30 to 60% of your one-rep max), or jumps and throws, moved as fast as possible. Few reps, full rests.</p>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <section class="cmp" aria-label="How each goal changes the fibre">
+    <h2>What changes inside the fibre</h2>
+    <div class="cmp-grid">
+      <figure class="panel cmp-card">
+        <p class="tag">Starting point</p>
+        <h3>Normal</h3>
+        <p class="sub">About half the heads grip.</p>
+        <canvas id="c0" width="400" height="400" role="img" aria-label="End-on view of a fibre with 37 filaments and about half the heads gripping."></canvas>
+        <p class="gym" id="m0"></p>
+      </figure>
+      <figure class="panel cmp-card">
+        <p class="tag">Strength</p>
+        <h3>More heads gripping</h3>
+        <p class="sub">Same filaments, same size. More heads grip.</p>
+        <canvas id="c1" width="400" height="400" role="img" aria-label="End-on view of the same 37 filaments with most heads gripping."></canvas>
+        <p class="gym" id="m1"></p>
+      </figure>
+      <figure class="panel cmp-card">
+        <p class="tag">Hypertrophy</p>
+        <h3>More filaments</h3>
+        <p class="sub">More filaments. A bigger fibre.</p>
+        <canvas id="c2" width="400" height="400" role="img" aria-label="End-on view of a bigger fibre with 61 filaments and the same share of heads gripping as normal."></canvas>
+        <p class="gym" id="m2"></p>
+      </figure>
+      <figure class="panel cmp-card">
+        <p class="tag">Hypertrophy</p>
+        <h3>More fluid</h3>
+        <p class="sub">Same filaments, pushed apart. Fewer heads reach.</p>
+        <canvas id="c3" width="400" height="400" role="img" aria-label="End-on view of a bigger fibre with the same 37 filaments pushed apart by fluid, so fewer heads grip."></canvas>
+        <p class="gym" id="m3"></p>
+      </figure>
+    </div>
+    <p class="fine">Examples for a 40 kg one-rep max. Real training mixes these changes, and fluid comes with new filaments, so strength still rises.</p>
+  </section>
+
+  <section class="stage" aria-label="Interactive fibre">
+    <div class="presets" role="group" aria-label="Presets">
+      <span class="lab">Try</span>
+      <button class="chip" type="button" data-p="base">Normal</button>
+      <button class="chip" type="button" data-p="myo">Only more filaments</button>
+      <button class="chip" type="button" data-p="sarco">Only more fluid</button>
+    </div>
+
+    <div class="lower" id="fibre">
+      <div class="panel">
+        <h2>Slice through a fibre</h2>
+        <div class="endwrap">
+          <canvas id="end" width="600" height="600" role="img" aria-label="End-on view of the filament grid. Large dots are myosin, small dots are actin, amber lines are gripping heads."></canvas>
+        </div>
+        <ul class="legend">
+          <li><span class="dot m"></span>Myosin (thick)</li>
+          <li><span class="dot a"></span>Actin (thin)</li>
+          <li><span class="sw b"></span>Head gripping</li>
+          <li><span class="sw d"></span>Normal fibre size</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="ctl">
+          <div class="row"><label for="sDrive">Nerve signal</label><output id="vDrive" for="sDrive">70%</output></div>
+          <input id="sDrive" type="range" min="0" max="100" step="1" value="70">
+          <p class="hint">How many heads the nerves switch on.</p>
+        </div>
+        <div class="ctl">
+          <div class="row"><label for="sSpace">Filament spacing</label><output id="vSpace" for="sSpace">42 nm</output></div>
+          <input id="sSpace" type="range" min="32" max="54" step="1" value="42">
+          <p class="hint">Wider gaps mean fewer heads can reach.</p>
+        </div>
+        <div class="ctl">
+          <div class="row"><label for="sFil">Number of filaments</label><output id="vFil" for="sFil">37</output></div>
+          <input id="sFil" type="range" min="0" max="8" step="1" value="4">
+          <p class="hint">More filaments, bigger fibre.</p>
+        </div>
+        <div class="ctl">
+          <div class="row"><label for="sSpeed">Head speed</label><output id="vSpeed" for="sSpeed">1.0×</output></div>
+          <input id="sSpeed" type="range" min="50" max="200" step="10" value="100">
+          <p class="hint">Faster heads, more power.</p>
+        </div>
+
+        <div class="meters" aria-label="Results compared with normal">
+          <p class="hint">Compared with normal (1.0×)</p>
+          <div class="meter"><div class="row"><span>Fibre size</span><b id="rSize">1.0×</b></div><div class="bar"><i id="bSize" style="background:var(--muted)"></i></div></div>
+          <div class="meter"><div class="row"><span>Force</span><b id="rForce">1.0×</b></div><div class="bar"><i id="bForce" style="background:var(--bound)"></i></div></div>
+          <div class="meter"><div class="row"><span>Power</span><b id="rPow">1.0×</b></div><div class="bar"><i id="bPow" style="background:var(--myosin)"></i></div></div>
+        </div>
+        <p class="insight" id="insight"></p>
+      </div>
+    </div>
+  </section>
+
+  <p class="fine">A simple model with example numbers, not measurements.</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var SQ3 = Math.sqrt(3), K = 0.62;
+  var root = document.documentElement, C = {};
+
+  function readColors() {
+    var s = getComputedStyle(root);
+    ['myosin', 'actin', 'bound', 'ink', 'muted', 'line', 'tissue', 'panel'].forEach(function (k) {
+      C[k] = s.getPropertyValue('--' + k).trim();
+    });
+  }
+  readColors();
+  try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors); } catch (e) {}
+  new MutationObserver(readColors).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+
+  function $(id) { return document.getElementById(id); }
+  var end = $('end');
+  var ectx = end.getContext('2d');
+  var EW = 600;
+  var sc = { end: 1 };
+
+  function fitOne(cv, ctx, lw, lh, key) {
+    var r = cv.getBoundingClientRect();
+    if (!r.width) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(r.width * dpr);
+    cv.height = Math.round(r.width * lh / lw * dpr);
+    sc[key] = r.width / lw;
+    ctx.setTransform(dpr * sc[key], 0, 0, dpr * sc[key], 0, 0);
+  }
+  function fit() {
+    fitOne(end, ectx, EW, EW, 'end');
+  }
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(fit);
+    ro.observe(end);
+  }
+  window.addEventListener('resize', fit);
+
+  /* ---------- Model ---------- */
+  var NSTEPS = [7, 13, 19, 31, 37, 43, 55, 61, 73];
+  function Pm(s) { return 1 / (1 + Math.exp((s - 50) / 6)); }
+  function cellArea(s) { return 1.5 * SQ3 * s * s; }
+  function model(p) {
+    var N = NSTEPS[Math.round(p.ni)];
+    var F = N * Pm(p.s) * p.drive, A = N * cellArea(p.s);
+    return { N: N, F: F, A: A, spec: F / A, W: F * p.speed };
+  }
+  var PRESETS = {
+    base: { ni: 4, s: 42, drive: 0.7, speed: 1 },
+    strength: { ni: 4, s: 42, drive: 0.95, speed: 1 },
+    hyp: { ni: 7, s: 44, drive: 0.7, speed: 1 },
+    power: { ni: 4, s: 42, drive: 0.85, speed: 1.5 },
+    myo: { ni: 7, s: 42, drive: 0.7, speed: 1 },
+    sarco: { ni: 4, s: 46, drive: 0.7, speed: 1 }
+  };
+  var base = PRESETS.base, B = model(base);
+  var target = { ni: base.ni, s: base.s, drive: base.drive, speed: base.speed };
+  var cur = { ni: base.ni, s: base.s, drive: base.drive, speed: base.speed };
+  var contracting = true;
+  try { contracting = !matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  function curF() { return Pm(cur.s) * cur.drive; }
+
+  function ln(c, x0, y0, x1, y1) { c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke(); }
+
+  /* ---------- End-on lattice ---------- */
+  var lat = { N: 0, thick: [], thin: [], pairs: [] };
+  function buildLattice(N) {
+    var pts = [], a, b;
+    for (a = -6; a <= 6; a++) for (b = -6; b <= 6; b++) pts.push({ a: a, b: b, d: a * a + a * b + b * b });
+    pts.sort(function (p, q) { return p.d - q.d; });
+    var thick = pts.slice(0, N), idx = {};
+    thick.forEach(function (p, i) { idx[p.a + ',' + p.b] = i; });
+    var thin = [], pairs = [], f = contracting ? curF() : 0;
+    function addThin(u, v, nb) {
+      var inn = nb.filter(function (n) { return idx[n[0] + ',' + n[1]] !== undefined; });
+      if (inn.length < 2) return;
+      var ti = thin.length;
+      thin.push({ u: u, v: v });
+      inn.forEach(function (n) { pairs.push({ t: idx[n[0] + ',' + n[1]], a: ti, on: Math.random() < f }); });
+    }
+    for (a = -7; a <= 7; a++) for (b = -7; b <= 7; b++) {
+      addThin(3 * a + 1, 3 * b + 1, [[a, b], [a + 1, b], [a, b + 1]]);
+      addThin(3 * a + 2, 3 * b + 2, [[a + 1, b], [a, b + 1], [a + 1, b + 1]]);
+    }
+    lat = { N: N, thick: thick, thin: thin, pairs: pairs };
+  }
+  buildLattice(NSTEPS[base.ni]);
+  var live = 0, liveShown = 0;
+
+  function stepEnd(dt) {
+    var f = curF(), off = 1.6 * cur.speed;
+    var on = contracting ? off * f / Math.max(1 - f, 0.05) : 0;
+    var pOn = 1 - Math.exp(-on * dt), pOff = 1 - Math.exp(-(contracting ? off : 12) * dt), n = 0;
+    var ps = lat.pairs;
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i];
+      if (p.on) { if (Math.random() < pOff) p.on = false; }
+      else if (Math.random() < pOn) p.on = true;
+      if (p.on) n++;
+    }
+    live = ps.length ? n / ps.length : 0;
+    liveShown += (live - liveShown) * Math.min(1, dt * 4);
+  }
+
+  function drawEnd() {
+    var c = ectx, u = Math.max(1, 0.8 / sc.end);
+    var s = cur.s, D = s * SQ3 * K, N = lat.N;
+    var R = Math.sqrt(N * cellArea(s) * K * K / Math.PI) + 0.38 * D;
+    var R0 = Math.sqrt(B.A * K * K / Math.PI) + 0.38 * base.s * SQ3 * K;
+    c.clearRect(0, 0, EW, EW);
+    c.save();
+    c.translate(EW / 2, EW / 2);
+
+    c.fillStyle = C.tissue;
+    c.beginPath(); c.arc(0, 0, R, 0, 6.2832); c.fill();
+    c.strokeStyle = C.line; c.lineWidth = 2 * u;
+    c.stroke();
+
+    c.save();
+    c.setLineDash([7 * u, 6 * u]); c.strokeStyle = C.muted; c.lineWidth = 1.5 * u; c.globalAlpha = 0.9;
+    c.beginPath(); c.arc(0, 0, R0, 0, 6.2832); c.stroke();
+    c.restore();
+
+    var tp = lat.thick.map(function (p) { return { x: D * (p.a + p.b / 2), y: D * p.b * SQ3 / 2 }; });
+    var ap = lat.thin.map(function (p) { return { x: D * (p.u + p.v / 2) / 3, y: D * p.v * SQ3 / 2 / 3 }; });
+
+    c.fillStyle = C.actin;
+    for (var i = 0; i < ap.length; i++) { c.beginPath(); c.arc(ap[i].x, ap[i].y, 3.6, 0, 6.2832); c.fill(); }
+
+    c.lineCap = 'round';
+    var reach = 50 * K;
+    for (var j = 0; j < lat.pairs.length; j++) {
+      var pr = lat.pairs[j], t = tp[pr.t], a = ap[pr.a];
+      var dx = a.x - t.x, dy = a.y - t.y, dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      var ux = dx / dist, uy = dy / dist, x0 = t.x + ux * 8, y0 = t.y + uy * 8;
+      if (pr.on) {
+        c.strokeStyle = C.bound; c.lineWidth = 3.4 * u; c.globalAlpha = 1;
+        ln(c, x0, y0, a.x - ux * 3.6, a.y - uy * 3.6);
+      } else {
+        var len = Math.min(dist - 12, reach * 0.4);
+        if (len > 1) {
+          c.strokeStyle = C.myosin; c.lineWidth = 1.3 * u; c.globalAlpha = 0.2;
+          ln(c, x0, y0, x0 + ux * len, y0 + uy * len);
+        }
+      }
+    }
+    c.globalAlpha = 1;
+
+    c.fillStyle = C.myosin;
+    for (var k = 0; k < tp.length; k++) { c.beginPath(); c.arc(tp[k].x, tp[k].y, 8.5, 0, 6.2832); c.fill(); }
+    c.restore();
+  }
+
+  /* ---------- Controls and readouts ---------- */
+  var el = {
+    drive: $('sDrive'), space: $('sSpace'), fil: $('sFil'), speed: $('sSpeed'), vSpeed: $('vSpeed'),
+    rPow: $('rPow'), bPow: $('bPow'),
+    vDrive: $('vDrive'), vSpace: $('vSpace'), vFil: $('vFil'),
+    rSize: $('rSize'), rForce: $('rForce'),
+    bSize: $('bSize'), bForce: $('bForce'),
+    insight: $('insight')
+  };
+  var chips = Array.prototype.slice.call(document.querySelectorAll('[data-p]'));
+  var shown = {};
+  function setText(node, key, txt) { if (shown[key] !== txt) { shown[key] = txt; node.textContent = txt; } }
+
+  function syncSliders() {
+    el.drive.value = Math.round(target.drive * 100);
+    el.space.value = target.s;
+    el.fil.value = target.ni;
+    el.speed.value = Math.round(target.speed * 100);
+    labels();
+  }
+  function labels() {
+    el.vDrive.textContent = Math.round(target.drive * 100) + '%';
+    el.vSpace.textContent = Math.round(target.s) + ' nm';
+    el.vFil.textContent = NSTEPS[Math.round(target.ni)];
+    el.vSpeed.textContent = target.speed.toFixed(1) + '×';
+  }
+  function markPresets() {
+    chips.forEach(function (ch) {
+      var p = PRESETS[ch.getAttribute('data-p')];
+      var on = Math.abs(p.ni - target.ni) < 0.01 && Math.abs(p.s - target.s) < 0.01 && Math.abs(p.drive - target.drive) < 0.001 && Math.abs(p.speed - target.speed) < 0.01;
+      ch.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  chips.forEach(function (ch) {
+    ch.addEventListener('click', function () {
+      var p = PRESETS[ch.getAttribute('data-p')];
+      target.ni = p.ni; target.s = p.s; target.drive = p.drive; target.speed = p.speed;
+      syncSliders(); markPresets();
+      if (ch.classList.contains('goal-btn')) {
+        var f = document.getElementById('fibre'), calm = false;
+        try { calm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+        if (f && f.scrollIntoView) f.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
+      }
+    });
+  });
+  el.drive.addEventListener('input', function () { target.drive = cur.drive = el.drive.value / 100; labels(); markPresets(); });
+  el.space.addEventListener('input', function () { target.s = cur.s = +el.space.value; labels(); markPresets(); });
+  el.fil.addEventListener('input', function () { target.ni = cur.ni = +el.fil.value; labels(); markPresets(); });
+  el.speed.addEventListener('input', function () { target.speed = cur.speed = el.speed.value / 100; labels(); markPresets(); });
+
+  function xm(v) { return v.toFixed(1) + '×'; }
+  function insightText(size, force, spec, speed) {
+    if (speed >= 1.25 && size < 1.12) return 'Faster heads give more power. Size stays the same. Power = force × speed.';
+    if (Math.abs(size - 1) < 0.08 && Math.abs(force - 1) < 0.08) return 'Close to normal: same size, same force.';
+    if (size > 1.08 && spec >= 0.92) return 'Bigger and stronger. More filaments pull side by side, so force per area stays the same.';
+    if (size > 1.08 && force < 0.95) return 'Bigger, but weaker. Fluid has spread the filaments apart, so fewer heads can reach.';
+    if (size > 1.08) return 'Bigger, but not as much stronger. The extra space between filaments means fewer heads can reach.';
+    if (force > 1.08) return 'Stronger, but not bigger. More heads grip in the same space.';
+    if (force < 0.92) return 'Weaker. Fewer heads are gripping.';
+    return 'Close to normal.';
+  }
+  var cards = { strength: $('tStrength'), hyp: $('tHyp'), power: $('tPower') };
+  var lastCard = '?';
+  function closest(size, force, speed) {
+    if (speed >= 1.25) return 'power';
+    if (size > 1.12) return 'hyp';
+    if (force > 1.1) return 'strength';
+    return '';
+  }
+  function highlight(key) {
+    if (key === lastCard) return;
+    lastCard = key;
+    Object.keys(cards).forEach(function (k) {
+      var on = k === key;
+      cards[k].setAttribute('aria-current', on ? 'true' : 'false');
+      cards[k].querySelector('.tag').hidden = !on;
+    });
+  }
+  function readouts() {
+    var m = model(cur), size = m.A / B.A, force = m.F / B.F, spec = m.spec / B.spec, pow = m.W / B.W;
+    setText(el.rPow, 'pow', xm(pow));
+    el.bPow.style.width = Math.min(100, pow * 50) + '%';
+    highlight(closest(size, force, cur.speed));
+    setText(el.rSize, 'size', xm(size)); setText(el.rForce, 'force', xm(force));
+    el.bSize.style.width = Math.min(100, size * 50) + '%';
+    el.bForce.style.width = Math.min(100, force * 50) + '%';
+    setText(el.insight, 'ins', insightText(size, force, spec, cur.speed));
+  }
+
+  /* ---------- Loop ---------- */
+  function approach(dt) {
+    ['drive', 's', 'ni', 'speed'].forEach(function (k) {
+      var d = target[k] - cur[k];
+      if (Math.abs(d) > 0.001) cur[k] += d * (1 - Math.exp(-dt * 7)); else cur[k] = target[k];
+    });
+    var want = NSTEPS[Math.round(cur.ni)];
+    if (want !== lat.N) buildLattice(want);
+  }
+  var last = performance.now();
+  function frame(t) {
+    var dt = Math.min(0.05, (t - last) / 1000); last = t;
+    approach(dt);
+    stepEnd(dt);
+    drawEnd();
+    readouts();
+    requestAnimationFrame(frame);
+  }
+  fit(); labels(); markPresets();
+  requestAnimationFrame(frame);
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var SQ3 = Math.sqrt(3), K = 0.58, W = 400, C = {};
+  var root = document.documentElement;
+  function readColors() {
+    var s = getComputedStyle(root);
+    ['myosin', 'actin', 'bound', 'ink', 'muted', 'line', 'tissue'].forEach(function (k) { C[k] = s.getPropertyValue('--' + k).trim(); });
+  }
+  readColors();
+  try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors); } catch (e) {}
+  new MutationObserver(readColors).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  var reduce = false;
+  try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  function Pm(s) { return 1 / (1 + Math.exp((s - 50) / 6)); }
+  function cellArea(s) { return 1.5 * SQ3 * s * s; }
+
+  function build(N) {
+    var pts = [], a, b;
+    for (a = -6; a <= 6; a++) for (b = -6; b <= 6; b++) pts.push({ a: a, b: b, d: a * a + a * b + b * b });
+    pts.sort(function (p, q) { return p.d - q.d; });
+    var thick = pts.slice(0, N), idx = {};
+    thick.forEach(function (p, i) { idx[p.a + ',' + p.b] = i; });
+    var thin = [], pairs = [];
+    function add(u, v, nb) {
+      var inn = nb.filter(function (n) { return idx[n[0] + ',' + n[1]] !== undefined; });
+      if (inn.length < 2) return;
+      var ti = thin.length;
+      thin.push({ u: u, v: v });
+      inn.forEach(function (n) { pairs.push({ t: idx[n[0] + ',' + n[1]], a: ti, on: false }); });
+    }
+    for (a = -7; a <= 7; a++) for (b = -7; b <= 7; b++) {
+      add(3 * a + 1, 3 * b + 1, [[a, b], [a + 1, b], [a, b + 1]]);
+      add(3 * a + 2, 3 * b + 2, [[a + 1, b], [a, b + 1], [a + 1, b + 1]]);
+    }
+    return { thick: thick, thin: thin, pairs: pairs };
+  }
+
+  var defs = [
+    { id: 'c0', k: 'k0', N: 37, s: 42, drive: 0.7 },
+    { id: 'c1', k: 'k1', N: 37, s: 42, drive: 0.95 },
+    { id: 'c2', k: 'k2', N: 61, s: 42, drive: 0.7 },
+    { id: 'c3', k: 'k3', N: 37, s: 46, drive: 0.7 }
+  ];
+  var panels = defs.map(function (d) {
+    var cv = document.getElementById(d.id);
+    var P = { d: d, cv: cv, ctx: cv.getContext('2d'), sc: 1, f: Pm(d.s) * d.drive, cs: 0 };
+    P.lat = build(d.N);
+    P.D = d.s * SQ3 * K;
+    P.tp = P.lat.thick.map(function (p) { return { x: P.D * (p.a + p.b / 2), y: P.D * p.b * SQ3 / 2 }; });
+    P.ap = P.lat.thin.map(function (p) { return { x: P.D * (p.u + p.v / 2) / 3, y: P.D * p.v * SQ3 / 2 / 3 }; });
+    P.lat.pairs.forEach(function (p) { p.on = Math.random() < P.f; });
+    P.cs = P.f;
+    P.gym = document.getElementById('m' + d.id.slice(1));
+    return P;
+  });
+  var P0 = panels[0];
+  var tot0 = P0.d.N * P0.f, size0 = P0.d.N * cellArea(P0.d.s);
+
+  function fit(P) {
+    var r = P.cv.getBoundingClientRect();
+    if (!r.width) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    P.cv.width = Math.round(r.width * dpr);
+    P.cv.height = Math.round(r.width * dpr);
+    P.sc = r.width / W;
+    P.ctx.setTransform(dpr * P.sc, 0, 0, dpr * P.sc, 0, 0);
+  }
+  panels.forEach(function (P) {
+    if (window.ResizeObserver) new ResizeObserver(function () { fit(P); }).observe(P.cv);
+  });
+  window.addEventListener('resize', function () { panels.forEach(fit); });
+
+  function ln(c, x0, y0, x1, y1) { c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke(); }
+
+  function step(P, dt) {
+    var f = P.f, off = 1.6, on = off * f / Math.max(1 - f, 0.05);
+    var pOn = 1 - Math.exp(-on * dt), pOff = 1 - Math.exp(-off * dt);
+    var ps = P.lat.pairs;
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i];
+      if (p.on) { if (Math.random() < pOff) p.on = false; }
+      else if (Math.random() < pOn) p.on = true;
+    }
+  }
+
+  function draw(P) {
+    var c = P.ctx, u = Math.max(1, 0.8 / P.sc), D = P.D, s = P.d.s;
+    var R = Math.sqrt(P.d.N * cellArea(s) * K * K / Math.PI) + 0.38 * D;
+    var R0 = Math.sqrt(P0.d.N * cellArea(P0.d.s) * K * K / Math.PI) + 0.38 * P0.D;
+    c.clearRect(0, 0, W, W);
+    c.save();
+    c.translate(W / 2, W / 2);
+
+    c.fillStyle = C.tissue;
+    c.beginPath(); c.arc(0, 0, R, 0, 6.2832); c.fill();
+    c.strokeStyle = C.line; c.lineWidth = 2 * u; c.stroke();
+
+    c.save();
+    c.setLineDash([6 * u, 5 * u]); c.strokeStyle = C.muted; c.lineWidth = 1.4 * u; c.globalAlpha = 0.9;
+    c.beginPath(); c.arc(0, 0, R0, 0, 6.2832); c.stroke();
+    c.restore();
+
+    c.fillStyle = C.actin;
+    for (var i = 0; i < P.ap.length; i++) { c.beginPath(); c.arc(P.ap[i].x, P.ap[i].y, 3.2, 0, 6.2832); c.fill(); }
+
+    c.lineCap = 'round';
+    var reach = 50 * K;
+    for (var j = 0; j < P.lat.pairs.length; j++) {
+      var pr = P.lat.pairs[j], t = P.tp[pr.t], a = P.ap[pr.a];
+      var dx = a.x - t.x, dy = a.y - t.y, dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      var ux = dx / dist, uy = dy / dist, x0 = t.x + ux * 7, y0 = t.y + uy * 7;
+      if (pr.on) {
+        c.strokeStyle = C.bound; c.lineWidth = 3.4 * u; c.globalAlpha = 1;
+        ln(c, x0, y0, a.x - ux * 3.2, a.y - uy * 3.2);
+      } else {
+        var len = Math.min(dist - 10, reach * 0.35);
+        if (len > 1) {
+          c.strokeStyle = C.myosin; c.lineWidth = 1.3 * u; c.globalAlpha = 0.2;
+          ln(c, x0, y0, x0 + ux * len, y0 + uy * len);
+        }
+      }
+    }
+    c.globalAlpha = 1;
+
+    c.fillStyle = C.myosin;
+    for (var k = 0; k < P.tp.length; k++) { c.beginPath(); c.arc(P.tp[k].x, P.tp[k].y, 7.5, 0, 6.2832); c.fill(); }
+
+    c.restore();
+  }
+
+  function render(P) {
+    var d = P.d, W = 40, tot = d.N * P.f;
+    var W2 = Math.round(W * tot / tot0), reps = Math.round(30 * (W2 / W - 1)), txt;
+    if (d.id === 'c0') txt = 'You can lift ' + W + ' kg once.';
+    else if (d.id === 'c1') txt = 'You can lift about ' + W2 + ' kg once, or ' + W + ' kg about ' + reps + ' times. The muscle looks the same.';
+    else if (d.id === 'c2') txt = 'You can lift about ' + W2 + ' kg once, or ' + W + ' kg about ' + reps + ' times. The muscle looks bigger.';
+    else txt = 'The muscle looks bigger, but you lift less: about ' + W2 + ' kg.';
+    if (P.gym.textContent !== txt) P.gym.textContent = txt;
+  }
+
+  var last = performance.now(), acc = 0;
+  function frame(t) {
+    var dt = Math.min(0.05, (t - last) / 1000); last = t;
+    panels.forEach(function (P) { if (!reduce) step(P, dt); draw(P); });
+    acc += dt;
+    if (acc > 0.25) { acc = 0; panels.forEach(render); }
+    requestAnimationFrame(frame);
+  }
+  panels.forEach(fit);
+  panels.forEach(render);
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
