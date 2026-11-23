@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How fluoride protects your teeth</title>
+<style>
+:root{--page:#FBF9F9;--text-primary:#2a2223;--text-secondary:#6b5d5e;--border:#e8e1e1;--border-strong:#B6A4A4;--bg-neutral:#F0ECEC;
+--ha:#B6A4A4;--ha-edge:#a08e8e;--ha-ink:#3b3031;
+--green:#A3D06C;--green-ink:#1f3a0a;--mauve:#A6688A;--mauve-ink:#ffffff;--yellow:#EFE062;--yellow-ink:#4a3f00;
+--bar1:#D8B8CA;--bar2:#EBDCE4;--bg-danger:#EBDCE4;--text-danger:#6e3f59;--tint-ha:#F0ECEC;--tint-mauve:#F0E3EA;--tint-green:#E8F3D8;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--page:#1c1819;--text-primary:#f4eff0;--text-secondary:#bdb0b1;--border:#3a3233;--border-strong:#6e6162;--bg-neutral:#2a2425;
+--ha:#4d4243;--ha-edge:#6e6162;--ha-ink:#e6dcdd;
+--bar1:#6b3f58;--bar2:#4a2c3b;--bg-danger:#4a2c3b;--text-danger:#e8c5d7;--tint-ha:#2a2425;--tint-mauve:#3a2630;--tint-green:#26331a;--card:#232021}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--text-primary);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+main{max-width:520px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:0;z-index:6;background:var(--page);padding:10px 0 8px;border-bottom:1px solid var(--border)}
+h1{font-size:20px;font-weight:700;letter-spacing:-.01em;margin:0;line-height:1.25}
+.sub{font-size:13px;color:var(--text-secondary);margin:10px 0 8px}
+.sub .insp{display:block;margin:0 0 4px}
+.grid{display:block}
+.vis{position:sticky;top:var(--hh,46px);z-index:5;background:var(--page);padding:10px 0 8px;border-bottom:.5px solid var(--border)}
+.visin{max-width:440px;margin:0 auto}
+.row1{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px}
+.phl{font-size:13px;color:var(--text-secondary)}
+#phv{font-size:20px;font-weight:500;margin-left:6px}
+.tabs{display:flex;gap:4px;margin:0 0 10px}
+.tabs button{flex:1;min-width:0;padding:9px 1px;font:inherit;font-size:11.5px;font-weight:600;line-height:1.2;color:var(--text-secondary);background:transparent;border:1px solid var(--border-strong);border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;transition:background .3s,color .3s,border-color .3s}
+.tabs button b{font-weight:800}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:var(--ink)}
+.tabs button.past{background:var(--tint);border-color:var(--acc);color:var(--text-primary)}
+@media (max-width:380px){.tabs button{font-size:11px;letter-spacing:-.01em}}
+.bar{position:relative;height:8px;display:flex;border-radius:4px;margin:0 0 4px}
+#mk{position:absolute;top:-5px;width:3px;height:18px;background:var(--text-primary);border-radius:2px;transition:left .6s;left:0}
+.ticks{position:relative;height:16px;margin:0 0 6px;font-size:11px;color:var(--text-secondary)}
+.ticks span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.chips{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}
+.chip{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--bg-neutral);color:var(--text-secondary);border:.5px solid var(--border);transition:background .4s,color .4s,border-color .4s}
+.chip.bad{background:var(--bg-danger);color:var(--text-danger);border-color:var(--mauve)}
+svg{display:block;width:100%;height:auto}
+.steps{padding:8px 0 0}
+.step{min-height:56vh;padding:22px 0 0;opacity:.32;transition:opacity .4s}
+.step.act{opacity:1}
+.card{background:var(--card);border:1px solid var(--border);border-left:7px solid var(--acc);border-radius:14px;padding:16px 18px 18px;transition:background .4s,border-color .4s}
+.step.act .card{background:var(--tint);border-color:var(--acc)}
+.badge{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:13px;font-weight:600;color:var(--text-secondary);letter-spacing:.02em}
+.num{width:28px;height:28px;border-radius:50%;background:var(--acc);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.step h2{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:0 0 8px;line-height:1.25}
+.step p.c{font-size:15.5px;line-height:1.65;margin:0}
+.k{font-weight:600;padding:0 3px;border-radius:4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.k-ha{background:color-mix(in srgb,var(--ha) 50%,transparent)}
+.k-f{background:color-mix(in srgb,var(--green) 60%,transparent)}
+.k-a{background:color-mix(in srgb,var(--mauve) 38%,transparent)}
+.step.last{display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding-bottom:24px}
+.step.last .btn{align-self:center}
+button.btn{font:inherit;font-size:15px;font-weight:600;color:var(--page);background:var(--text-primary);border:none;border-radius:10px;padding:12px 20px;cursor:pointer}
+button.btn:active{transform:scale(.98)}
+.cell{transition:fill .5s,stroke .5s}
+.cell.ha{fill:var(--ha);stroke:var(--ha-edge);stroke-width:.5}
+.cell.fap{fill:var(--green);stroke:var(--green);stroke-width:.5}
+.cell.lost{fill:none;stroke:var(--border-strong);stroke-width:.5;stroke-dasharray:3 3}
+.lab{font-size:11px;fill:var(--ha-ink);text-anchor:middle;dominant-baseline:central;transition:opacity .4s}
+.lab.fap{fill:var(--green-ink)}
+.pt{animation:fi .5s ease both}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.pt text{font-size:11px;text-anchor:middle;dominant-baseline:central}
+.pH circle{fill:var(--mauve);stroke:var(--mauve)}.pH text{fill:var(--mauve-ink)}
+.pC circle{fill:var(--yellow);stroke:var(--yellow)}.pC text{fill:var(--yellow-ink)}
+.pF circle{fill:var(--green);stroke:var(--green)}.pF text{fill:var(--green-ink)}
+.bact{fill:var(--bg-neutral);stroke:var(--border-strong);stroke-width:.5;transition:fill .5s,stroke .5s}
+.bact.acid{fill:var(--bg-danger);stroke:var(--mauve)}
+.svl{font-size:12px;fill:var(--text-secondary)}
+@media (min-width:1000px){
+ main{max-width:1120px;padding:0 40px}
+ header{padding:16px 0 14px}
+ h1{font-size:26px}
+ .sub{font-size:14px;margin:16px 0 4px}
+ .grid{display:grid;grid-template-columns:minmax(0,500px) minmax(0,1fr);gap:48px;align-items:start}
+ .visin{max-width:500px}
+ .vis{top:calc(var(--hh,60px) + 16px);border-bottom:none;padding:16px 18px 10px;border:1px solid var(--border);border-radius:16px;background:var(--card)}
+ .tabs button{font-size:13px;padding:10px 2px}
+ .steps{padding:8vh 0 0}
+ .step{min-height:68vh;padding-top:0}
+ .card{padding:22px 26px 26px}
+ .step h2{font-size:28px}
+ .step p.c{font-size:17px}
+ .num{width:34px;height:34px;font-size:16px}
+ .badge{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){.pt{animation:none}.step,.cell,#mk{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<header><h1>How fluoride protects your teeth</h1></header>
+<p class="sub"><span class="insp">Inspired by The Rest Is Science podcast by Hannah Fry and Michael Stevens</span>Scroll down to find out ↓</p>
+<div class="grid">
+ <div class="vis" id="vis"><div class="visin">
+  <div class="tabs" id="tabs" role="group" aria-label="Jump to stage"></div>
+  <div class="row1">
+   <div><span class="phl">Mouth pH</span><span id="phv"></span></div>
+  </div>
+  <div class="bar">
+   <div style="width:33.3%;background:var(--bar1);border-radius:4px 0 0 4px"></div>
+   <div style="width:22.2%;background:var(--bar2)"></div>
+   <div style="width:44.5%;background:var(--bg-neutral);border-radius:0 4px 4px 0"></div>
+   <div id="mk"></div>
+  </div>
+  <div class="ticks"><span style="left:33.3%">4.5</span><span style="left:55.5%">5.5</span></div>
+  <div class="chips"><span class="chip" id="c1"></span><span class="chip" id="c2"></span></div>
+  <svg viewBox="0 0 400 272" role="img" aria-label="Enamel crystal surface under plaque, with acid, calcium and fluoride ions">
+   <rect x="24" y="22" width="352" height="46" rx="8" fill="none" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4 4"/>
+   <text class="svl" x="24" y="14">Plaque</text>
+   <text class="svl" x="376" y="86" text-anchor="end">Saliva and plaque fluid</text>
+   <g id="bs"></g><g id="cells"></g><g id="pts"></g>
+   <text class="svl" x="24" y="258">OH = hydroxyapatite · F = fluorapatite · dashed = dissolved</text>
+  </svg>
+ </div></div>
+ <div class="steps" id="steps"></div>
+</div>
+</main>
+<script>
+const S=[
+{n:'Healthy',t:'Healthy enamel',ph:7.0,k:'Saturated fluid keeps the crystal stable',c:'Enamel is about <span class="k k-ha">96% hydroxyapatite</span>, a crystal lattice of calcium, phosphate and hydroxide (OH). Saliva keeps the surrounding fluid saturated with calcium and phosphate, so the crystal stays put.',b:0,acc:'--ha',tint:'--tint-ha',ink:'--ha-ink'},
+{n:'Acid',t:'Acid attack',ph:4.8,k:'Below pH 5.5, hydroxyapatite dissolves',c:'Plaque bacteria ferment sugar into acid. Once pH drops below about 5.5, <span class="k k-a">H⁺ grabs phosphate</span> off the crystal surface and the lattice leaks calcium and phosphate into the fluid. Check the chips above: <span class="k k-ha">hydroxyapatite is dissolving</span>, but a <span class="k k-f">fluorapatite</span> crystal would not be.',b:1,acc:'--mauve',tint:'--tint-mauve',ink:'--mauve-ink'},
+{n:'Fluoride',t:'Fluoride arrives',ph:5.4,k:'Fluoride sticks where the damage is',c:'<span class="k k-f">Fluoride</span> from toothpaste or water is present in plaque fluid and saliva at only parts per million. It sticks to the damaged crystal surface and attracts the calcium floating nearby.',b:1,acc:'--green',tint:'--tint-green',ink:'--green-ink'},
+{n:'Rebuild',t:'Rebuilding with fluoride',ph:6.8,k:'F⁻ replaces OH⁻ as the crystal rebuilds',c:'Saliva buffers the acid back toward neutral and minerals redeposit. Where F⁻ is present it takes the place of OH⁻, so the rebuilt crystal is <span class="k k-f">fluorapatite</span>, and the fluid is supersaturated for it even at lower pH.',b:0,acc:'--green',tint:'--tint-green',ink:'--green-ink'},
+{n:'Resist',t:'The next acid attack',ph:5.0,k:'Fluorapatite holds until pH 4.5',c:'<span class="k k-f">Fluorapatite only dissolves below about pH 4.5.</span> At pH 5.0 the fluoridated crystals hold while <span class="k k-ha">plain hydroxyapatite still dissolves</span>. Fluoride also enters bacteria as HF and blocks an enzyme (enolase), so they make less acid.',b:2,acc:'--green',tint:'--tint-green',ink:'--green-ink'}
+];
+const COLS=8,X0=24,CW=44,CH=34,ET=168,YMIN=104,YMAX=154,EW=352;
+const lostA={0:[1,3,5,6],1:[3]},swap=[2],lost4=[0,4,7];
+function st(s,r,c){const a=(lostA[r]||[]).includes(c),sw=r===0&&swap.includes(c);
+if(s===0)return'ha';if(s<3)return a?'lost':'ha';if(s===3)return(a||sw)?'fap':'ha';
+if(a||sw)return'fap';if(r===0&&lost4.includes(c))return'lost';return'ha';}
+const cx=c=>X0+CW*c+CW/2;
+const gx=f=>X0+12+f*(EW-24),gy=f=>YMIN+f*(YMAX-YMIN);
+const upper=[[.05,0],[.2,.2],[.35,0],[.5,.2],[.65,0],[.8,.2],[.95,0]];
+function parts(i){const o=[];
+if(i===0)[[.12,.7],[.4,.1],[.65,.9],[.9,.4]].forEach(a=>o.push(['C',gx(a[0]),gy(a[1])]));
+if(i===1){upper.forEach(a=>o.push(['H',gx(a[0]),gy(a[1])]));
+ lostA[0].forEach((c,k)=>o.push(['C',cx(c),k%2?YMAX-14:YMAX]));}
+if(i===2){lostA[0].forEach(c=>o.push(['F',cx(c),YMAX+1]));
+ [[.1,0],[.45,.2],[.8,0]].forEach(a=>o.push(['C',gx(a[0]),gy(a[1])]));
+ [[.3,.5],[.65,.5]].forEach(a=>o.push(['H',gx(a[0]),gy(a[1])]));}
+if(i===3){[[.2,.2],[.55,0],[.85,.3]].forEach(a=>o.push(['C',gx(a[0]),gy(a[1])]));
+ [[.35,.6],[.7,.7]].forEach(a=>o.push(['F',gx(a[0]),gy(a[1])]));}
+if(i===4){upper.forEach(a=>o.push(['H',gx(a[0]),gy(a[1])]));
+ lost4.forEach(c=>o.push(['H',cx(c),YMAX]));
+ [0,1,2,3].forEach(k=>o.push(['F',X0+EW*(k+.5)/4,45]));
+ [[.42,.75],[.78,.75]].forEach(a=>o.push(['F',gx(a[0]),gy(a[1])]));}
+return o;}
+const NS='http://www.w3.org/2000/svg';
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+const cells=[],cg=document.getElementById('cells');
+for(let r=0;r<2;r++)for(let c=0;c<COLS;c++){
+const x=X0+CW*c,y=ET+CH*r;
+const rc=el('rect',{x:x+1,y:y+1,width:CW-2,height:CH-2,rx:3,class:'cell ha'},cg);
+const tx=el('text',{x:x+CW/2,y:y+CH/2,class:'lab'},cg);tx.textContent='OH';
+cells.push({r,c,rc,tx});}
+const bl=[];[0,1,2,3].forEach(k=>bl.push(el('ellipse',{cx:X0+EW*(k+.5)/4,cy:45,rx:34,ry:14,class:'bact'},document.getElementById('bs'))));
+const stepsEl=document.getElementById('steps'),dots=document.getElementById('tabs'),secs=[];
+S.forEach((s,i)=>{
+const d=document.createElement('button');d.setAttribute('aria-label','Stage '+(i+1)+': '+s.t);d.innerHTML='<b>'+(i+1)+'</b> '+s.n;d.style.cssText='--acc:var('+s.acc+');--tint:var('+s.tint+');--ink:var('+s.ink+')';d.onclick=()=>jump(i);dots.appendChild(d);
+const sec=document.createElement('section');sec.className='step';
+sec.style.cssText='--acc:var('+s.acc+');--tint:var('+s.tint+');--ink:var('+s.ink+')';
+sec.innerHTML='<div class="card"><div class="badge"><span class="num">'+(i+1)+'</span><span>'+s.t+' · stage '+(i+1)+' of '+S.length+'</span></div><h2>'+s.k+'</h2><p class="c">'+s.c+'</p></div>';
+stepsEl.appendChild(sec);secs.push(sec);});
+const lastSec=secs[secs.length-1];lastSec.classList.add('last');
+const topBtn=document.createElement('button');topBtn.className='btn';topBtn.id='top';topBtn.textContent='↑ Back to start';
+topBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});lastSec.appendChild(topBtn);
+let cur=-1;
+function go(i){if(i===cur)return;cur=i;const s=S[i];
+cells.forEach(o=>{const k=st(i,o.r,o.c);o.rc.setAttribute('class','cell '+k);
+o.tx.setAttribute('class','lab '+(k==='fap'?'fap':''));o.tx.style.opacity=k==='lost'?0:1;o.tx.textContent=k==='fap'?'F':'OH';});
+bl.forEach(b=>b.setAttribute('class','bact'+(s.b===1?' acid':'')));
+const g=document.getElementById('pts');g.innerHTML='';
+parts(i).forEach(p=>{const grp=el('g',{class:'pt p'+p[0]},g);el('circle',{cx:p[1].toFixed(1),cy:p[2].toFixed(1),r:12,'stroke-width':0.5},grp);
+const t=el('text',{x:p[1].toFixed(1),y:p[2].toFixed(1)},grp);t.textContent=p[0]==='H'?'H⁺':p[0]==='F'?'F⁻':'Ca';});
+document.getElementById('phv').textContent=s.ph.toFixed(1);
+document.getElementById('mk').style.left='calc('+((s.ph-3)/4.5*100).toFixed(1)+'% - 1px)';
+const ha=s.ph<5.5,fa=s.ph<4.5,c1=document.getElementById('c1'),c2=document.getElementById('c2');
+c1.textContent='OH crystal · '+(ha?'dissolving':'stable');c1.className='chip'+(ha?' bad':'');
+c2.textContent='F crystal · '+(fa?'dissolving':'stable');c2.className='chip'+(fa?' bad':'');
+[...dots.children].forEach((b,j)=>{b.className=j===i?'on':j<i?'past':'';});
+secs.forEach((x,j)=>x.classList.toggle('act',j===i));}
+const wide=()=>window.matchMedia('(min-width:1000px)').matches;
+function band(){return wide()?window.innerHeight*0.4:document.getElementById('vis').getBoundingClientRect().bottom+36;}
+let tick=false;
+function onScroll(){if(tick)return;tick=true;requestAnimationFrame(()=>{tick=false;
+const b=band();let a=0;secs.forEach((x,j)=>{if(x.getBoundingClientRect().top<=b)a=j;});go(a);});}
+function jump(i){const t=secs[i].getBoundingClientRect().top+window.scrollY-band()+6;
+window.scrollTo({top:Math.max(0,t),behavior:'smooth'});}
+window.addEventListener('scroll',onScroll,{passive:true});
+function sizeLast(){const b=wide()?window.innerHeight*0.4:document.querySelector('header').offsetHeight+document.getElementById('vis').offsetHeight+36;lastSec.style.minHeight=Math.max(300,window.innerHeight-b+4)+'px';}
+function setHH(){document.documentElement.style.setProperty('--hh',document.querySelector('header').offsetHeight+'px');}
+window.addEventListener('resize',()=>{setHH();sizeLast();onScroll();});
+setHH();sizeLast();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{setHH();sizeLast();});
+go(0);onScroll();
+</script>
+</body>
+</html>
