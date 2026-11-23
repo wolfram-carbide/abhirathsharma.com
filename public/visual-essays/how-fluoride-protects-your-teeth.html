@@ -27,7 +27,7 @@ h1{font-size:20px;font-weight:700;letter-spacing:-.01em;margin:0;line-height:1.2
 .phl{font-size:13px;color:var(--text-secondary)}
 #phv{font-size:20px;font-weight:500;margin-left:6px}
 .tabs{display:flex;gap:4px;margin:0 0 10px}
-.tabs button{flex:1;min-width:0;padding:9px 1px;font:inherit;font-size:11.5px;font-weight:600;line-height:1.2;color:var(--text-secondary);background:transparent;border:1px solid var(--border-strong);border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;transition:background .3s,color .3s,border-color .3s}
+.tabs button{flex:1;min-width:0;min-height:40px;padding:10px 1px;font:inherit;font-size:11.5px;font-weight:600;line-height:1.2;color:var(--text-secondary);background:transparent;border:1px solid var(--border-strong);border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;transition:background .3s,color .3s,border-color .3s}
 .tabs button b{font-weight:800}
 .tabs button.on{background:var(--acc);border-color:var(--acc);color:var(--ink)}
 .tabs button.past{background:var(--tint);border-color:var(--acc);color:var(--text-primary)}
@@ -55,7 +55,7 @@ svg{display:block;width:100%;height:auto}
 .k-a{background:color-mix(in srgb,var(--mauve) 38%,transparent)}
 .step.last{display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding-bottom:24px}
 .step.last .btn{align-self:center}
-button.btn{font:inherit;font-size:15px;font-weight:600;color:var(--page);background:var(--text-primary);border:none;border-radius:10px;padding:12px 20px;cursor:pointer}
+button.btn{font:inherit;font-size:15px;font-weight:600;color:var(--page);background:var(--text-primary);border:none;border-radius:10px;padding:14px 24px;min-width:220px;cursor:pointer}
 button.btn:active{transform:scale(.98)}
 .cell{transition:fill .5s,stroke .5s}
 .cell.ha{fill:var(--ha);stroke:var(--ha-edge);stroke-width:.5}
@@ -73,19 +73,24 @@ button.btn:active{transform:scale(.98)}
 .bact.acid{fill:var(--bg-danger);stroke:var(--mauve)}
 .svl{font-size:12px;fill:var(--text-secondary)}
 @media (min-width:1000px){
- main{max-width:1120px;padding:0 40px}
+ main{max-width:1400px;padding:0 48px}
  header{padding:16px 0 14px}
  h1{font-size:26px}
  .sub{font-size:14px;margin:16px 0 4px}
- .grid{display:grid;grid-template-columns:minmax(0,500px) minmax(0,1fr);gap:48px;align-items:start}
- .visin{max-width:500px}
+ .grid{display:grid;grid-template-columns:minmax(0,680px) minmax(0,1fr);gap:64px;align-items:start}
+ .visin{max-width:640px}
  .vis{top:calc(var(--hh,60px) + 16px);border-bottom:none;padding:16px 18px 10px;border:1px solid var(--border);border-radius:16px;background:var(--card)}
- .tabs button{font-size:13px;padding:10px 2px}
+ .tabs button{font-size:15px;padding:12px 2px}
+ .ticks{font-size:13px;height:20px}
+ .phl{font-size:15px}
+ #phv{font-size:24px}
+ .chip{font-size:14px;padding:4px 12px}
+ .step.last .btn{align-self:stretch;width:100%;min-width:0;font-size:17px;padding:16px 24px}
  .steps{padding:8vh 0 0}
  .step{min-height:68vh;padding-top:0}
- .card{padding:22px 26px 26px}
- .step h2{font-size:28px}
- .step p.c{font-size:17px}
+ .card{padding:26px 32px 30px}
+ .step h2{font-size:32px}
+ .step p.c{font-size:19px}
  .num{width:34px;height:34px;font-size:16px}
  .badge{font-size:14px}
 }
@@ -123,11 +128,11 @@ button.btn:active{transform:scale(.98)}
 </main>
 <script>
 const S=[
-{n:'Healthy',t:'Healthy enamel',ph:7.0,k:'Saturated fluid keeps the crystal stable',c:'Enamel is about <span class="k k-ha">96% hydroxyapatite</span>, a crystal lattice of calcium, phosphate and hydroxide (OH). Saliva keeps the surrounding fluid saturated with calcium and phosphate, so the crystal stays put.',b:0,acc:'--ha',tint:'--tint-ha',ink:'--ha-ink'},
-{n:'Acid',t:'Acid attack',ph:4.8,k:'Below pH 5.5, hydroxyapatite dissolves',c:'Plaque bacteria ferment sugar into acid. Once pH drops below about 5.5, <span class="k k-a">H⁺ grabs phosphate</span> off the crystal surface and the lattice leaks calcium and phosphate into the fluid. Check the chips above: <span class="k k-ha">hydroxyapatite is dissolving</span>, but a <span class="k k-f">fluorapatite</span> crystal would not be.',b:1,acc:'--mauve',tint:'--tint-mauve',ink:'--mauve-ink'},
-{n:'Fluoride',t:'Fluoride arrives',ph:5.4,k:'Fluoride sticks where the damage is',c:'<span class="k k-f">Fluoride</span> from toothpaste or water is present in plaque fluid and saliva at only parts per million. It sticks to the damaged crystal surface and attracts the calcium floating nearby.',b:1,acc:'--green',tint:'--tint-green',ink:'--green-ink'},
-{n:'Rebuild',t:'Rebuilding with fluoride',ph:6.8,k:'F⁻ replaces OH⁻ as the crystal rebuilds',c:'Saliva buffers the acid back toward neutral and minerals redeposit. Where F⁻ is present it takes the place of OH⁻, so the rebuilt crystal is <span class="k k-f">fluorapatite</span>, and the fluid is supersaturated for it even at lower pH.',b:0,acc:'--green',tint:'--tint-green',ink:'--green-ink'},
-{n:'Resist',t:'The next acid attack',ph:5.0,k:'Fluorapatite holds until pH 4.5',c:'<span class="k k-f">Fluorapatite only dissolves below about pH 4.5.</span> At pH 5.0 the fluoridated crystals hold while <span class="k k-ha">plain hydroxyapatite still dissolves</span>. Fluoride also enters bacteria as HF and blocks an enzyme (enolase), so they make less acid.',b:2,acc:'--green',tint:'--tint-green',ink:'--green-ink'}
+{n:'Healthy',t:'Healthy enamel',ph:7.0,k:'Healthy enamel stays solid',c:'Enamel is about <span class="k k-ha">96% hydroxyapatite</span>. This is a crystal made of calcium, phosphate and hydroxide (OH). Saliva keeps the fluid around it full of calcium and phosphate, so the crystal stays in place.',b:0,acc:'--ha',tint:'--tint-ha',ink:'--ha-ink'},
+{n:'Acid',t:'Acid attack',ph:4.8,k:'Below pH 5.5, hydroxyapatite dissolves',c:'Plaque bacteria turn sugar into acid. When the pH falls below about 5.5, <span class="k k-a">H⁺ pulls phosphate</span> off the crystal. The crystal then leaks calcium and phosphate into the fluid. Look at the labels above: <span class="k k-ha">hydroxyapatite is dissolving</span>, but <span class="k k-f">fluorapatite</span> would not be.',b:1,acc:'--mauve',tint:'--tint-mauve',ink:'--mauve-ink'},
+{n:'Fluoride',t:'Fluoride arrives',ph:5.4,k:'Fluoride sticks to the damage',c:'<span class="k k-f">Fluoride</span> from toothpaste or water is in your saliva and plaque, but only in tiny amounts (parts per million). It sticks to the damaged crystal and pulls in the calcium floating nearby.',b:1,acc:'--green',tint:'--tint-green',ink:'--green-ink'},
+{n:'Rebuild',t:'Rebuilding with fluoride',ph:6.8,k:'F⁻ takes the place of OH⁻',c:'Saliva calms the acid and the pH rises back toward neutral. Minerals settle back onto the crystal. Where F⁻ is present, it takes the place of OH⁻, so the new crystal is <span class="k k-f">fluorapatite</span>. The fluid holds enough minerals to build it even at a lower pH.',b:0,acc:'--green',tint:'--tint-green',ink:'--green-ink'},
+{n:'Resist',t:'The next acid attack',ph:5.0,k:'Fluorapatite holds until pH 4.5',c:'<span class="k k-f">Fluorapatite only dissolves below about pH 4.5.</span> At pH 5.0, the fluoride crystals hold, but <span class="k k-ha">plain hydroxyapatite still dissolves</span>. Fluoride also gets into bacteria as HF and blocks an enzyme (enolase), so they make less acid.',b:2,acc:'--green',tint:'--tint-green',ink:'--green-ink'}
 ];
 const COLS=8,X0=24,CW=44,CH=34,ET=168,YMIN=104,YMAX=154,EW=352;
 const lostA={0:[1,3,5,6],1:[3]},swap=[2],lost4=[0,4,7];
