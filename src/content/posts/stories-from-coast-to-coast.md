@@ -20,4 +20,4 @@ On my second day in Cornwall, I visited St Michael's Mount. It's a beautiful isl
 
 Nevertheless, the book got me thinking about the many beautiful stories that Konkani fishermen might have and the history that could be well presented. But I never got to hear them or read them. It's sad that I never got to live Konkan via a book, the way I could live Cornwall.
 
-But I am hopeful. Hopeful because as India grows and re-discovers itself, its history and its depth, great stories will emerge. They have to. Not because they need to pacify the need for an upwardly mobile middle class who now have the means to pay for content. Because, as a close friend of mine always remarks, if we don't tell our stories, who will?
+But I am hopeful. Hopeful because as India grows and re-discovers itself, its history and its depth, great stories will emerge. They have to. Not because they need to pacify the needs of an upwardly mobile middle class who now have the means to pay for content. Because, as a close friend of mine always remarks, if we don't tell our stories, who will?
