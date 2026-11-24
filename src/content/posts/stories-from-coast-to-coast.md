@@ -6,7 +6,7 @@ tags: ["travel", "books", "storytelling", "india"]
 size: M
 ---
 
-Holidaying is a skill. There are holidays where we have tick off items from a long list, only to realise later that it's not worth it. Then, there are holidays that leave you with a new perspective and actual stories to tell.
+Holidaying is a skill. There are holidays where we have tick off items from an exhaustingly long list, only to realise later that it's not worth it. Then, there are holidays that leave you with a new perspective and actual stories to tell.
 
 I went to Cornwall in July, and on my last day there, I picked up a book called *The Swordfish and the Star* by Gavin Knight. It has stories of people and fishing from Cornwall's coast, and it caused fiction-like hallucinations as I turned the pages.
 
